@@ -1,5 +1,7 @@
 PODS:
-  - LEUIMaker (0.1.0)
+  - LEFoundation (0.1.0)
+  - LEUIMaker (0.1.0):
+    - LEFoundation
 
 DEPENDENCIES:
   - LEUIMaker (from `../`)
@@ -9,7 +11,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  LEUIMaker: fe7a68ed293d92651485225e39daedba7cfa90aa
+  LEFoundation: 9b10b67ef83c1d4c9dbafc3d5fb18fe1e14672a7
+  LEUIMaker: 585384e60393686039a7c78b188b032095df1c90
 
 PODFILE CHECKSUM: 3eeabc0cd942e9f729062138007a96b00f9b8350
 

@@ -7,9 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "View+LEAdditions.h"
-
-#import "LECommon.h"
+#import <LEUIMaker/LEUIMaker-umbrella.h>
 @interface ViewController ()
 @end
 @implementation ViewController{

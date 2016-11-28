@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14242AD7CF1C3E4EFD45D715 /* Pods_LEUIMaker_Test.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D7E9EA8F48293F237E9E06 /* Pods_LEUIMaker_Test.framework */; };
 		80EC74C01DEBCF1E000DF15F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 80EC74BF1DEBCF1E000DF15F /* main.m */; };
 		80EC74C31DEBCF1E000DF15F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 80EC74C21DEBCF1E000DF15F /* AppDelegate.m */; };
 		80EC74C61DEBCF1E000DF15F /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 80EC74C51DEBCF1E000DF15F /* ViewController.m */; };
@@ -32,6 +33,7 @@
 		80EC74CD1DEBCF1E000DF15F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		80EC74CF1DEBCF1E000DF15F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B3147DB60D8CE4FD3058A66C /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		C3D7E9EA8F48293F237E9E06 /* Pods_LEUIMaker_Test.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LEUIMaker_Test.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D389AC1B7B76AF7335E7D205 /* Pods-LEUIMaker_Test.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LEUIMaker_Test.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LEUIMaker_Test/Pods-LEUIMaker_Test.debug.xcconfig"; sourceTree = "<group>"; };
 		DC7D27C24321ECB1DF9E7483 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -41,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14242AD7CF1C3E4EFD45D715 /* Pods_LEUIMaker_Test.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +75,7 @@
 				6003F58D195388D20070C39A /* Foundation.framework */,
 				6003F58F195388D20070C39A /* CoreGraphics.framework */,
 				6003F591195388D20070C39A /* UIKit.framework */,
+				C3D7E9EA8F48293F237E9E06 /* Pods_LEUIMaker_Test.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
