@@ -11,13 +11,17 @@
 #import <objc/runtime.h>
 
 #pragma mark Screen
+#define LEStatusBarHeight       20
+#define LENavigationBarHeight   44
+#define LEBottomTabbarHeight    49
 #define LESCREEN_BOUNDS     ([[UIScreen mainScreen] bounds])
 #define LESCREEN_SCALE      ([[UIScreen mainScreen] scale])
 #define LESCREEN_WIDTH      ([[UIScreen mainScreen] bounds].size.width)
 #define LESCREEN_HEIGHT     ([[UIScreen mainScreen] bounds].size.height)
-//#define LESCREEN_SCALE_INT  ((int)[[UIScreen mainScreen] scale])
-//#define LESCREEN_MAX_LENGTH (MAX(LESCREEN_WIDTH, LESCREEN_HEIGHT))
-//#define LESCREEN_MIN_LENGTH (MIN(LESCREEN_WIDTH, LESCREEN_HEIGHT))
+#define LESCREEN_SCALE_INT  ((int)[[UIScreen mainScreen] scale])
+#define LESCREEN_MAX_LENGTH (MAX(LESCREEN_WIDTH, LESCREEN_HEIGHT))
+#define LESCREEN_MIN_LENGTH (MIN(LESCREEN_WIDTH, LESCREEN_HEIGHT))
+
 
 #pragma mark Font
 #define LEFont(size) [UIFont systemFontOfSize:size]

@@ -3,6 +3,7 @@
 #endif
 
 #import "LECommon.h"
+#import "LEUIMaker.h"
 #import "View+LEAdditions.h"
 
 FOUNDATION_EXPORT double LEUIMakerVersionNumber;

@@ -7,95 +7,90 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		28DE54319C880775164C962543A132F8 /* LECommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 93243B829A6625B417A8B9FAFF79B3D9 /* LECommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		17462BCF95D087AD292782DD484A55C1 /* LEFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = DFD0228AA9457FB04B1C89D27868F102 /* LEFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2D4AC3C0F698AC1A3EC47AFD9877ABFD /* Pods-LEUIMaker_Test-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 215E50876061D1077F78BAC2E9E98A1D /* Pods-LEUIMaker_Test-dummy.m */; };
-		33D2DEC83287045A2806A42C2E8A1BC1 /* LEFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C639F40F5E6BFF546D1692FFB7A871D /* LEFoundation.framework */; };
-		490CBD5FED182C8254DC2FCBDE831C05 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFC5DB67E71A68D6E170318E0CEB8889 /* Foundation.framework */; };
+		3BF65413620DA6F51325304FABF1F435 /* LEFoundation-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4B4D88A659D139F60E1C7464C5A0A04C /* LEFoundation-dummy.m */; };
+		553025FCC8BD7B02E2407CCC8FFAA81E /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFC5DB67E71A68D6E170318E0CEB8889 /* Foundation.framework */; };
 		58948416608E73E57B3976D313B1D5AE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFC5DB67E71A68D6E170318E0CEB8889 /* Foundation.framework */; };
 		5C2E605C4EE0BB5D9AD8465F9E5BD485 /* Pods-LEUIMaker_Test-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = FE153130942B6FB59F293752AA5567C2 /* Pods-LEUIMaker_Test-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5FFD606D90F8E58B1A980425C06548AF /* View+LEAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 93447D64FBB8D3D35ED46866CD4D2ACF /* View+LEAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		66E5218D1A1C3189499D034565EEE6C0 /* LEFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = 370C1C1D748ECF8D929471DA3492A492 /* LEFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		72BC6AB9D7DE70647A14BE03FE296FBB /* LECommon.m in Sources */ = {isa = PBXBuildFile; fileRef = FE76AE9BB213C48A0F716C3980CD6F65 /* LECommon.m */; };
-		935EA62AAFC157C7FEF492309DFF9052 /* View+LEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 59DBF1109659031B7CB35DBC6023A9C5 /* View+LEAdditions.m */; };
-		9AAB43B66EB836A1D4CCCCD783BDBAA5 /* LEFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = F908639E81E63B8742820D452BC8E77A /* LEFoundation.m */; };
-		9E768A04BA65A81629835348C6C8FE5A /* LEUIMaker-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E3CB4CC6D281067B867495F4AF034EB7 /* LEUIMaker-dummy.m */; };
-		D1CB100F1A0A7702C3B8B8B1035355F7 /* LEFoundation-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D67E0317C9C7771F233D8A2FC10A0FB4 /* LEFoundation-dummy.m */; };
-		D20C866826818E6EF44D1AEDED1E6ED2 /* LEFoundation-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A2CDB307B80903DBE0F5D12ED5F8A839 /* LEFoundation-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E04A2BA491FEFE7C80473A7D9CE55F4E /* LEUIMaker-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 841CBF0498F439E12B1DB34AB41E0BFB /* LEUIMaker-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FD1F2DAA3A9801F5ABCCEAF8FF3E3B28 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFC5DB67E71A68D6E170318E0CEB8889 /* Foundation.framework */; };
+		6DBB378756E09B7242628AF53D55D972 /* LEFoundations.h in Headers */ = {isa = PBXBuildFile; fileRef = FEED843A3FF22653900070CE0D23C296 /* LEFoundations.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		999C0F46334804A496DFFFD893574BD1 /* LEFoundation-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = E972C1689D4F48C8959C1EF5EBBA9674 /* LEFoundation-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A4E04C901B22E77E719D04750625DEB7 /* LEFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3C639F40F5E6BFF546D1692FFB7A871D /* LEFoundation.framework */; };
+		A6E74C05282E0E04894463843AF80AE5 /* LECommon.m in Sources */ = {isa = PBXBuildFile; fileRef = 1A6B447F16BCD2B5BFED3EEE10DA9EB5 /* LECommon.m */; };
+		AD14511B1A633D573B6977C68D491D20 /* View+LEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 41C924C515C32B6A94D39AA384A18893 /* View+LEAdditions.m */; };
+		B07D2FCB5258B6258D70A5F3B17A3E47 /* LEUIMaker-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 841CBF0498F439E12B1DB34AB41E0BFB /* LEUIMaker-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B1BA97ABD76D92F459F53615E8143B1D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFC5DB67E71A68D6E170318E0CEB8889 /* Foundation.framework */; };
+		B69AC5C3DEC203A2A90160C68EB55A42 /* LECommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 5E9719A9A5F2AF1636D710442725F606 /* LECommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B903E76C387C31AA5A5AE12B1C47CEC1 /* View+LEAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = E37D873B0BE9138326274C7587EFACA8 /* View+LEAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B91357B2DBA4C5086D08CC82DDDA2EAA /* LEFoundation.m in Sources */ = {isa = PBXBuildFile; fileRef = 5110BC9E5FFCE309827A4BB864A94C01 /* LEFoundation.m */; };
+		EA3B79497E9FD93254676E9161E5AEAF /* LEUIMaker-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E3CB4CC6D281067B867495F4AF034EB7 /* LEUIMaker-dummy.m */; };
+		EC5245961A917E92E410CAFEE41B4DEF /* LEUIMaker.h in Headers */ = {isa = PBXBuildFile; fileRef = 59F5BD11865466E69F8279070E8057EB /* LEUIMaker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		025FA05FEEA0C8A03E563C443EF1F46E /* PBXContainerItemProxy */ = {
+		307B05A46ABE6353528A9BCB2D8978F0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = AF20D8098E9B736E2C6FA7B77C37F196;
+			remoteGlobalIDString = 463505B21E7E2788F9587BEF5FFC1D5F;
 			remoteInfo = LEFoundation;
 		};
 		BDEEE341BF9A1E907A80A2D45B4BF4DD /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = AF20D8098E9B736E2C6FA7B77C37F196;
+			remoteGlobalIDString = 463505B21E7E2788F9587BEF5FFC1D5F;
 			remoteInfo = LEFoundation;
 		};
 		C8F33C0CCE0CFFA41AA7859006331A61 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 0AAB588C2A10A13BC7696F2579EC6CBD;
+			remoteGlobalIDString = CA9ABEFD3A0E83CCC101E79F5810CE72;
 			remoteInfo = LEUIMaker;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1A6B447F16BCD2B5BFED3EEE10DA9EB5 /* LECommon.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = LECommon.m; sourceTree = "<group>"; };
 		215E50876061D1077F78BAC2E9E98A1D /* Pods-LEUIMaker_Test-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-LEUIMaker_Test-dummy.m"; sourceTree = "<group>"; };
 		2506C2B6CCCC48C6A93207E10930AD0C /* Pods-LEUIMaker_Test.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-LEUIMaker_Test.debug.xcconfig"; sourceTree = "<group>"; };
-		28339B97627A1E53786531A64B6844EA /* LEUIMaker.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = LEUIMaker.modulemap; sourceTree = "<group>"; };
-		370C1C1D748ECF8D929471DA3492A492 /* LEFoundation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = LEFoundation.h; path = LEFoundation/Classes/LEFoundation.h; sourceTree = "<group>"; };
+		26F7512C54982818B149E02669F08953 /* LEFoundation-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "LEFoundation-prefix.pch"; sourceTree = "<group>"; };
+		28339B97627A1E53786531A64B6844EA /* LEUIMaker.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = LEUIMaker.modulemap; sourceTree = "<group>"; };
 		3C639F40F5E6BFF546D1692FFB7A871D /* LEFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LEFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4BFC20C80C274EF2C8BB8C9053A33C09 /* LEFoundation.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = LEFoundation.xcconfig; sourceTree = "<group>"; };
-		59DBF1109659031B7CB35DBC6023A9C5 /* View+LEAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "View+LEAdditions.m"; sourceTree = "<group>"; };
-		5EBEC6F9C82AEF9EB615D8B48011AF61 /* LEFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LEFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		41C924C515C32B6A94D39AA384A18893 /* View+LEAdditions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "View+LEAdditions.m"; sourceTree = "<group>"; };
+		4B4D88A659D139F60E1C7464C5A0A04C /* LEFoundation-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "LEFoundation-dummy.m"; sourceTree = "<group>"; };
+		5110BC9E5FFCE309827A4BB864A94C01 /* LEFoundation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = LEFoundation.m; path = LEFoundation/Classes/LEFoundation.m; sourceTree = "<group>"; };
+		550E175909E7FAA5C69A81AAEDA318B7 /* LEFoundation.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = LEFoundation.xcconfig; sourceTree = "<group>"; };
+		59F5BD11865466E69F8279070E8057EB /* LEUIMaker.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = LEUIMaker.h; sourceTree = "<group>"; };
+		5E9719A9A5F2AF1636D710442725F606 /* LECommon.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = LECommon.h; sourceTree = "<group>"; };
+		5EBEC6F9C82AEF9EB615D8B48011AF61 /* LEFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = LEFoundation.framework; path = LEFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B94C0EB4D950F5365E108E460AE63A4 /* LEUIMaker.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = LEUIMaker.xcconfig; sourceTree = "<group>"; };
-		8022557F1DEC123D00335249 /* LEUIMaker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LEUIMaker.h; sourceTree = "<group>"; };
+		7BAEE14D96E7AD226EFD84EB6C43B2ED /* LEFoundation.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = LEFoundation.modulemap; sourceTree = "<group>"; };
 		841CBF0498F439E12B1DB34AB41E0BFB /* LEUIMaker-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "LEUIMaker-umbrella.h"; sourceTree = "<group>"; };
-		93243B829A6625B417A8B9FAFF79B3D9 /* LECommon.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = LECommon.h; sourceTree = "<group>"; };
-		93447D64FBB8D3D35ED46866CD4D2ACF /* View+LEAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "View+LEAdditions.h"; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		95A80DA5CA7F48A1DE8C773F79845754 /* Pods-LEUIMaker_Test-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-LEUIMaker_Test-resources.sh"; sourceTree = "<group>"; };
-		974B4FA4475A95112B2D1C60AA592020 /* LEUIMaker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LEUIMaker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		974B4FA4475A95112B2D1C60AA592020 /* LEUIMaker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = LEUIMaker.framework; path = LEUIMaker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9FECBA0596B28B76224B101DCD06EF6B /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A2CA651246AE2E2B96FE9A3096E8BC23 /* LEUIMaker-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "LEUIMaker-prefix.pch"; sourceTree = "<group>"; };
-		A2CDB307B80903DBE0F5D12ED5F8A839 /* LEFoundation-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "LEFoundation-umbrella.h"; sourceTree = "<group>"; };
-		AA4446C239C41EC70768D92C8D90812E /* Pods_LEUIMaker_Test.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LEUIMaker_Test.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA4446C239C41EC70768D92C8D90812E /* Pods_LEUIMaker_Test.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_LEUIMaker_Test.framework; path = "Pods-LEUIMaker_Test.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFC5DB67E71A68D6E170318E0CEB8889 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		B64F2E388CF4956BEF9D651C83FDA3CB /* Pods-LEUIMaker_Test-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-LEUIMaker_Test-frameworks.sh"; sourceTree = "<group>"; };
 		C4B8F49DE99C9C64A72CD15551757311 /* Pods-LEUIMaker_Test.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-LEUIMaker_Test.release.xcconfig"; sourceTree = "<group>"; };
-		C4FB92F3FE824E69F852A9F17412CA84 /* LEFoundation.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = LEFoundation.modulemap; sourceTree = "<group>"; };
-		CA189BD5CB63A40FD7E485B9A9324067 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D1F179B5BD25248C4EC0F5B07DE69CEF /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D67E0317C9C7771F233D8A2FC10A0FB4 /* LEFoundation-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "LEFoundation-dummy.m"; sourceTree = "<group>"; };
+		DFD0228AA9457FB04B1C89D27868F102 /* LEFoundation.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = LEFoundation.h; path = LEFoundation/Classes/LEFoundation.h; sourceTree = "<group>"; };
+		E37D873B0BE9138326274C7587EFACA8 /* View+LEAdditions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "View+LEAdditions.h"; sourceTree = "<group>"; };
 		E3CB4CC6D281067B867495F4AF034EB7 /* LEUIMaker-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "LEUIMaker-dummy.m"; sourceTree = "<group>"; };
 		E66451A6C96B4A46871ED9996D285CCC /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		E995623D4CF48C80714E086D9069EC11 /* Pods-LEUIMaker_Test.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "sourcecode.module-map"; path = "Pods-LEUIMaker_Test.modulemap"; sourceTree = "<group>"; };
+		E972C1689D4F48C8959C1EF5EBBA9674 /* LEFoundation-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "LEFoundation-umbrella.h"; sourceTree = "<group>"; };
+		E995623D4CF48C80714E086D9069EC11 /* Pods-LEUIMaker_Test.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-LEUIMaker_Test.modulemap"; sourceTree = "<group>"; };
 		EDCB84FEFC7C4F473FE4843A8B58F4A9 /* Pods-LEUIMaker_Test-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-LEUIMaker_Test-acknowledgements.markdown"; sourceTree = "<group>"; };
-		EE1B40F1C205CA0234499E7F8AE1402E /* LEFoundation-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "LEFoundation-prefix.pch"; sourceTree = "<group>"; };
 		F56EE966AE48344D154CB7016D73FAA7 /* Pods-LEUIMaker_Test-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-LEUIMaker_Test-acknowledgements.plist"; sourceTree = "<group>"; };
-		F908639E81E63B8742820D452BC8E77A /* LEFoundation.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = LEFoundation.m; path = LEFoundation/Classes/LEFoundation.m; sourceTree = "<group>"; };
 		FE153130942B6FB59F293752AA5567C2 /* Pods-LEUIMaker_Test-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-LEUIMaker_Test-umbrella.h"; sourceTree = "<group>"; };
-		FE76AE9BB213C48A0F716C3980CD6F65 /* LECommon.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = LECommon.m; sourceTree = "<group>"; };
+		FEED843A3FF22653900070CE0D23C296 /* LEFoundations.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = LEFoundations.h; path = LEFoundation/Classes/LEFoundations.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		B4462CBB426A52F860A39534CFAB0F83 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FD1F2DAA3A9801F5ABCCEAF8FF3E3B28 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		B789FBE78D75F1ED29E37A4EB5EE7AA2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -104,12 +99,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FB1BB76606A0FD5D39A949067821FFE2 /* Frameworks */ = {
+		C15AFE761BA6EBB488995025E8935D79 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				490CBD5FED182C8254DC2FCBDE831C05 /* Foundation.framework in Frameworks */,
-				33D2DEC83287045A2806A42C2E8A1BC1 /* LEFoundation.framework in Frameworks */,
+				B1BA97ABD76D92F459F53615E8143B1D /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D9854BBBC2FFB6BE63BF0540EFE9DCF4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				553025FCC8BD7B02E2407CCC8FFAA81E /* Foundation.framework in Frameworks */,
+				A4E04C901B22E77E719D04750625DEB7 /* LEFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,20 +145,6 @@
 			name = "Development Pods";
 			sourceTree = "<group>";
 		};
-		15071C29FEE8642C1355767EEC0B9A9F /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				CA189BD5CB63A40FD7E485B9A9324067 /* Info.plist */,
-				C4FB92F3FE824E69F852A9F17412CA84 /* LEFoundation.modulemap */,
-				4BFC20C80C274EF2C8BB8C9053A33C09 /* LEFoundation.xcconfig */,
-				D67E0317C9C7771F233D8A2FC10A0FB4 /* LEFoundation-dummy.m */,
-				EE1B40F1C205CA0234499E7F8AE1402E /* LEFoundation-prefix.pch */,
-				A2CDB307B80903DBE0F5D12ED5F8A839 /* LEFoundation-umbrella.h */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/LEFoundation";
-			sourceTree = "<group>";
-		};
 		5164167A047130A9FC8321F3BFC0B847 /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -178,18 +167,10 @@
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
 				08A30AB0839B8C90B53406FBF0364307 /* Development Pods */,
 				FDF9F6E8E139108A895A442D7A75A2E6 /* Frameworks */,
-				8EF708FA590133FDE1362C4D859D2D92 /* Pods */,
+				9AC69177B508240B34DABFCDE475AA18 /* Pods */,
 				DB5E6C980A81FB6CB99D01EF2999AFC5 /* Products */,
 				5164167A047130A9FC8321F3BFC0B847 /* Targets Support Files */,
 			);
-			sourceTree = "<group>";
-		};
-		8EF708FA590133FDE1362C4D859D2D92 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				C93618DE3496ABE58F3EC07EC2BEA0F4 /* LEFoundation */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		992152A320FC50881FB2265B0054CDD3 /* Support Files */ = {
@@ -206,21 +187,20 @@
 			path = "Example/Pods/Target Support Files/LEUIMaker";
 			sourceTree = "<group>";
 		};
-		C93618DE3496ABE58F3EC07EC2BEA0F4 /* LEFoundation */ = {
+		9AC69177B508240B34DABFCDE475AA18 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				370C1C1D748ECF8D929471DA3492A492 /* LEFoundation.h */,
-				F908639E81E63B8742820D452BC8E77A /* LEFoundation.m */,
-				15071C29FEE8642C1355767EEC0B9A9F /* Support Files */,
+				E05F5416E82DCE1DAA1D4EECBE009D46 /* LEFoundation */,
 			);
-			path = LEFoundation;
+			name = Pods;
 			sourceTree = "<group>";
 		};
-		CA74F3C30CD6587380F40554F0F13733 /* LEUIMaker */ = {
+		A710D740A0B6797E7783566D074493E7 /* LEUIMaker */ = {
 			isa = PBXGroup;
 			children = (
-				F8ECCD04C8AA9E09577572EF2A4D5310 /* Classes */,
+				E6974D6FCE6CC66AE6A071F1AE81FF1D /* Classes */,
 			);
+			name = LEUIMaker;
 			path = LEUIMaker;
 			sourceTree = "<group>";
 		};
@@ -234,26 +214,53 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		E05F5416E82DCE1DAA1D4EECBE009D46 /* LEFoundation */ = {
+			isa = PBXGroup;
+			children = (
+				DFD0228AA9457FB04B1C89D27868F102 /* LEFoundation.h */,
+				5110BC9E5FFCE309827A4BB864A94C01 /* LEFoundation.m */,
+				FEED843A3FF22653900070CE0D23C296 /* LEFoundations.h */,
+				F1F578B990BA39F36199DB587A6DBDD1 /* Support Files */,
+			);
+			name = LEFoundation;
+			path = LEFoundation;
+			sourceTree = "<group>";
+		};
+		E6974D6FCE6CC66AE6A071F1AE81FF1D /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				5E9719A9A5F2AF1636D710442725F606 /* LECommon.h */,
+				1A6B447F16BCD2B5BFED3EEE10DA9EB5 /* LECommon.m */,
+				59F5BD11865466E69F8279070E8057EB /* LEUIMaker.h */,
+				E37D873B0BE9138326274C7587EFACA8 /* View+LEAdditions.h */,
+				41C924C515C32B6A94D39AA384A18893 /* View+LEAdditions.m */,
+			);
+			name = Classes;
+			path = Classes;
+			sourceTree = "<group>";
+		};
 		EA334419BB1356D313DC978BBB1963B6 /* LEUIMaker */ = {
 			isa = PBXGroup;
 			children = (
-				CA74F3C30CD6587380F40554F0F13733 /* LEUIMaker */,
+				A710D740A0B6797E7783566D074493E7 /* LEUIMaker */,
 				992152A320FC50881FB2265B0054CDD3 /* Support Files */,
 			);
 			name = LEUIMaker;
 			path = ../..;
 			sourceTree = "<group>";
 		};
-		F8ECCD04C8AA9E09577572EF2A4D5310 /* Classes */ = {
+		F1F578B990BA39F36199DB587A6DBDD1 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				93243B829A6625B417A8B9FAFF79B3D9 /* LECommon.h */,
-				FE76AE9BB213C48A0F716C3980CD6F65 /* LECommon.m */,
-				93447D64FBB8D3D35ED46866CD4D2ACF /* View+LEAdditions.h */,
-				59DBF1109659031B7CB35DBC6023A9C5 /* View+LEAdditions.m */,
-				8022557F1DEC123D00335249 /* LEUIMaker.h */,
+				9FECBA0596B28B76224B101DCD06EF6B /* Info.plist */,
+				7BAEE14D96E7AD226EFD84EB6C43B2ED /* LEFoundation.modulemap */,
+				550E175909E7FAA5C69A81AAEDA318B7 /* LEFoundation.xcconfig */,
+				4B4D88A659D139F60E1C7464C5A0A04C /* LEFoundation-dummy.m */,
+				26F7512C54982818B149E02669F08953 /* LEFoundation-prefix.pch */,
+				E972C1689D4F48C8959C1EF5EBBA9674 /* LEFoundation-umbrella.h */,
 			);
-			path = Classes;
+			name = "Support Files";
+			path = "../Target Support Files/LEFoundation";
 			sourceTree = "<group>";
 		};
 		FDF9F6E8E139108A895A442D7A75A2E6 /* Frameworks */ = {
@@ -268,22 +275,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		312FD8F005E47B1998FDD99DB418CDAC /* Headers */ = {
+		7DA9E26374CBE14C55C6391F759F4836 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D20C866826818E6EF44D1AEDED1E6ED2 /* LEFoundation-umbrella.h in Headers */,
-				66E5218D1A1C3189499D034565EEE6C0 /* LEFoundation.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		61A860751D7AE875CF4C60A044C3B399 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				28DE54319C880775164C962543A132F8 /* LECommon.h in Headers */,
-				E04A2BA491FEFE7C80473A7D9CE55F4E /* LEUIMaker-umbrella.h in Headers */,
-				5FFD606D90F8E58B1A980425C06548AF /* View+LEAdditions.h in Headers */,
+				B69AC5C3DEC203A2A90160C68EB55A42 /* LECommon.h in Headers */,
+				B07D2FCB5258B6258D70A5F3B17A3E47 /* LEUIMaker-umbrella.h in Headers */,
+				EC5245961A917E92E410CAFEE41B4DEF /* LEUIMaker.h in Headers */,
+				B903E76C387C31AA5A5AE12B1C47CEC1 /* View+LEAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,34 +294,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FF4E4B0DB28DC09B6EEAEAEFC8EA8E5B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				999C0F46334804A496DFFFD893574BD1 /* LEFoundation-umbrella.h in Headers */,
+				17462BCF95D087AD292782DD484A55C1 /* LEFoundation.h in Headers */,
+				6DBB378756E09B7242628AF53D55D972 /* LEFoundations.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		0AAB588C2A10A13BC7696F2579EC6CBD /* LEUIMaker */ = {
+		463505B21E7E2788F9587BEF5FFC1D5F /* LEFoundation */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7EC6BA3D62E5754D25EEDAAF30B3603C /* Build configuration list for PBXNativeTarget "LEUIMaker" */;
+			buildConfigurationList = 8FDC696E5B9BFC0407F59D71A2BC0C64 /* Build configuration list for PBXNativeTarget "LEFoundation" */;
 			buildPhases = (
-				4C1CFB43605D82847632F1B9CB7F86E3 /* Sources */,
-				FB1BB76606A0FD5D39A949067821FFE2 /* Frameworks */,
-				61A860751D7AE875CF4C60A044C3B399 /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				930DDD03561CFF6241D757037A0B69DB /* PBXTargetDependency */,
-			);
-			name = LEUIMaker;
-			productName = LEUIMaker;
-			productReference = 974B4FA4475A95112B2D1C60AA592020 /* LEUIMaker.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		AF20D8098E9B736E2C6FA7B77C37F196 /* LEFoundation */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 2EC80578E60DD6494074CE05039B266C /* Build configuration list for PBXNativeTarget "LEFoundation" */;
-			buildPhases = (
-				C90116372B9F4017FB675F604F7EEACF /* Sources */,
-				B4462CBB426A52F860A39534CFAB0F83 /* Frameworks */,
-				312FD8F005E47B1998FDD99DB418CDAC /* Headers */,
+				1D70010A5A55FAA1C7C13E2EDDAED3FC /* Sources */,
+				C15AFE761BA6EBB488995025E8935D79 /* Frameworks */,
+				FF4E4B0DB28DC09B6EEAEAEFC8EA8E5B /* Headers */,
 			);
 			buildRules = (
 			);
@@ -331,6 +322,24 @@
 			name = LEFoundation;
 			productName = LEFoundation;
 			productReference = 5EBEC6F9C82AEF9EB615D8B48011AF61 /* LEFoundation.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		CA9ABEFD3A0E83CCC101E79F5810CE72 /* LEUIMaker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8D76A9A6FC7F3DE1856198ED7B19EF4A /* Build configuration list for PBXNativeTarget "LEUIMaker" */;
+			buildPhases = (
+				1EE7C904EA6F18F711364578B29496F5 /* Sources */,
+				D9854BBBC2FFB6BE63BF0540EFE9DCF4 /* Frameworks */,
+				7DA9E26374CBE14C55C6391F759F4836 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				109601344C51C491809C096B5C1A119A /* PBXTargetDependency */,
+			);
+			name = LEUIMaker;
+			productName = LEUIMaker;
+			productReference = 974B4FA4475A95112B2D1C60AA592020 /* LEUIMaker.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		DCC88C7967B5480245D8D9359F1234F4 /* Pods-LEUIMaker_Test */ = {
@@ -373,21 +382,30 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				AF20D8098E9B736E2C6FA7B77C37F196 /* LEFoundation */,
-				0AAB588C2A10A13BC7696F2579EC6CBD /* LEUIMaker */,
+				463505B21E7E2788F9587BEF5FFC1D5F /* LEFoundation */,
+				CA9ABEFD3A0E83CCC101E79F5810CE72 /* LEUIMaker */,
 				DCC88C7967B5480245D8D9359F1234F4 /* Pods-LEUIMaker_Test */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		4C1CFB43605D82847632F1B9CB7F86E3 /* Sources */ = {
+		1D70010A5A55FAA1C7C13E2EDDAED3FC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				72BC6AB9D7DE70647A14BE03FE296FBB /* LECommon.m in Sources */,
-				9E768A04BA65A81629835348C6C8FE5A /* LEUIMaker-dummy.m in Sources */,
-				935EA62AAFC157C7FEF492309DFF9052 /* View+LEAdditions.m in Sources */,
+				3BF65413620DA6F51325304FABF1F435 /* LEFoundation-dummy.m in Sources */,
+				B91357B2DBA4C5086D08CC82DDDA2EAA /* LEFoundation.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1EE7C904EA6F18F711364578B29496F5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A6E74C05282E0E04894463843AF80AE5 /* LECommon.m in Sources */,
+				EA3B79497E9FD93254676E9161E5AEAF /* LEUIMaker-dummy.m in Sources */,
+				AD14511B1A633D573B6977C68D491D20 /* View+LEAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,73 +417,33 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C90116372B9F4017FB675F604F7EEACF /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D1CB100F1A0A7702C3B8B8B1035355F7 /* LEFoundation-dummy.m in Sources */,
-				9AAB43B66EB836A1D4CCCCD783BDBAA5 /* LEFoundation.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
 		04E0C7EB63DEA9154BC5D18FF97327AA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = LEFoundation;
-			target = AF20D8098E9B736E2C6FA7B77C37F196 /* LEFoundation */;
+			target = 463505B21E7E2788F9587BEF5FFC1D5F /* LEFoundation */;
 			targetProxy = BDEEE341BF9A1E907A80A2D45B4BF4DD /* PBXContainerItemProxy */;
+		};
+		109601344C51C491809C096B5C1A119A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = LEFoundation;
+			target = 463505B21E7E2788F9587BEF5FFC1D5F /* LEFoundation */;
+			targetProxy = 307B05A46ABE6353528A9BCB2D8978F0 /* PBXContainerItemProxy */;
 		};
 		174E09CE8D8F8CA7A57F421170C113A1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = LEUIMaker;
-			target = 0AAB588C2A10A13BC7696F2579EC6CBD /* LEUIMaker */;
+			target = CA9ABEFD3A0E83CCC101E79F5810CE72 /* LEUIMaker */;
 			targetProxy = C8F33C0CCE0CFFA41AA7859006331A61 /* PBXContainerItemProxy */;
-		};
-		930DDD03561CFF6241D757037A0B69DB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = LEFoundation;
-			target = AF20D8098E9B736E2C6FA7B77C37F196 /* LEFoundation */;
-			targetProxy = 025FA05FEEA0C8A03E563C443EF1F46E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		16508C78B7A5825DE6F97C3ACC61ED4F /* Release */ = {
+		1F5010D8094E9FB96228B70134E945BD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7B94C0EB4D950F5365E108E460AE63A4 /* LEUIMaker.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREFIX_HEADER = "Target Support Files/LEUIMaker/LEUIMaker-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/LEUIMaker/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MODULEMAP_FILE = "Target Support Files/LEUIMaker/LEUIMaker.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = LEUIMaker;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		6965C5732794522AABA1D32D989B2F3D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4BFC20C80C274EF2C8BB8C9053A33C09 /* LEFoundation.xcconfig */;
+			baseConfigurationReference = 550E175909E7FAA5C69A81AAEDA318B7 /* LEFoundation.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -494,9 +472,9 @@
 			};
 			name = Debug;
 		};
-		705C492342E7604553D3570FE0EB39A5 /* Release */ = {
+		82412F18BC5BA60D161900FCEDEACC9D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4BFC20C80C274EF2C8BB8C9053A33C09 /* LEFoundation.xcconfig */;
+			baseConfigurationReference = 550E175909E7FAA5C69A81AAEDA318B7 /* LEFoundation.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -517,6 +495,37 @@
 				MODULEMAP_FILE = "Target Support Files/LEFoundation/LEFoundation.modulemap";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = LEFoundation;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		A14647827C1AD4D8453247BD6A1A54B0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7B94C0EB4D950F5365E108E460AE63A4 /* LEUIMaker.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/LEUIMaker/LEUIMaker-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/LEUIMaker/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/LEUIMaker/LEUIMaker.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = LEUIMaker;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -604,7 +613,7 @@
 			};
 			name = Debug;
 		};
-		E4A86EDBF9B3710F2F7B4F86AAFFA6B4 /* Debug */ = {
+		E4E3868A34D7EB87847D1010940488B3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7B94C0EB4D950F5365E108E460AE63A4 /* LEUIMaker.xcconfig */;
 			buildSettings = {
@@ -731,20 +740,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2EC80578E60DD6494074CE05039B266C /* Build configuration list for PBXNativeTarget "LEFoundation" */ = {
+		8D76A9A6FC7F3DE1856198ED7B19EF4A /* Build configuration list for PBXNativeTarget "LEUIMaker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6965C5732794522AABA1D32D989B2F3D /* Debug */,
-				705C492342E7604553D3570FE0EB39A5 /* Release */,
+				E4E3868A34D7EB87847D1010940488B3 /* Debug */,
+				A14647827C1AD4D8453247BD6A1A54B0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7EC6BA3D62E5754D25EEDAAF30B3603C /* Build configuration list for PBXNativeTarget "LEUIMaker" */ = {
+		8FDC696E5B9BFC0407F59D71A2BC0C64 /* Build configuration list for PBXNativeTarget "LEFoundation" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E4A86EDBF9B3710F2F7B4F86AAFFA6B4 /* Debug */,
-				16508C78B7A5825DE6F97C3ACC61ED4F /* Release */,
+				1F5010D8094E9FB96228B70134E945BD /* Debug */,
+				82412F18BC5BA60D161900FCEDEACC9D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
