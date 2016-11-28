@@ -1,0 +1,6 @@
+use_frameworks!
+target 'LEUIMaker_Tests' do
+  pod 'LEUIMaker', :path => '../'
+  
+  
+end
