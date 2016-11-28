@@ -1,0 +1,22 @@
+{
+  "name": "LEUIMaker",
+  "version": "0.1.0",
+  "summary": "A short description of LEUIMaker.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/<GITHUB_USERNAME>/LEUIMaker",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "LarryEmerson": "larryemerson@163.com"
+  },
+  "source": {
+    "git": "https://github.com/<GITHUB_USERNAME>/LEUIMaker.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "LEUIMaker/Classes/**/*"
+}

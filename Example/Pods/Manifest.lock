@@ -1,0 +1,16 @@
+PODS:
+  - LEUIMaker (0.1.0)
+
+DEPENDENCIES:
+  - LEUIMaker (from `../`)
+
+EXTERNAL SOURCES:
+  LEUIMaker:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  LEUIMaker: fe7a68ed293d92651485225e39daedba7cfa90aa
+
+PODFILE CHECKSUM: 3eeabc0cd942e9f729062138007a96b00f9b8350
+
+COCOAPODS: 1.1.1
