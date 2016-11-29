@@ -1,5 +1,5 @@
 //
-//  LECommon.h
+//  LEUICommon.h
 //  LEUIMaker
 //
 //  Created by emerson larry on 2016/11/1.
@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import <LEFoundation/LEFoundation.h>
 
 
 #pragma mark Define Colors
@@ -64,4 +64,35 @@
 #define LEFontSS    (11*[[UIScreen mainScreen] scale])
 
 
+@interface LEUICommon : NSObject
+LESingleton_interface(LEUICommon)
+/** 导航栏标题字体 */
+@property (nonatomic, readonly) UIFont  *leNaviTitleFont;
+/** 导航栏按钮字体 */
+@property (nonatomic, readonly) UIFont  *leNaviBtnFont;
+/** 导航栏返回按钮 */
+@property (nonatomic, readonly) UIImage *leNaviBackImage;
+/** 导航栏背景填充图片 */
+@property (nonatomic, readonly) UIImage *leNaviBGImage;
+/** 导航栏背景填充色 */
+@property (nonatomic, readonly) UIColor *leNaviBGColor;
+/** 导航栏标题颜色 */
+@property (nonatomic, readonly) UIColor *leNaviTitleColor;
+/** 导航栏下方View的底色 */
+@property (nonatomic, readonly) UIColor *leViewBGColor;
 
+/** 设置导航栏标题字体 */
+-(void) leSetNaviTitleFont:(UIFont *) font;
+/** 设置导航栏按钮字体 */
+-(void) leSetNaviBtnFont:(UIFont *) font;
+/** 设置导航栏返回按钮 */
+-(void) leSetNaviBackImage:(UIImage *) image;
+/** 设置导航栏背景填充图片 */
+-(void) leSetNaviBGImage:(UIImage *) image;
+/** 设置导航栏背景填充色 */
+-(void) leSetNaviBGColor:(UIColor *) color;
+/** 设置导航栏标题颜色 */
+-(void) leSetNaviTitleColor:(UIColor *) color;
+/** 设置导航栏下方View的底色 */
+-(void) leSetViewBGColor:(UIColor *) color;
+@end

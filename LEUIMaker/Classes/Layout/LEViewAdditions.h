@@ -1,5 +1,5 @@
 //
-//  View+LEAdditions.h
+//  LEViewAdditions.h
 //  LEUIMaker
 //
 //  Created by emerson larry on 2016/11/1.
@@ -270,21 +270,21 @@ typedef NS_ENUM(NSInteger, LEAnchors) {
 /** 添加右侧分割线 颜色、偏移量、高度 */
 -(__kindof UIView *(^)(UIColor *color, CGFloat offset, CGFloat height)) leAddRightSplitline;
 @end
-@interface UIViewController (LEExtension)
+@interface UIViewController (LEAdditions)
 -(void) lePush:(UIViewController *) vc;
 -(void) lePop;
 @end
-@interface UIImage (LEExtension)
+@interface UIImage (LEAdditions)
 -(UIImage *)leStreched;
 @end
-@interface UIColor (LEExtension)
+@interface UIColor (LEAdditions)
 -(UIImage *) leImage;
 -(UIImage *) leImageWithSize:(CGSize)size;
 @end
-@interface UILabel (LEExtension)
+@interface UILabel (LEAdditions)
 -(CGSize) leSizeWithMaxSize:(CGSize) size;
 @end
-@interface NSAttributedString (LEExtension)
+@interface NSAttributedString (LEAdditions)
 -(CGRect) leRectWithMaxSize:(CGSize) size;
 @end
 

@@ -1,12 +1,12 @@
 //
-//  View+LEAdditions.m
+//  LEViewAdditions.m
 //  LEUIMaker
 //
 //  Created by emerson larry on 2016/11/1.
 //  Copyright © 2016年 LarryEmerson. All rights reserved.
 //
 
-#import "View+LEAdditions.h"
+#import "LEViewAdditions.h"
 #pragma mark LEViewType
 /** View的类型 */
 typedef NS_ENUM(NSInteger, LEViewType) {
@@ -1161,7 +1161,7 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     [self endEditing:YES];
 }
 @end
-@implementation UIViewController (LEExtension)
+@implementation UIViewController (LEAdditions)
 -(void) lePush:(UIViewController *) vc{
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -1169,17 +1169,17 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     [self.navigationController popViewControllerAnimated:YES];
 }
 @end
-@implementation UIImage (LEExtension)
+@implementation UIImage (LEAdditions)
 -(UIImage *)leStreched{
     return [self stretchableImageWithLeftCapWidth:self.size.width/2 topCapHeight:self.size.height/2];
 }
 @end
-@implementation UITableView (LEExtension)
+@implementation UITableView (LEAdditions)
 -(BOOL) touchesShouldCancelInContentView:(UIView *)view{
     return YES;
 }
 @end
-@implementation UIColor (LEExtension)
+@implementation UIColor (LEAdditions)
 -(UIImage *) leImage{
     return [self leImageWithSize:CGSizeMake(1, 1)]; 
 }
@@ -1194,7 +1194,7 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     return image;
 }
 @end
-@implementation UILabel (LEExtension)
+@implementation UILabel (LEAdditions)
 -(CGSize) leSizeWithMaxSize:(CGSize) size{
     if(self.text.length==0){
         return CGSizeZero;
@@ -1213,7 +1213,7 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     return rect.size;
 }
 @end
-@implementation NSAttributedString (LEExtension)
+@implementation NSAttributedString (LEAdditions)
 -(CGRect) leRectWithMaxSize:(CGSize) size{
     return [self boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
 }

@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import <LEUIMaker/LEUIMaker-umbrella.h>
+//#import <LEUIMaker/LEUIMaker.h>
 @interface ViewController ()
 @end
 @implementation ViewController{
@@ -23,6 +23,7 @@
     UIButton *popButton;
     UILabel *multiLineLabel;
 }
+/*
 -(void) onAdd{
     tools=[UIView new].leAddTo(self.view).leRelativeTo(view).leAnchor(LEO_BC).leWidth(100).leHeightEqualWidth(1).leBgColor([UIColor redColor]);
 }
@@ -153,7 +154,7 @@
     UIView *multiLineLabelBG=[UIView new].leAddTo(scrollView).leRelativeTo(view).leAnchor(LEOutsideBottomLeft).leTop(30).leWrapper().leBoard(2,LEColorRed).leBgColor(LEColorBlue);
     multiLineLabel=[UILabel new].leAddTo(multiLineLabelBG).leAnchor(LEInsideCenter).leMargins(UIEdgeInsetsMake(20, 20, 20, 20)).leMaxWidth(300).leLine(0).leCenterAlign.leBgColor(LEColorWhite).leFont(LEFont(12)).leLineSpace(10).leText(@"蓝色矩形自动根据label大小进行拉伸");
 #pragma mark 下面主要是测试位移，缩放及最重要的入栈出栈的功能。下面首先是一个横向的栈（leHorizontalStack），用于放置按钮模块及尚未显示的竖向栈2个view
-    UIView *horizontalStack=[UIView new].leAddTo(scrollView).leRelativeTo(multiLineLabelBG).leAnchor(LEO_BL).leTop(40)/**.leBottom(40)*/.leHorizontalStack().leBoard(1,LEColorBlue).leStackAlignmnet(LEBottomAlign);
+    UIView *horizontalStack=[UIView new].leAddTo(scrollView).leRelativeTo(multiLineLabelBG).leAnchor(LEO_BL).leTop(40).leHorizontalStack().leBoard(1,LEColorBlue).leStackAlignmnet(LEBottomAlign);
 #pragma mark 这是按钮组（leWrapper）
     UIView *btnGroup=[UIView new].leWrapper().leBgColor(LEColorMask);
     btnGroup.tag=111;
@@ -260,9 +261,9 @@
     }];
 }
 
+// */
 
-
-
+ 
 
 
 

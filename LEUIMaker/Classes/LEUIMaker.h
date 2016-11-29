@@ -6,5 +6,5 @@
 //
 //
 #import <LEFoundation/LEFoundation.h>
-#import "LECommon.h"
-#import "View+LEAdditions.h"
+#import "LEUICommon.h"
+#import "LEViewAdditions.h"
