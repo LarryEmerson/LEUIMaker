@@ -18,9 +18,12 @@
     "ios": "7.0"
   },
   "requires_arc": true,
-  "source_files": "LEUIMaker/Classes/*.{h,m}",
+  "source_files": "LEUIMaker/Classes/**/*.{h,m}",
   "dependencies": {
     "LEFoundation": [
+
+    ],
+    "UITableView+FDTemplateLayoutCell": [
 
     ]
   }

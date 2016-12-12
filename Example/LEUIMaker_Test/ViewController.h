@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <LEUIMaker/LEUIMaker.h>
+#import "LEEmoji.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : LEViewController
 
 
 @end

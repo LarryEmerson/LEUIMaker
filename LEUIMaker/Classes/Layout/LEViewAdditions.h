@@ -9,27 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "sys/sysctl.h"
 #import <objc/runtime.h>
-
-#pragma mark Screen
-#define LEStatusBarHeight       20
-#define LENavigationBarHeight   44
-#define LEBottomTabbarHeight    49
-#define LESCREEN_BOUNDS     ([[UIScreen mainScreen] bounds])
-#define LESCREEN_SCALE      ([[UIScreen mainScreen] scale])
-#define LESCREEN_WIDTH      ([[UIScreen mainScreen] bounds].size.width)
-#define LESCREEN_HEIGHT     ([[UIScreen mainScreen] bounds].size.height)
-#define LESCREEN_SCALE_INT  ((int)[[UIScreen mainScreen] scale])
-#define LESCREEN_MAX_LENGTH (MAX(LESCREEN_WIDTH, LESCREEN_HEIGHT))
-#define LESCREEN_MIN_LENGTH (MIN(LESCREEN_WIDTH, LESCREEN_HEIGHT))
-
-
-#pragma mark Font
-#define LEFont(size) [UIFont systemFontOfSize:size]
-#define LEBoldFont(size) [UIFont boldSystemFontOfSize:size]
-#pragma mark 
-#define LESquareSize(__integer)         CGSizeMake(__integer,__integer)
-#define LEDegreesToRadian(x) (M_PI * (x) / 180.0)
-#define LERadianToDegrees(radian) (radian*180.0)/(M_PI)
+#import "LEUIFoundation.h"
 
 #pragma mark LEStackAlignment
 /** 栈的对齐方式 */
@@ -55,38 +35,40 @@ typedef NS_ENUM(NSInteger, LEStackAlignment) {
 #pragma mark LEAnchors
 /** View的对齐方式：相对于参考View分为内部对齐和外部对齐（Inside与Outside） */
 typedef NS_ENUM(NSInteger, LEAnchors) {
-    LEInsideTopLeft = 0,
-    LEInsideTopCenter = 1,
-    LEInsideTopRight =2,
+    LEAnchorNone = 0, 
+    LEInsideTopLeft,
+    LEInsideTopCenter,
+    LEInsideTopRight,
     //
-    LEInsideLeftCenter = 3,
-    LEInsideCenter = 4,
-    LEInsideRightCenter = 5,
+    LEInsideLeftCenter,
+    LEInsideCenter,
+    LEInsideRightCenter,
     //
-    LEInsideBottomLeft = 6,
-    LEInsideBottomCenter = 7,
-    LEInsideBottomRight = 8,
+    LEInsideBottomLeft,
+    LEInsideBottomCenter,
+    LEInsideBottomRight,
     //
-    LEOutside1 = 9,
-    LEOutside2 = 10,
-    LEOutside3 = 11,
-    LEOutside4 = 12,
+    LEOutside1,
+    LEOutside2,
+    LEOutside3,
+    LEOutside4,
     //
-    LEOutsideTopLeft = 13,
-    LEOutsideTopCenter = 14,
-    LEOutsideTopRight = 15,
+    LEOutsideTopLeft,
+    LEOutsideTopCenter,
+    LEOutsideTopRight,
     //
-    LEOutsideLeftTop = 16,
-    LEOutsideLeftCenter = 17,
-    LEOutsideLeftBottom = 18,
+    LEOutsideLeftTop,
+    LEOutsideLeftCenter,
+    LEOutsideLeftBottom,
     //
-    LEOutsideRightTop = 19,
-    LEOutsideRightCenter = 20,
-    LEOutsideRightBottom =21,
+    LEOutsideRightTop,
+    LEOutsideRightCenter,
+    LEOutsideRightBottom,
     //
-    LEOutsideBottomLeft = 22,
-    LEOutsideBottomCenter = 23,
-    LEOutsideBottomRight =24,
+    LEOutsideBottomLeft,
+    LEOutsideBottomCenter,
+    LEOutsideBottomRight,
+    LEAnchorWrapper,
 #pragma mark LEAnchors Shorthands
     LEI_TL=LEInsideTopLeft,
     LEI_TC=LEInsideTopCenter,
@@ -144,6 +126,8 @@ typedef NS_ENUM(NSInteger, LEAnchors) {
 -(__kindof UIView *(^)(CGFloat)) leWidth;
 /** 设置高度 */
 -(__kindof UIView *(^)(CGFloat)) leHeight;
+/** 设置宽度及高度 */
+-(__kindof UIView *(^)(CGSize)) leSize;
 /** 设置背景色 */
 -(__kindof UIView *(^)(UIColor *)) leBgColor;
 /** 设置是否开启点击事件 */
@@ -164,8 +148,12 @@ typedef NS_ENUM(NSInteger, LEAnchors) {
 -(__kindof UIView *(^)()) leVerticalStack;
 /** 设置为横向的栈，配合lePushToStack入栈，子View调用lePopFromStack出栈 */
 -(__kindof UIView *(^)()) leHorizontalStack;
-/** 为ScrollView量身定做的自动根据所有子view的对齐计算ContentSize并实时设定*/
+/** 为ScrollView量身定做的自动根据所有子view的布局计算ContentSize并实时设定*/
 -(__kindof UIView *(^)()) leAutoResizeContentView;
+/** 为UITableViewCell量身定做的自动根据所有子view的布局计算高度*/
+-(__kindof UIView *(^)()) leAutoCalcHeight;
+
+
 /** 入栈，入栈前需要设定为纵向或横向的栈，入栈参数可以单个或多个view，以nil结尾*/
 -(void) lePushToStack:(__kindof UIView *) view,...;
 /** 出栈，请确保已入栈 */
@@ -269,6 +257,9 @@ typedef NS_ENUM(NSInteger, LEAnchors) {
 -(__kindof UIView *(^)(UIColor *color, CGFloat offset, CGFloat height)) leAddLeftSplitline;
 /** 添加右侧分割线 颜色、偏移量、高度 */
 -(__kindof UIView *(^)(UIColor *color, CGFloat offset, CGFloat height)) leAddRightSplitline;
+
+-(CGFloat) leGetCellHeightWithBottomView:(UIView *) view;
+
 @end
 @interface UIViewController (LEAdditions)
 -(void) lePush:(UIViewController *) vc;
@@ -288,4 +279,8 @@ typedef NS_ENUM(NSInteger, LEAnchors) {
 -(CGRect) leRectWithMaxSize:(CGSize) size;
 @end
 
+@interface UIButton (LEVerticalButton) 
+@end
+@interface UIControl (LEDelayTouchEvent)
+@end
 

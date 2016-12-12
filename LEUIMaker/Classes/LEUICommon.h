@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <LEFoundation/LEFoundation.h>
-
+#import "LEUIFoundation.h"
 
 #pragma mark Define Colors
 #define LEColorClear          [UIColor clearColor]
@@ -56,16 +56,39 @@
 #define LEAvatarSize        30
 #define LEAvatarSpace       20
 #pragma mark Font
-#define LEFontLL    (19*[[UIScreen mainScreen] scale])
-#define LEFontLS    (18*[[UIScreen mainScreen] scale])
-#define LEFontML    (16*[[UIScreen mainScreen] scale])
-#define LEFontMS    (14*[[UIScreen mainScreen] scale])
-#define LEFontSL    (12*[[UIScreen mainScreen] scale])
-#define LEFontSS    (11*[[UIScreen mainScreen] scale])
+#define LEFontLL    (9.5*[[UIScreen mainScreen] scale])
+#define LEFontLS    (9  *[[UIScreen mainScreen] scale])
+#define LEFontML    (8  *[[UIScreen mainScreen] scale])
+#define LEFontMS    (7  *[[UIScreen mainScreen] scale])
+#define LEFontSL    (6  *[[UIScreen mainScreen] scale])
+#define LEFontSS    (5.5*[[UIScreen mainScreen] scale])
 
+#pragma mark DeviceInfo
+#pragma mark DeviceInfo
+#define LEIS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#define LEIS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+
+#define LEIS_IPHONE_4_OR_LESS (IS_IPHONE && SCREEN_MAX_LENGTH < 568.0)
+#define LEIS_IPHONE_5 (LEIS_IPHONE && LESCREEN_MAX_LENGTH == 568.0)
+#define LEIS_IPHONE_6 (LEIS_IPHONE && LESCREEN_MAX_LENGTH == 667.0)
+#define LEIS_IPHONE_6P (LEIS_IPHONE && LESCREEN_MAX_LENGTH == 736.0)
+
+#pragma mark List
+#define LECellHL 64.0
+#define LECellHM 52.0
+#define LECellHS 44.0
+#define LECellH (LEIS_IPHONE_6P?LECellHL:(LEIS_IPHONE_6?LECellHM:LECellHS))
+
+#define LESectionHL 24.0
+#define LESectionHM 12.0
+#define LESectionHS 8.0
+
+#define LESplitlineH (1.0/LESCREEN_SCALE)
+#define LEKeyIndex  @"index"
+#define LEKeyInfo   @"info"
 
 @interface LEUICommon : NSObject
-LESingleton_interface(LEUICommon)
+LESingleton_interface(LEUICommon) 
 /** 导航栏标题字体 */
 @property (nonatomic, readonly) UIFont  *leNaviTitleFont;
 /** 导航栏按钮字体 */
@@ -80,6 +103,8 @@ LESingleton_interface(LEUICommon)
 @property (nonatomic, readonly) UIColor *leNaviTitleColor;
 /** 导航栏下方View的底色 */
 @property (nonatomic, readonly) UIColor *leViewBGColor;
+/** 列表右侧箭头 */
+@property (nonatomic, readonly) UIImage *leListRightArrow;
 
 /** 设置导航栏标题字体 */
 -(void) leSetNaviTitleFont:(UIFont *) font;
@@ -95,4 +120,6 @@ LESingleton_interface(LEUICommon)
 -(void) leSetNaviTitleColor:(UIColor *) color;
 /** 设置导航栏下方View的底色 */
 -(void) leSetViewBGColor:(UIColor *) color;
+/** 设置列表右侧箭头 */
+-(void) leSetListRightArrow:(UIImage *) image;
 @end

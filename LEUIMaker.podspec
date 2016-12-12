@@ -8,6 +8,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/LarryEmerson/LEUIMaker.git', :tag => s.version.to_s }
   s.ios.deployment_target = '7.0'
   s.requires_arc = true
-  s.source_files = 'LEUIMaker/Classes/*.{h,m}'
+  s.source_files = 'LEUIMaker/Classes/**/*.{h,m}'
   s.dependency 'LEFoundation'
+  s.dependency 'UITableView+FDTemplateLayoutCell'
 end

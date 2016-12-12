@@ -19,7 +19,10 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     /** 横向栈 */
     LEHorizontalStack=3,
     /** ScrollView自动根据子View计算ContentSize */
-    LEAutoResizeContentView=4
+    LEAutoResizeContentView=4,
+    /** 自动根据子View计算高度 */
+    LEAutoCalcHeight=5
+    
 };
 #pragma mark LEViewAdditions
 /** 给每个View动态添加的变量，用于存放位置信息实体 */
@@ -83,6 +86,8 @@ typedef NS_ENUM(NSInteger, LEViewType) {
 @property (nonatomic) CGFloat rightEqualWidth;
 /** 是否是自动缩放容器 */
 @property (nonatomic) BOOL isAutoResizeContentView;
+/** 按钮的文字 */
+@property (nonatomic) NSString *uiText;
 #pragma mark LEViewAdditions Label
 /** Label的行间距 */
 @property (nonatomic) float lineSpace;
@@ -93,6 +98,9 @@ typedef NS_ENUM(NSInteger, LEViewType) {
 @property (nonatomic) CGSize buttonContentInsects;
 /** 按钮垂直排版 */
 @property (nonatomic) BOOL isButtonVerticalLayout;
+
+@property (nonatomic) BOOL isIgnoreTouchEvent;
+@property (nonatomic) NSTimeInterval touchEventTimeInterval;
 @end
 
 @interface UIView (LEAddition)
@@ -101,6 +109,10 @@ typedef NS_ENUM(NSInteger, LEViewType) {
 @end
 
 @implementation LEViewAdditions
+-(void) setIsIgnoreTouchEvent:(BOOL)isIgnoreTouchEvent{
+    _isIgnoreTouchEvent=isIgnoreTouchEvent;
+    NSLog(@"isIgnoreTouchEvent=%d",isIgnoreTouchEvent);
+}
 #pragma mark getFrame
 -(CGRect) leGetFrame{
     LEAnchors anchor=self.leAnchor;
@@ -159,8 +171,14 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     float offCX=l-r;
     float offCY=t-b;
 #pragma mark Inside
-    if((int)anchor<9){
-        BOOL isSuperViewAsWrapper=self.superView.leViewAdditions.viewType==LEWrapperView;;
+    BOOL isSuperViewAsWrapper=self.superView.leViewAdditions.viewType==LEWrapperView;;
+    if(anchor==LEAnchorNone){
+        if(!isSuperViewAsWrapper&&w==0&&h==0){
+            frame=CGRectMake(l, t, sw-l-r, sh-t-b);
+        }else{
+            frame=CGRectMake(l, t, w, h);
+        }
+    }else if(anchor<LEOutside1){
         switch (anchor) {
             case LEInsideTopLeft:
                 frame=CGRectMake(l, t, w, h);
@@ -199,7 +217,6 @@ typedef NS_ENUM(NSInteger, LEViewType) {
                 }
                 frame=CGRectMake(sw-w-r, (sh-h)*0.5+offCY, w, h);
                 break;
-                //
             case LEInsideBottomLeft:
                 frame=CGRectMake(l, sh-h-b, w, h);
                 break;
@@ -332,12 +349,12 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     return NO;
 }
 -(void) dealloc{
-    NSLog(@"dealloc Additions");
+//    NSLog(@"dealloc Additions");
 }
 @end
 @implementation UIView (LEAdditions)
 -(void) dealloc{
-    NSLog(@"dealloc View");
+//    NSLog(@"dealloc View");
 }
 -(void) leUpdateLayout{
     [self leAutoLayout];
@@ -442,6 +459,14 @@ typedef NS_ENUM(NSInteger, LEViewType) {
         return self;
     };
 }
+-(__kindof UIView *(^)(CGSize)) leSize{
+    return ^id(CGSize value){
+        self.leViewAdditions.width=value.width;
+        self.leViewAdditions.height=value.height;
+        [self leAutoLayout];
+        return self;
+    };
+}
 -(__kindof UIView *(^)(UIColor *)) leBgColor{
     return ^id(UIColor *value){
         self.backgroundColor=value;
@@ -484,6 +509,9 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     };
 }
 -(void) onSetViewTypeWith:(LEViewType ) type{
+    if(self.leViewAdditions.viewType==type){
+        return;
+    }
     NSAssert(self.leViewAdditions.viewType==0, @"View的类型是固定的，不可更换");
     self.leViewAdditions.viewType=type;
 }
@@ -515,6 +543,12 @@ typedef NS_ENUM(NSInteger, LEViewType) {
 -(__kindof UIView *(^)()) leAutoResizeContentView{
     return ^id(){
         [self onSetViewTypeWith:LEAutoResizeContentView];
+        return self;
+    };
+}
+-(__kindof UIView *(^)()) leAutoCalcHeight{
+    return ^id(){
+        [self onSetViewTypeWith:LEAutoCalcHeight];
         return self;
     };
 }
@@ -766,6 +800,7 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     return ^id(NSString *value){
         if([self isKindOfClass:[UILabel class]]){
             UILabel *label=(UILabel *)self;
+            label.leViewAdditions.uiText=value;
             [label setText:value];
             CGSize size=CGSizeZero;
             if(value.length>0){
@@ -812,6 +847,7 @@ typedef NS_ENUM(NSInteger, LEViewType) {
             label=label.leWidth(size.width).leHeight(size.height);
         }else if([self isKindOfClass:[UIButton class]]){
             UIButton *view=(UIButton *)self;
+            view.leViewAdditions.uiText=value;
             if(!value||value.length==0||view.imageView.hidden){
                 view.imageEdgeInsets=UIEdgeInsetsZero;
                 view.titleEdgeInsets=UIEdgeInsetsZero;
@@ -863,8 +899,9 @@ typedef NS_ENUM(NSInteger, LEViewType) {
             view=view.leWidth(w).leHeight(h);
             if(self.leViewAdditions.isButtonVerticalLayout){
                 if(!view.imageView.hidden&&value&&value.length>0){
-                    view.titleEdgeInsets = UIEdgeInsetsMake(0, -view.imageView.image.size.width, -view.imageView.image.size.height-insetH, 0);
-                    view.imageEdgeInsets=UIEdgeInsetsMake(-textSize.height*0.5-insetH, (textSize.width-view.imageView.image.size.width+insetW)*0.5, 0, 0);
+//                    view.titleEdgeInsets = UIEdgeInsetsMake(0, -view.imageView.image.size.width, -view.imageView.image.size.height-insetH, 0);
+//                    view.imageEdgeInsets=UIEdgeInsetsMake(-textSize.height*0.5-insetH, (textSize.width-view.imageView.image.size.width+insetW)*0.5, 0, 0);
+//                    [view setNeedsLayout];
                 }
             }
         }else if([self isKindOfClass:[UITextField class]]){
@@ -929,7 +966,8 @@ typedef NS_ENUM(NSInteger, LEViewType) {
         if([self isKindOfClass:[UIButton class]]){
             UIButton *view=(UIButton *)self;
             [view setImage:img forState:state];
-            view=view.leText(view.titleLabel.text);
+//            view=view.leText(view.titleLabel.text);
+            view=view.leText(view.leViewAdditions.uiText);
         }
         return self;
     };
@@ -957,7 +995,8 @@ typedef NS_ENUM(NSInteger, LEViewType) {
         if([self isKindOfClass:[UIButton class]]){
             UIButton *view=(UIButton *)self;
             [view setImage:value forState:UIControlStateNormal];
-            view=view.leText(view.titleLabel.text);
+//            view=view.leText(view.titleLabel.text);
+            view=view.leText(view.leViewAdditions.uiText);
         }
         return self;
     };
@@ -967,7 +1006,8 @@ typedef NS_ENUM(NSInteger, LEViewType) {
         if([self isKindOfClass:[UIButton class]]){
             UIButton *view=(UIButton *)self;
             [view setImage:value forState:UIControlStateHighlighted];
-            view=view.leText(view.titleLabel.text);
+//            view=view.leText(view.titleLabel.text);
+            view=view.leText(view.leViewAdditions.uiText);
         }
         return self;
     };
@@ -1049,7 +1089,8 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     };
 }
 #pragma mark Auto
--(void) leAutoLayout{ 
+-(void) leAutoLayout{
+ 
     CGRect frame=[self.leViewAdditions leGetFrame];
     if(!CGRectEqualToRect(frame, self.frame)){
         [self setFrame:frame];
@@ -1073,7 +1114,7 @@ typedef NS_ENUM(NSInteger, LEViewType) {
                 }
             }
         }
-    }
+    } 
     LEViewType type=self.leViewAdditions.superView.leViewAdditions.viewType;
     if(type>0){
         UIView *stack=self.leViewAdditions.superView;
@@ -1083,7 +1124,7 @@ typedef NS_ENUM(NSInteger, LEViewType) {
         UIView *vr=nil;
         for (LEViewAdditions *va in stack.leViewAdditions.children) {
             UIView *view=va.ownerView;
-            if(view){
+            if(view&&!view.hidden){
                 if(!vt){
                     vt=view;
                     vl=view;
@@ -1118,8 +1159,18 @@ typedef NS_ENUM(NSInteger, LEViewType) {
             
         }else if(type==LEAutoResizeContentView&&[stack isKindOfClass:[UIScrollView class]]){
             [(UIScrollView *)stack setContentSize:CGSizeMake(MAX(stack.bounds.size.width, sumW), MAX(stack.bounds.size.height, sumH))];
+        }else if(type==LEAutoCalcHeight){
+//            NSLog(@"sumh=%f  %@",sumH,self.class);
+            stack.leViewAdditions.width=stack.bounds.size.width;
+            stack.leHeight(sumH);
+//            CGRect rect=stack.frame;
+//            rect.size.height=sumH;
+//            stack.frame=rect;
         }
     }
+}
+-(CGFloat) leGetCellHeightWithBottomView:(UIView *) view{
+    return view.frame.origin.y+view.frame.size.height+view.leViewAdditions.bottomMargin;
 }
 -(void) setLeViewAdditions:(LEViewAdditions *)leViewAdditions{
     objc_setAssociatedObject(self, @selector(leViewAdditions), leViewAdditions, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -1128,6 +1179,7 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     LEViewAdditions *additions= objc_getAssociatedObject(self, _cmd);
     if(!additions){
         additions=[[LEViewAdditions alloc] initWithOwner:self];
+        additions.touchEventTimeInterval=0.6;
         self.leViewAdditions=additions;
     }
     return additions; 
@@ -1219,7 +1271,67 @@ typedef NS_ENUM(NSInteger, LEViewType) {
 }
 @end
 
+@implementation UIButton (LEVerticalButton)
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Class class = [self class];
+        SEL originalSelector = @selector(layoutSubviews);
+        SEL swizzledSelector = @selector(leLayoutSubviews);
+        Method originalMethod = class_getInstanceMethod(class, originalSelector);
+        Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
+        BOOL didAddMethod = class_addMethod(class, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod));
+        if (didAddMethod) {
+            class_replaceMethod(class, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
+        } else {
+            method_exchangeImplementations(originalMethod, swizzledMethod);
+        }
+    });
+}
+-(void)leLayoutSubviews {
+    [self leLayoutSubviews];
+    if(self.leViewAdditions.isButtonVerticalLayout){
+        self.titleLabel.textAlignment = NSTextAlignmentCenter;
+        CGFloat sumHeight = self.imageView.frame.size.height + self.titleLabel.frame.size.height + 8;
+        CGRect imageFrame = self.imageView.frame;
+        imageFrame.origin = CGPointMake(truncf((self.bounds.size.width - self.imageView.frame.size.width) / 2), truncf((self.bounds.size.height - sumHeight) / 2));
+        self.imageView.frame = imageFrame;
+        CGRect labelFrame = CGRectMake(0, CGRectGetMaxY(imageFrame) + 8, self.bounds.size.width, self.titleLabel.frame.size.height);
+        self.titleLabel.frame = labelFrame;
+    }
+}
+@end
 
+@implementation UIControl (LEDelayTouchEvent)
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Class class = [self class];
+        SEL originalSelector = @selector(sendAction:to:forEvent:);
+        SEL swizzledSelector = @selector(leSendAction:to:forEvent:);
+        Method originalMethod = class_getInstanceMethod(class, originalSelector);
+        Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
+        BOOL didAddMethod = class_addMethod(class, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod));
+        if (didAddMethod) {
+            class_replaceMethod(class, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
+        } else {
+            method_exchangeImplementations(originalMethod, swizzledMethod);
+        }
+    });
+}
+- (void)leSendAction:(SEL)action to:(nullable id)target forEvent:(nullable UIEvent *)event{
+    if (!self.leViewAdditions.isIgnoreTouchEvent){
+        if (self.leViewAdditions.touchEventTimeInterval > 0) {
+            self.leViewAdditions.isIgnoreTouchEvent = YES;
+            [self performSelector:@selector(onEnableTouchEvent) withObject:nil afterDelay:self.leViewAdditions.touchEventTimeInterval];
+        }
+        [self leSendAction:action to:target forEvent:event];
+    }
+}
+-(void) onEnableTouchEvent{
+    self.leViewAdditions.isIgnoreTouchEvent=NO;
+}
+@end
 
 
 
