@@ -80,7 +80,7 @@
 }
 -(void) leOnLoadedMoreWithData:(NSMutableArray *)data{
     if(data){
-        NSInteger section=[self leNumberOfSectionsInCollectionView:self];
+        NSInteger section=[self numberOfSectionsInCollectionView:self];
         if(section>1){
             [self leOnStopBottomRefresh];
             return;
@@ -144,7 +144,10 @@
     return curDelegate;
 }
 //Sections
-- (NSInteger)leNumberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    if(curDataSource&&[curDataSource respondsToSelector:@selector(leNumberOfSectionsInCollectionView:)]){
+        return [curDataSource leNumberOfSectionsInCollectionView:collectionView];
+    }
     NSInteger section=0;
     if(self.leItemsArray.count>0){
         id obj=[self.leItemsArray objectAtIndex:0];
@@ -159,14 +162,14 @@
     }
     return section;
 }
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-    return [self leNumberOfSectionsInCollectionView:collectionView];
-}
 //numbers
-- (NSInteger)leCollectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    if(curDataSource&&[curDataSource respondsToSelector:@selector(leCollectionView:numberOfItemsInSection:)]){
+        return [curDataSource leCollectionView:collectionView numberOfItemsInSection:section];
+    }
     NSInteger items=0;
     if(self.leItemsArray&&self.leItemsArray.count>0){
-        NSInteger sections=[self leNumberOfSectionsInCollectionView:collectionView];
+        NSInteger sections=[self numberOfSectionsInCollectionView:collectionView];
         if(sections==1){
             items= self.leItemsArray.count;
         }else if(sections>1){
@@ -180,16 +183,16 @@
     }
     return items;
 }
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return [self leCollectionView:collectionView numberOfItemsInSection:section];
-}
 //items
-- (UICollectionViewCell *)leCollectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    if(curDataSource&&[curDataSource respondsToSelector:@selector(leCollectionView:cellForItemAtIndexPath:)]){
+        return [curDataSource leCollectionView:collectionView cellForItemAtIndexPath:indexPath];
+    }
     LECollectionItem *cell=[self dequeueReusableCellWithReuseIdentifier:LECollectionIdentifierItem forIndexPath:indexPath];
     cell.leCollectionView=self;
     BOOL hasSet=NO;
     if(self.leItemsArray&&self.self.leItemsArray.count>0){
-        NSInteger section=[self leNumberOfSectionsInCollectionView:collectionView];
+        NSInteger section=[self numberOfSectionsInCollectionView:collectionView];
         if(section==1){
             [cell leSetData:indexPath.row<self.leItemsArray.count?[self.leItemsArray objectAtIndex:indexPath.row]:nil IndexPath:indexPath];
             hasSet=YES;
@@ -209,9 +212,6 @@
         [cell leSetData:nil IndexPath:indexPath];
     }
     return cell;
-}
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return [self leCollectionView:collectionView cellForItemAtIndexPath:indexPath];
 }
 //
 - (void)leCollectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{

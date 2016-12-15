@@ -19,6 +19,9 @@
 -(void) leOnRefreshDataForCollection;
 @optional
 -(void) leOnLoadMoreForCollection;
+-(NSInteger)leCollectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section;
+-(UICollectionViewCell *)leCollectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath;
+-(NSInteger)leNumberOfSectionsInCollectionView:(UICollectionView *)collectionView;
 @end
  
 @class LECollectionView;
@@ -53,9 +56,7 @@
 -(void) leOnLoadedMoreWithData:(NSMutableArray *)data;
 -(void) leSelectCellAtIndex:(NSIndexPath *)index;
 -(void) leDeselectCellAtIndex:(NSIndexPath *) index;
--(NSInteger)leCollectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section;
--(UICollectionViewCell *)leCollectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath;
--(NSInteger)leNumberOfSectionsInCollectionView:(UICollectionView *)collectionView;
+
 @end
 
 @interface LEVerticalFlowLayout : UICollectionViewFlowLayout

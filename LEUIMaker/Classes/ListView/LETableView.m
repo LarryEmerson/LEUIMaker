@@ -211,12 +211,7 @@
         obj=nil;
     }
 }
--(NSString *) leCellClassnameWithIndex:(NSIndexPath *) index{
-    if(index.section<curCellClassnames.count){
-        return [curCellClassnames objectAtIndex:index.section];
-    }
-    return nil;
-}
+
 -(BOOL) leGetTouchEnabled{
     return curTouchEnabled;
 }
@@ -343,7 +338,7 @@
     if(self.leCellCountAppended>0&&lastCellCounts>0){
         [self beginUpdates];
         NSMutableArray *insertIndexPaths = [[NSMutableArray alloc] init];
-        NSInteger section=[self leNumberOfSections]>1?[self leNumberOfSections]-1:0;
+        NSInteger section=[self getNumberOfSections]>1?[self getNumberOfSections]-1:0;
         for (int ind = 0; ind < self.leCellCountAppended; ind++) {
             NSIndexPath *newPath =  [NSIndexPath indexPathForRow:self.leItemsArray.count-self.leCellCountAppended+ind inSection:section];
             [insertIndexPaths addObject:newPath]; 
@@ -356,42 +351,81 @@
     }
 }
 -(void) leOnStopBottomRefresh{}
--(NSInteger) leNumberOfSections{
+//
+-(NSInteger) getNumberOfSections{
+    if(curDataSource&&[curDataSource respondsToSelector:@selector(leNumberOfSections)]){
+        return [curDataSource leNumberOfSections];
+    }
     return 1;
 }
--(CGFloat) leHeightForSection:(NSInteger) section{
-    return 0;
-}
--(UIView *) leViewForHeaderInSection:(NSInteger) section{
-    return nil;
-}
--(NSInteger) leNumberOfRowsInSection:(NSInteger) section{
+-(NSInteger) getNumberOfRowsInSection:(NSInteger) section{
+    if(curDataSource&&[curDataSource respondsToSelector:@selector(leNumberOfRowsInSection:)]){
+        return [curDataSource leNumberOfRowsInSection:section];
+    }
     return self.leItemsArray?self.leItemsArray.count:0;
 }
--(LETableViewCell *) leCellForRowAtIndexPath:(NSIndexPath *) indexPath{
-    LETableViewCell *cell=[self dequeueReusableCellWithIdentifier:[self leCellClassnameWithIndex:indexPath] forIndexPath:indexPath];
+
+-(NSString *) getCellClassnameWithIndex:(NSIndexPath *) index{
+    if(curDataSource&&[curDataSource respondsToSelector:@selector(leCellClassnameWithIndex:)]){
+        return [curDataSource leCellClassnameWithIndex:index];
+    }
+    if(index.section<curCellClassnames.count){
+        return [curCellClassnames objectAtIndex:index.section];
+    }
+    return nil;
+}
+-(BOOL) checkEmptyCellCondition:(NSInteger) section{
+    if([self getNumberOfRowsInSection:section]==0&&(([self getNumberOfSections]==1&&section==0)||([self getNumberOfSections]>1&&section==[self getNumberOfSections]-1))){
+        return YES;
+    }
+    return NO;
+}
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    NSInteger rows=[self getNumberOfRowsInSection:section];
+    if(curEmptyCellClassname&&rows==0&&self.leItemsArray){
+        if([self checkEmptyCellCondition:section]){
+            return 1;
+        }
+    }else{
+        return rows;
+    }
+}
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSInteger rows=[self getNumberOfRowsInSection:indexPath.section];
+    if(rows==0){
+        if([self checkEmptyCellCondition:indexPath.section]){
+            self.leEmptyCell=curEmptyCellClassname?[self dequeueReusableCellWithIdentifier:curEmptyCellClassname forIndexPath:indexPath]:[UIView new];
+            if(curEmptyCellClassname){
+                self.leEmptyCell.leDelegate(curDelegate);
+            }
+            [self.leEmptyCell layoutCellAfterConfig];
+            return self.leEmptyCell;
+        }
+    }
+    LETableViewCell *cell=[self dequeueReusableCellWithIdentifier:[self getCellClassnameWithIndex:indexPath] forIndexPath:indexPath];
     cell.leDelegate(curDelegate).leTouchEnabled(curTouchEnabled);
     cell.leIndexPath=indexPath;
-    if(self.leItemsArray&&indexPath.row<self.leItemsArray.count){
-        [cell leSetData:[self.leItemsArray objectAtIndex:indexPath.row]];
-    }else{
-        [cell leSetData:nil];
-    }
+    [cell leSetData:[self getDataForIndex:indexPath]];
     [cell layoutCellAfterConfig];
     return cell;
 }
-
-//-(CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath{
+-(id) getDataForIndex:(NSIndexPath *) index{
+    if(curDataSource&&[curDataSource respondsToSelector:@selector(leDataForIndex:)]){
+        return [curDataSource leDataForIndex:index];
+    }
+    if(self.leItemsArray&&index.row<self.leItemsArray.count){
+        return [self.leItemsArray objectAtIndex:index.row];
+    }
+    return nil;
+}
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSString *identifier=[self leCellClassnameWithIndex:indexPath];
-    if(indexPath.section==0 && [self leNumberOfRowsInSection:0]==0 && [self leNumberOfSections] <=1){
+    NSString *identifier=[self getCellClassnameWithIndex:indexPath];
+    if(indexPath.row==0&&[self checkEmptyCellCondition:indexPath.section]){
         identifier=curEmptyCellClassname;
     }
     return [tableView fd_heightForCellWithIdentifier:identifier cacheByIndexPath:indexPath configuration:^(LETableViewCell *cell) {
         cell.fd_enforceFrameLayout=YES;
-        if(indexPath.section==0 && [self leNumberOfRowsInSection:0]==0 && [self leNumberOfSections] <=1){
-            
-        }else{
+        if(![identifier isEqualToString:curEmptyCellClassname]){
             cell.leIndexPath=indexPath;
             if(self.leItemsArray&&indexPath.row<self.leItemsArray.count){
                 [cell leSetData:[self.leItemsArray objectAtIndex:indexPath.row]];
@@ -402,43 +436,26 @@
     }];
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return [self leNumberOfSections];
+    return [self getNumberOfSections];
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    return [self leHeightForSection:section];
-}
--(UIView *) tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    return [self leViewForHeaderInSection:section];
-}
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSInteger rows=[self leNumberOfRowsInSection:section];
-    if(rows==0 && section==0 && [self leNumberOfSections] <=1){
-        if(self.leItemsArray&&curEmptyCellClassname){
-            return 1;
-        }else{
-            return 0;
-        }
-    }else{
-        return rows;
+    if(curDataSource&&[curDataSource respondsToSelector:@selector(leHeightForSection:)]){
+        return [curDataSource leHeightForSection:section];
     }
+    return 0;
 }
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if(indexPath.section==0 && [self leNumberOfRowsInSection:0]==0 && [self leNumberOfSections] <=1){
-        self.leEmptyCell=curEmptyCellClassname?[self dequeueReusableCellWithIdentifier:curEmptyCellClassname forIndexPath:indexPath]:[UIView new];
-        if(curEmptyCellClassname){
-            self.leEmptyCell.leDelegate(curDelegate);
-        }
-        [self.leEmptyCell layoutCellAfterConfig];
-        return self.leEmptyCell;
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    if(curDataSource&&[curDataSource respondsToSelector:@selector(leViewForHeaderInSection:)]){
+        return [curDataSource leViewForHeaderInSection:section];
     }
-    return [self leCellForRowAtIndexPath:indexPath];
+    return nil;
 }
 @end
+
 @implementation LETableViewWithRefresh{
     LERefreshHeader *refreshHeader;
     LERefreshFooter *refreshFooter;
 }
-
 -(void) leExtraInits{
     [super leExtraInits];
     
@@ -475,5 +492,4 @@
         [refreshFooter onEndRefresh];
     });
 }
-
 @end

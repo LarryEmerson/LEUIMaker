@@ -99,8 +99,7 @@ typedef NS_ENUM(NSInteger, LEViewType) {
 /** 按钮垂直排版 */
 @property (nonatomic) BOOL isButtonVerticalLayout;
 
-@property (nonatomic) BOOL isIgnoreTouchEvent;
-@property (nonatomic) NSTimeInterval touchEventTimeInterval;
+@property (nonatomic) BOOL isIgnoreTouchEventLock;
 @end
 
 @interface UIView (LEAddition)
@@ -109,10 +108,6 @@ typedef NS_ENUM(NSInteger, LEViewType) {
 @end
 
 @implementation LEViewAdditions
--(void) setIsIgnoreTouchEvent:(BOOL)isIgnoreTouchEvent{
-    _isIgnoreTouchEvent=isIgnoreTouchEvent;
-    NSLog(@"isIgnoreTouchEvent=%d",isIgnoreTouchEvent);
-}
 #pragma mark getFrame
 -(CGRect) leGetFrame{
     LEAnchors anchor=self.leAnchor;
@@ -349,13 +344,13 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     return NO;
 }
 -(void) dealloc{
-//    NSLog(@"dealloc Additions");
+    NSLog(@"dealloc Additions");
 }
 @end
 @implementation UIView (LEAdditions)
--(void) dealloc{
+//-(void) dealloc{
 //    NSLog(@"dealloc View");
-}
+//}
 -(void) leUpdateLayout{
     [self leAutoLayout];
 }
@@ -932,6 +927,13 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     };
 }
 #pragma mark Button
+
+-(__kindof UIView *(^)(BOOL)) leIgnoreTouchEventLock{
+    return ^id(BOOL value){
+        self.leViewAdditions.isIgnoreTouchEventLock=value;
+        return self;
+    };
+}
 -(__kindof UIView *(^)(BOOL)) leBtnVerticalLayout{
     return ^id(BOOL value){
         self.leViewAdditions.isButtonVerticalLayout=value;
@@ -1179,7 +1181,6 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     LEViewAdditions *additions= objc_getAssociatedObject(self, _cmd);
     if(!additions){
         additions=[[LEViewAdditions alloc] initWithOwner:self];
-        additions.touchEventTimeInterval=0.6;
         self.leViewAdditions=additions;
     }
     return additions; 
@@ -1302,6 +1303,28 @@ typedef NS_ENUM(NSInteger, LEViewType) {
 }
 @end
 
+
+@interface LETouchEventLock : NSObject
+LESingleton_interface(LETouchEventLock)
+-(BOOL) isTouchEventLocked;
+@end
+@implementation LETouchEventLock{
+    BOOL touchEventLock;
+}
+LESingleton_implementation(LETouchEventLock)
+-(BOOL) isTouchEventLocked{
+    BOOL lock=touchEventLock;
+    if(!touchEventLock){
+        touchEventLock=YES;
+        [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(unLockTouchEvent) userInfo:nil repeats:NO];
+    }else NSLog(@"Touch event was ignored for too many in one second");
+    return lock;
+}
+-(void) unLockTouchEvent{
+    touchEventLock=NO;
+}
+@end
+
 @implementation UIControl (LEDelayTouchEvent)
 + (void)load {
     static dispatch_once_t onceToken;
@@ -1320,16 +1343,9 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     });
 }
 - (void)leSendAction:(SEL)action to:(nullable id)target forEvent:(nullable UIEvent *)event{
-    if (!self.leViewAdditions.isIgnoreTouchEvent){
-        if (self.leViewAdditions.touchEventTimeInterval > 0) {
-            self.leViewAdditions.isIgnoreTouchEvent = YES;
-            [self performSelector:@selector(onEnableTouchEvent) withObject:nil afterDelay:self.leViewAdditions.touchEventTimeInterval];
-        }
+    if (!self.leViewAdditions.isIgnoreTouchEventLock&&![LETouchEventLock sharedInstance].isTouchEventLocked){
         [self leSendAction:action to:target forEvent:event];
     }
-}
--(void) onEnableTouchEvent{
-    self.leViewAdditions.isIgnoreTouchEvent=NO;
 }
 @end
 

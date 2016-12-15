@@ -115,5 +115,16 @@ LESingleton_implementation(LEUICommon)
 -(void) leSetListRightArrow:(UIImage *) image{
     self.leListRightArrow=image;
 }
- 
+-(UIWindow *) leGetTopWindow{
+    NSEnumerator *frontToBackWindows = [UIApplication.sharedApplication.windows reverseObjectEnumerator];
+    for (UIWindow *window in frontToBackWindows) {
+        BOOL windowOnMainScreen = window.screen == UIScreen.mainScreen;
+        BOOL windowIsVisible = !window.hidden && window.alpha > 0;
+        BOOL windowLevelSupported = (window.windowLevel >= UIWindowLevelNormal);
+        if(windowOnMainScreen && windowIsVisible && windowLevelSupported) {
+            return window;
+        }
+    }
+    return [[[UIApplication sharedApplication] delegate] window];
+}
 @end

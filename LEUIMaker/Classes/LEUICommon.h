@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <LEFoundation/LEFoundation.h>
+
 #import "LEUIFoundation.h"
 
 #pragma mark Define Colors
@@ -122,4 +122,6 @@ LESingleton_interface(LEUICommon)
 -(void) leSetViewBGColor:(UIColor *) color;
 /** 设置列表右侧箭头 */
 -(void) leSetListRightArrow:(UIImage *) image;
+/** 获得最顶端的window */
+-(UIWindow *) leGetTopWindow;
 @end

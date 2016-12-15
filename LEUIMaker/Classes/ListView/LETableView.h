@@ -21,7 +21,12 @@
 /** 列表上拉后触发，列表需支持上拉组件或者上拉功能已开启 */
 -(void) leOnLoadMore;
 
-
+-(NSInteger)    leNumberOfSections;
+-(CGFloat)      leHeightForSection:(NSInteger) section;
+-(UIView *)     leViewForHeaderInSection:(NSInteger) section;
+-(NSInteger)    leNumberOfRowsInSection:(NSInteger) section;
+-(id)           leDataForIndex:(NSIndexPath *) index;
+-(NSString *)   leCellClassnameWithIndex:(NSIndexPath *) index;
 @end
 
 @interface LETableViewSection : UIView
@@ -85,11 +90,11 @@
 -(void) leOnReloadTableViewForAppendedDataSource;
 -(void) leOnStopBottomRefresh;
 #pragma mark TableView datasource & delegate
--(NSInteger) leNumberOfSections;
--(CGFloat) leHeightForSection:(NSInteger) section;
--(UIView *) leViewForHeaderInSection:(NSInteger) section;
--(NSInteger) leNumberOfRowsInSection:(NSInteger) section;
--(UITableViewCell *) leCellForRowAtIndexPath:(NSIndexPath *) indexPath;
+//-(NSInteger) leNumberOfSections;
+//-(CGFloat) leHeightForSection:(NSInteger) section;
+//-(UIView *) leViewForHeaderInSection:(NSInteger) section;
+//-(NSInteger) leNumberOfRowsInSection:(NSInteger) section;
+//-(UITableViewCell *) leCellForRowAtIndexPath:(NSIndexPath *) indexPath;
 @end
 
 @interface LETableViewWithRefresh : LETableView

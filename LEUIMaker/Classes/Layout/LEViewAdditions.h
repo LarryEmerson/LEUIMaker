@@ -206,6 +206,9 @@ typedef NS_ENUM(NSInteger, LEAnchors) {
 /** 设置label的行间距 */
 -(__kindof UIView *(^)(CGFloat)) leLineSpace;
 #pragma mark Button
+
+/** 设置是否忽略按钮锁 */
+-(__kindof UIView *(^)(BOOL)) leIgnoreTouchEventLock;
 /** 设置button是否垂直排列 */
 -(__kindof UIView *(^)(BOOL)) leBtnVerticalLayout;
 /** 设置button固定宽 */

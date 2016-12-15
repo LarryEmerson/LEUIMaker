@@ -87,12 +87,14 @@
                      @{@"classname":@"TestSegment", @"text":@"测试Segment封装模块的使用"},
                      @{@"classname":@"TestMultiSectionTableView", @"text":@"测试多个分组的列表的使用"},
                      @{@"classname":@"TestEmoji", @"text":@"新项目需求，添加表情输入模块"},
+                     @{@"classname":@"TestPopup", @"text":@"测试Popup"},
                      ];
     navigationView=[LENavigation new].leSuperView(self).leDelegate(self).leRightItemText(@"右按钮");
     navigationView.leTitleViewContainer .leTouchEvent(@selector(onTestNavigation) ,self);
     [self onTestNavigation];
     curList=[LETableViewWithRefresh new].leSuperView(self.leSubViewContainer).leDelegate(self).leDataSource(self).leCellClassname(@"TestCell").leEmptyCellClassname(@"TestEmptyCell").leTouchEnabled(YES);
-    [curList leOnRefreshedWithData:[@[] mutableCopy]]; 
+    [curList leOnRefreshedWithData:[@[] mutableCopy]];
+    [self leOnRefreshData];
 }
 -(void) onTestNavigation{
     naviClick%=navigationTitles.count;

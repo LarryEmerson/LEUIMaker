@@ -42,6 +42,8 @@
 		808FABEB1DF508E600B7A640 /* TestBottomTabbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 808FABEA1DF508E600B7A640 /* TestBottomTabbar.m */; };
 		808FABEE1DF5091700B7A640 /* TestSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 808FABED1DF5091700B7A640 /* TestSegment.m */; };
 		80C9DACE1DF7F05A00F5780B /* TestMultiSectionTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80C9DACD1DF7F05A00F5780B /* TestMultiSectionTableView.m */; };
+		80DA030C1E00DEAA00183345 /* TestPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 80DA030B1E00DEAA00183345 /* TestPopup.m */; };
+		80DA030F1E00ECBB00183345 /* TestWKWebview.m in Sources */ = {isa = PBXBuildFile; fileRef = 80DA030E1E00ECBB00183345 /* TestWKWebview.m */; };
 		80E707E21DFE80B9005CCB8D /* TestEmoji.m in Sources */ = {isa = PBXBuildFile; fileRef = 80E707E11DFE80B9005CCB8D /* TestEmoji.m */; };
 		80EC74C01DEBCF1E000DF15F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 80EC74BF1DEBCF1E000DF15F /* main.m */; };
 		80EC74C31DEBCF1E000DF15F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 80EC74C21DEBCF1E000DF15F /* AppDelegate.m */; };
@@ -97,6 +99,10 @@
 		808FABED1DF5091700B7A640 /* TestSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestSegment.m; sourceTree = "<group>"; };
 		80C9DACC1DF7F05A00F5780B /* TestMultiSectionTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestMultiSectionTableView.h; sourceTree = "<group>"; };
 		80C9DACD1DF7F05A00F5780B /* TestMultiSectionTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestMultiSectionTableView.m; sourceTree = "<group>"; };
+		80DA030A1E00DEAA00183345 /* TestPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestPopup.h; sourceTree = "<group>"; };
+		80DA030B1E00DEAA00183345 /* TestPopup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestPopup.m; sourceTree = "<group>"; };
+		80DA030D1E00ECBB00183345 /* TestWKWebview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestWKWebview.h; sourceTree = "<group>"; };
+		80DA030E1E00ECBB00183345 /* TestWKWebview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestWKWebview.m; sourceTree = "<group>"; };
 		80E707E01DFE80B9005CCB8D /* TestEmoji.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestEmoji.h; sourceTree = "<group>"; };
 		80E707E11DFE80B9005CCB8D /* TestEmoji.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestEmoji.m; sourceTree = "<group>"; };
 		80EC74BC1DEBCF1E000DF15F /* LEUIMaker_Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LEUIMaker_Test.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -223,6 +229,10 @@
 				80C9DACD1DF7F05A00F5780B /* TestMultiSectionTableView.m */,
 				80E707E01DFE80B9005CCB8D /* TestEmoji.h */,
 				80E707E11DFE80B9005CCB8D /* TestEmoji.m */,
+				80DA030A1E00DEAA00183345 /* TestPopup.h */,
+				80DA030B1E00DEAA00183345 /* TestPopup.m */,
+				80DA030D1E00ECBB00183345 /* TestWKWebview.h */,
+				80DA030E1E00ECBB00183345 /* TestWKWebview.m */,
 			);
 			path = Demos;
 			sourceTree = "<group>";
@@ -424,8 +434,10 @@
 				808FABEE1DF5091700B7A640 /* TestSegment.m in Sources */,
 				808FABEB1DF508E600B7A640 /* TestBottomTabbar.m in Sources */,
 				80EC74C61DEBCF1E000DF15F /* ViewController.m in Sources */,
+				80DA030C1E00DEAA00183345 /* TestPopup.m in Sources */,
 				80EC74C31DEBCF1E000DF15F /* AppDelegate.m in Sources */,
 				80291C481DFA5CF4001A6861 /* LEEmoji.m in Sources */,
+				80DA030F1E00ECBB00183345 /* TestWKWebview.m in Sources */,
 				80E707E21DFE80B9005CCB8D /* TestEmoji.m in Sources */,
 				80EC74C01DEBCF1E000DF15F /* main.m in Sources */,
 			);
