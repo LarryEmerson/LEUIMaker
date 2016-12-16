@@ -7,6 +7,7 @@
 //
 
 #import "TestCollectionView.h"
+#import "LEHUD.h"
 
 
 @interface TestItem : LECollectionItem
@@ -30,6 +31,7 @@
 @end
 @implementation TestCollectionViewPage{
     LECollectionViewWithRefresh *collection;
+    BOOL isDataLoaded;
 }
 -(void) leExtraInits{
     [LENavigation new].leSuperView(self).leTitle(NSStringFromClass(self.class));
@@ -60,7 +62,24 @@
     });
 }
 -(void) leOnItemEventWithInfo:(NSDictionary *)info{
-     [collection leOnAutoRefresh];
+    if(!isDataLoaded){
+        [collection leOnAutoRefresh];
+        isDataLoaded=YES;
+    }
+    [LEHUD leShowHud:[NSString stringWithFormat:@"leOnItemEventWithInfo:%zd",[[info objectForKey:LEKeyIndex] row]]];
 }
 @end
-@implementation TestCollectionView @end
+@implementation TestCollectionView
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
+    return YES;
+}
+- (BOOL)shouldAutorotate{
+    return YES;
+}
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskAll;
+}
+-(void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    [self leDidRotateFrom:fromInterfaceOrientation];
+}
+@end

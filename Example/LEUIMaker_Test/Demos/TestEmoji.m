@@ -16,13 +16,12 @@
 }
 -(void) leExtraInits{
     [LENavigation new].leSuperView(self).leDelegate(self).leRightItemText(@"发布");
-    scrollView=[UIScrollView new].leAddTo(self.leSubViewContainer).leAnchor(LEInsideTopCenter).leWidth(LESCREEN_WIDTH).leHeight(self.leSubContainerH-LEBottomTabbarHeight);
+    scrollView=[UIScrollView new].leAddTo(self.leSubViewContainer).leMargins(UIEdgeInsetsMake(0, 0, LEBottomTabbarHeight, 0));
     [scrollView setContentSize:CGSizeMake(LESCREEN_WIDTH, scrollView.bounds.size.height)];
-    textView=[UITextView new].leAddTo(scrollView).leWidth(LESCREEN_WIDTH).leHeight(LESCREEN_WIDTH/2).leBgColor(LEColorMask);
+    textView=[UITextView new].leAddTo(scrollView).leEqualSuperViewWidth(1).leHeight(LESCREEN_WIDTH/2).leBgColor(LEColorMask);
+    
     [[LEEmoji sharedInstance] leSetDelegate:self];
-    [[LEEmoji sharedInstance] leInitEmojiWithDeleteIcon:[UIImage imageNamed:LEEmojiDeleteIcon] KeyboardIcon:[UIImage imageNamed:LEEmojiSwitchToKeyboard] EmojiIcon:[UIImage imageNamed:LEEmojiSwitchToEmoji]];
-    [[LEEmoji sharedInstance] leSetCategoryIcons:LEEmojiIcons Emojis:LEEmojiData];
-    [[LEEmoji sharedInstance].leGetSwitchBar.leAddTo(self.leSubViewContainer).leAnchor(LEOutsideBottomCenter).leRelativeTo(scrollView) leUpdateLayout];
+    [[LEEmoji sharedInstance].leGetSwitchBar.leAddTo(self.leSubViewContainer).leAnchor(LEOutsideBottomCenter).leRelativeTo(scrollView) leUpdateLayout]; 
 }
 -(void) leNavigationRightButtonTapped{
     [textView resignFirstResponder];
@@ -35,8 +34,10 @@
     LELogFunc
     [textView deleteBackward];
 }
--(void) leOnKeyboardHeightChanged:(CGFloat) height{
-    scrollView.leSize(CGSizeMake(LESCREEN_WIDTH, self.leSubContainerH-height-LEBottomTabbarHeight));
+-(void) leOnKeyboardHeightChanged:(CGFloat) height Duration:(NSTimeInterval)duration{
+    [UIView animateWithDuration:duration animations:^{
+        scrollView.leSize(CGSizeMake(LESCREEN_WIDTH, self.leSubContainerH-height-LEBottomTabbarHeight));
+    }];
 }
 -(void) leOnSwitchedToEmoji:(BOOL)emoji{
     if(emoji){
@@ -47,4 +48,18 @@
     [textView reloadInputViews];
 }
 @end
-@implementation TestEmoji @end
+@implementation TestEmoji
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
+    return YES;
+}
+- (BOOL)shouldAutorotate{
+    return YES;
+}
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskAll;
+}
+-(void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    [self leDidRotateFrom:fromInterfaceOrientation];
+    [[LEEmoji sharedInstance] leDidRotateFrom:fromInterfaceOrientation];
+}
+@end

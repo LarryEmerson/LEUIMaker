@@ -7,6 +7,7 @@
 //
 
 #import "TestBottomTabbar.h"
+#import "LEHUD.h"
 
 @interface TabbarPage : LEBottomTabbarPage
 @end
@@ -75,10 +76,24 @@
 }
 -(void) leTabbarDidTappedWith:(int) index{
     LELogInt(index)
+    [LEHUD leShowHud:[NSString stringWithFormat:@"leTabbarDidTappedWith:%d",index]];
 }
 -(BOOL) leWillShowPageWithIndex:(int) index{
     return YES;
 }
 @end
 
-@implementation TestBottomTabbar @end
+@implementation TestBottomTabbar
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
+    return YES;
+}
+- (BOOL)shouldAutorotate{
+    return YES;
+}
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskAll;
+}
+-(void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    [self leDidRotateFrom:fromInterfaceOrientation];
+}
+@end

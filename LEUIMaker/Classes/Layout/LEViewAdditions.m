@@ -21,7 +21,7 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     /** ScrollView自动根据子View计算ContentSize */
     LEAutoResizeContentView=4,
     /** 自动根据子View计算高度 */
-    LEAutoCalcHeight=5
+    LEAutoCalcHeight=5,
     
 };
 #pragma mark LEViewAdditions
@@ -117,9 +117,18 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     float l=self.leftMargin;
     float b=self.bottomMargin;
     float r=self.rightMargin;
-    float w=self.width;
-    float h=self.height;
+    float w=0;
+    float h=0;
     float sw=0,sh=0,rw=0,rh=0;
+    if([self.ownerView isKindOfClass:[UIButton class]]){
+        w=self.fixedButtonSize.width;
+        h=self.fixedButtonSize.height;
+        if(w==0)w=self.width;
+        if(h==0)h=self.height;
+    }else{
+        w=self.width;
+        h=self.height;
+    }
     if(self.superView){
         sw=self.superView.bounds.size.width;
         sh=self.superView.bounds.size.height;
@@ -548,7 +557,7 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     };
 }
 -(void) lePushToStack:(__kindof UIView *) view,...{
-    NSAssert(self.leViewAdditions.viewType==LEVerticalStack||self.leViewAdditions.viewType==LEHorizontalStack, @"请先设定当前View的类型为栈类型（leVerticalStack，leHorizontalStack），再入栈子View");
+    NSAssert(self.leViewAdditions.viewType==LEVerticalStack||self.leViewAdditions.viewType==LEHorizontalStack||self.leViewAdditions.viewType==LEAutoResizeContentView, @"请先设定当前View的类型为栈类型（leVerticalStack，leHorizontalStack，LEHorizontalStackAutoResizeContentView），再入栈子View");
     NSMutableArray *muta=[NSMutableArray new];
     if(view){
         [muta addObject:view];
@@ -1159,7 +1168,7 @@ typedef NS_ENUM(NSInteger, LEViewType) {
             stack.leViewAdditions.height=sumH;
             [stack leAutoLayout];
             
-        }else if(type==LEAutoResizeContentView&&[stack isKindOfClass:[UIScrollView class]]){
+        }else if((type==LEAutoResizeContentView)&&[stack isKindOfClass:[UIScrollView class]]){
             [(UIScrollView *)stack setContentSize:CGSizeMake(MAX(stack.bounds.size.width, sumW), MAX(stack.bounds.size.height, sumH))];
         }else if(type==LEAutoCalcHeight){
 //            NSLog(@"sumh=%f  %@",sumH,self.class);
@@ -1317,7 +1326,7 @@ LESingleton_implementation(LETouchEventLock)
     if(!touchEventLock){
         touchEventLock=YES;
         [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(unLockTouchEvent) userInfo:nil repeats:NO];
-    }else NSLog(@"Touch event was ignored for too many in one second");
+    }else NSLog(@"Touch event was ignored for too many in 0.6s");
     return lock;
 }
 -(void) unLockTouchEvent{
@@ -1349,5 +1358,7 @@ LESingleton_implementation(LETouchEventLock)
 }
 @end
 
-
+@implementation UIView (LERotate)
+-(void)leDidRotateFrom:(UIInterfaceOrientation)from{}
+@end
 

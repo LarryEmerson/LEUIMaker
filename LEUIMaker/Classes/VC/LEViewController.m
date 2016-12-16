@@ -31,14 +31,13 @@
     self.leViewController=vc;
     self=[super initWithFrame:vc.view.bounds];
     [self setBackgroundColor:LEColorWhite];
-    [vc.view addSubview:self];
     self.leContainerW=self.bounds.size.width;
-    self.leContainerH=self.bounds.size.height-(self.leViewController.extendedLayoutIncludesOpaqueBars?0:(LEStatusBarHeight+LENavigationBarHeight));
+    self.leContainerH=self.bounds.size.height-(self.leViewController.extendedLayoutIncludesOpaqueBars?0:(LESCREEN_HEIGHT>LESCREEN_WIDTH?LEStatusBarHeight+LENavigationBarHeight:LENavigationBarHeight));
     self.leSubContainerH=self.leContainerH;
     self.leViewContainer=[UIView new].leAddTo(self).leMargins(UIEdgeInsetsZero).leBgColor([LEUICommon sharedInstance].leViewBGColor);
     //
     if(self.leContainerH==LESCREEN_HEIGHT){
-        self.leSubViewContainer=[UIView new].leAddTo(self.leViewContainer) .leTop(LEStatusBarHeight+LENavigationBarHeight);
+        self.leSubViewContainer=[UIView new].leAddTo(self.leViewContainer) .leTop(LESCREEN_HEIGHT>LESCREEN_WIDTH?LEStatusBarHeight+LENavigationBarHeight:LENavigationBarHeight);
         self.leSubContainerH=self.leSubViewContainer.bounds.size.height;
     }
     self.recognizerRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipGesture:)];
@@ -58,7 +57,21 @@
 }
 -(void) leSwipGestureLogic{
     [self.leViewController.navigationController popViewControllerAnimated:YES];
-} 
+}
+- (void)leDidRotateFrom:(UIInterfaceOrientation)from{
+    [self setFrame:LESCREEN_BOUNDS];
+    [self.leViewContainer leUpdateLayout];
+    [self.leSubViewContainer.leTop(LESCREEN_HEIGHT>LESCREEN_WIDTH?LEStatusBarHeight+LENavigationBarHeight:LENavigationBarHeight) leUpdateLayout];
+    self.leContainerW=self.bounds.size.width;
+    self.leContainerH=self.bounds.size.height-(self.leViewController.extendedLayoutIncludesOpaqueBars?0:(LESCREEN_HEIGHT>LESCREEN_WIDTH?LEStatusBarHeight+LENavigationBarHeight:LENavigationBarHeight));
+    self.leSubContainerH=self.leSubViewContainer.bounds.size.height;
+    for (UIView *view in self.leViewContainer.subviews) {
+        [view leDidRotateFrom:from];
+    }
+    for (UIView *view in self.leSubViewContainer.subviews) {
+        [view leDidRotateFrom:from];
+    }
+}
 @end
 @interface LEViewController ()
 @property (nonatomic, readwrite) id<LEViewControllerPopDelegate> lePopDelegate;
@@ -80,8 +93,16 @@
     class=[class stringByAppendingString:@"Page"];
     NSObject *obj=[NSClassFromString(class) alloc];
     if(obj&&([obj isKindOfClass:[LEView class]]||[obj isMemberOfClass:[LEView class]])){
-        [[(LEView *) obj initWithViewController:self] setUserInteractionEnabled:YES];
+        self.view=[(LEView *) obj initWithViewController:self];
     }
+}
+-(void) leDidRotateFrom:(UIInterfaceOrientation)from{
+    [UIView animateWithDuration:0.25 animations:^(void){
+        [self.view leDidRotateFrom:from];
+        for (UIView *view in self.view.subviews) {
+            [view leDidRotateFrom:from];
+        }
+    }];
 }
 @end
 
@@ -90,10 +111,14 @@
     UIImageView *background;
     UIView *bottomSplit;
 }
+-(void) leDidRotateFrom:(UIInterfaceOrientation)from{
+    [self.leTop(LESCREEN_HEIGHT>LESCREEN_WIDTH?LEStatusBarHeight:0) onCheckTitleView] ;
+
+}
 -(__kindof LENavigation *(^)(LEView *)) leSuperView{
     return ^id(LEView *value){
         self.leAddTo(value).leAnchor(LEInsideTopCenter).leEqualSuperViewWidth(1).leHeight(LENavigationBarHeight);
-        background=[UIImageView new].leAddTo(self).leAnchor(LEInsideBottomCenter).leWidth(LESCREEN_WIDTH).leHeight(LENavigationBarHeight).leBgColor([LEUICommon sharedInstance].leNaviBGColor);
+        background=[UIImageView new].leAddTo(self).leAnchor(LEInsideBottomCenter).leEqualSuperViewWidth(1).leHeight(LENavigationBarHeight).leBgColor([LEUICommon sharedInstance].leNaviBGColor);
         leBackButton=[UIButton new].leAddTo(self).leAnchor(LEInsideLeftCenter).leFont([LEUICommon sharedInstance].leNaviBtnFont).leBtnColorN(LEColorBlack).leBtnColorH(LEColorHighlighted).leTouchEvent(@selector(onLeft),self);
         [leBackButton setClipsToBounds:YES];
         leRightButton=[UIButton new].leAddTo(self).leAnchor(LEInsideRightCenter).leFont([LEUICommon sharedInstance].leNaviBtnFont).leBtnColorN(LEColorBlack).leBtnColorH(LEColorHighlighted).leTouchEvent(@selector(onRight),self);
@@ -101,7 +126,7 @@
         //
         self.leTitleViewContainer=[UIView new].leAddTo(self).leRelativeTo(leBackButton).leAnchor(LEOutsideRightCenter).leWidth(LESCREEN_WIDTH-LENavigationBarHeight*2).leHeight(LENavigationBarHeight);
         leNavigationTitle=[UILabel new].leAddTo(self).leAnchor(LEInsideCenter).leFont([LEUICommon sharedInstance].leNaviTitleFont).leLine(1).leColor(LEColorBlack).leAlignment(NSTextAlignmentCenter);
-        self.leOffset(LEStatusBarHeight).leLeftItemImg([LEUICommon sharedInstance].leNaviBackImage);
+        self.leOffset(LESCREEN_HEIGHT>LESCREEN_WIDTH?LEStatusBarHeight:0).leLeftItemImg([LEUICommon sharedInstance].leNaviBackImage);
         return self;
     };
 
@@ -191,7 +216,7 @@
     self=[super init];
     self.leAddTo(superview).leAnchor(LEInsideTopCenter).leTop(offset).leEqualSuperViewWidth(1).leHeight(LENavigationBarHeight);
     curDelegate=delegate;
-    background=[UIImageView new].leAddTo(self).leAnchor(LEInsideBottomCenter).leWidth(LESCREEN_WIDTH).leHeight(LENavigationBarHeight+offset).leBgColor([LEUICommon sharedInstance].leNaviBGColor);
+    background=[UIImageView new].leAddTo(self).leAnchor(LEInsideBottomCenter).leEqualSuperViewWidth(1).leHeight(LENavigationBarHeight+offset).leBgColor([LEUICommon sharedInstance].leNaviBGColor);
     [background setImage:bg];
     //
     leBackButton=[UIButton new].leAddTo(self).leAnchor(LEInsideLeftCenter).leFont([LEUICommon sharedInstance].leNaviBtnFont).leBtnColorN(LEColorBlack).leBtnColorH(LEColorHighlighted).leTouchEvent(@selector(onLeft),self);
@@ -213,7 +238,7 @@
     [UIView animateWithDuration:0.2 animations:^{
         leNavigationTitle=leNavigationTitle.leText(title);
         float width=LESCREEN_WIDTH-leBackButton.bounds.size.width-leRightButton.bounds.size.width;
-        self.leTitleViewContainer=self.leTitleViewContainer.leWidth(width).leHeight(LENavigationBarHeight);
+        self.leTitleViewContainer.leWidth(width).leHeight(LENavigationBarHeight);
         if(curDelegate&&[curDelegate respondsToSelector:@selector(leNavigationNotifyTitleViewContainerWidth:)]){
             [curDelegate leNavigationNotifyTitleViewContainerWidth:width];
         }
@@ -229,7 +254,7 @@
 }
 -(void) leEnableBottomSplit:(BOOL) enable Color:(UIColor *) color{
     if(enable&&bottomSplit==nil){
-        bottomSplit=[UIView new].leAddTo(self).leAnchor(LEInsideBottomCenter).leBgColor(color).leWidth(LESCREEN_WIDTH).leHeight(1.0/LESCREEN_SCALE);
+        bottomSplit=[UIView new].leAddTo(self).leAnchor(LEInsideBottomCenter).leBgColor(color).leEqualSuperViewWidth(1).leHeight(1.0/LESCREEN_SCALE);
     }
     [bottomSplit setHidden:!enable];
 }
@@ -268,7 +293,7 @@
 }
 
 -(void) leSetNavigationOffset:(int) offset{
-    background.leWidth(LESCREEN_WIDTH).leHeight(offset+LENavigationBarHeight);
+    background.leEqualSuperViewWidth(1).leHeight(offset+LENavigationBarHeight);
     self.leBottom(offset); 
 }
 -(void) onLeft{

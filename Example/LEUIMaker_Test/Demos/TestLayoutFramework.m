@@ -248,4 +248,17 @@
     }];
 }
 @end
-@implementation TestLayoutFramework @end
+@implementation TestLayoutFramework
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
+    return YES;
+}
+- (BOOL)shouldAutorotate{
+    return YES;
+}
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskAll;
+}
+-(void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    [self leDidRotateFrom:fromInterfaceOrientation];
+}
+@end

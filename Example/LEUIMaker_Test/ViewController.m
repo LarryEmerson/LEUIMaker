@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import <LEUIMaker/LEUIMaker.h>
+#import "LEHUD.h"
 
 @interface TestCellOptimized : LETableViewCellOptimized
 @end
@@ -43,8 +44,9 @@
     self.leBottomView(subLabel);
 }
 -(void) leSetData:(id)data  {
-    label.leText([NSString stringWithFormat:@"%zd-%@",self.leIndexPath.row+1,[data objectForKey:@"classname"]?:@""]);
-    subLabel.leText([data objectForKey:@"text"]);
+    [self.leArrow leUpdateLayout];
+    label.leMaxWidth(self.leArrow.frame.origin.x-LESideSpace).leText([NSString stringWithFormat:@"%zd-%@",self.leIndexPath.row+1,[data objectForKey:@"classname"]?:@""]);
+    subLabel.leMaxWidth(self.leArrow.frame.origin.x-LESideSpace).leText([data objectForKey:@"text"]);
 } 
 @end
 
@@ -79,14 +81,15 @@
  
 /** 初始化内容位置 */
 - (void)leExtraInits {
+    
     navigationTitles=@[@"点我",@"点我-测试",@"点我-测试导航栏",@"点我-测试导航栏标题文字",@"点我-测试导航栏标题文字的宽度",@"点我-测试导航栏标题文字的宽度变动"];
     demoClassnames=@[
-                     @{@"classname":@"TestLayoutFramework", @"text":@"测试布局的使用，包括：参照布局示意图、可自动根据label进行拉伸的容器、view的移动和缩放操作、栈的使用、ScrollView的contentsize的自动计算"},
                      @{@"classname":@"TestCollectionView", @"text":@"测试Collection封装模块的使用"},
                      @{@"classname":@"TestBottomTabbar", @"text":@"测试BottomTabbar封装模块的使用"},
                      @{@"classname":@"TestSegment", @"text":@"测试Segment封装模块的使用"},
                      @{@"classname":@"TestMultiSectionTableView", @"text":@"测试多个分组的列表的使用"},
                      @{@"classname":@"TestEmoji", @"text":@"新项目需求，添加表情输入模块"},
+                     @{@"classname":@"TestLayoutFramework", @"text":@"测试布局的使用，包括：参照布局示意图、可自动根据label进行拉伸的容器、view的移动和缩放操作、栈的使用、ScrollView的contentsize的自动计算"},
                      @{@"classname":@"TestPopup", @"text":@"测试Popup"},
                      ];
     navigationView=[LENavigation new].leSuperView(self).leDelegate(self).leRightItemText(@"右按钮");
@@ -94,6 +97,7 @@
     [self onTestNavigation];
     curList=[LETableViewWithRefresh new].leSuperView(self.leSubViewContainer).leDelegate(self).leDataSource(self).leCellClassname(@"TestCell").leEmptyCellClassname(@"TestEmptyCell").leTouchEnabled(YES);
     [curList leOnRefreshedWithData:[@[] mutableCopy]];
+    [curList setFd_debugLogEnabled:YES];
     [self leOnRefreshData];
 }
 -(void) onTestNavigation{
@@ -137,11 +141,25 @@
             if(classname){
                 [self.leViewController lePush:[[classname leGetInstanceFromClassName] init]];
             }
+        }else{
+            [LEHUD leShowHud:[NSString stringWithFormat:@"%zd-测试加载更多",index.row+1]];
         }
     }
-}
-
+} 
 @end
 
-@implementation ViewController @end
+@implementation ViewController
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
+    return YES;
+}
+- (BOOL)shouldAutorotate{
+    return YES;
+}
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskAll;
+}
+-(void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    [self leDidRotateFrom:fromInterfaceOrientation];
+}
+@end
 

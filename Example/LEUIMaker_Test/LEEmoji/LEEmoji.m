@@ -8,8 +8,8 @@
 
 #import "LEEmoji.h"
 
-#define LEEmojiSize 30
-#define LEEmojiMargin 10
+#define LEEmojiSize 38
+#define LEEmojiMargin 8
 @interface LEEmoji ()<UIScrollViewDelegate,LEEmojiDelegate>
 @property (nonatomic) UIImage *deleteIcon;
 @end
@@ -45,6 +45,9 @@
         }
     }
 }
+-(void) onSetEmojiSize:(float) size{
+    self.emoji=self.emoji.leFont(LEFont(size));
+}
 -(UIImageView *) emojiImg{
     if(!_emojiImg){
         _emojiImg=[UIImageView new].leAddTo(self).leAnchor(LEInsideCenter);
@@ -57,13 +60,45 @@
 @implementation LEEmojiPageItem{
     NSMutableArray *btns;
     __weak id<LEEmojiDelegate> curDelegate;
+    float curMargin;
+    LEEmojiItem *curDeleteItem;
+}
+-(void) onSetCol:(NSInteger) col Row:(NSInteger) row Margin:(float) margin Size:(float) size Delegate:(id<LEEmojiDelegate>) delegate{
+    curMargin=margin;
+    curDelegate=delegate;
+    NSInteger i=col*row-1;
+    if(!curDeleteItem){
+        curDeleteItem=[LEEmojiItem new].leAddTo(self).leAnchor(LEInsideTopLeft).leSize(LESquareSize(size)).leLeft(margin+(margin+size)*(i%col)).leTop(margin+(margin+size)*(i/col));
+        [curDeleteItem onSetEmojiSize:MIN(self.bounds.size.width,self.bounds.size.height)*0.2];
+        [curDeleteItem setDelegate:curDelegate];
+        curDeleteItem.emojiImg.leImage([LEEmoji sharedInstance].deleteIcon);
+    }else{
+        curDeleteItem.leLeft(margin+(margin+size)*(i%col)).leTop(margin+(margin+size)*(i/col));
+    }
+    if(!btns){
+        btns=[NSMutableArray new];
+    }
+    for (NSInteger i=0; i<col*row-1; i++) {
+        LEEmojiItem *btn=nil;
+        if(i<btns.count){
+            btn=[btns objectAtIndex:i];
+            btn.leLeft(margin+(margin+size)*(i%col)).leTop(margin+(margin+size)*(i/col));
+        }else{
+            btn=[LEEmojiItem new].leAddTo(self).leAnchor(LEInsideTopLeft).leSize(LESquareSize(size)).leLeft(margin+(margin+size)*(i%col)).leTop(margin+(margin+size)*(i/col));
+            [btn onSetEmojiSize:MIN(self.bounds.size.width,self.bounds.size.height)*0.2];
+            [btn setDelegate:curDelegate];
+            [btns addObject:btn];
+        }
+    }
 }
 -(id) initWithFrame:(CGRect)frame Col:(NSInteger) col Row:(NSInteger) row Margin:(float) margin Size:(float) size Delegate:(id<LEEmojiDelegate>) delegate{
     self=[super initWithFrame:frame];
+    curMargin=margin;
     curDelegate=delegate;
     btns=[NSMutableArray new];
     for (NSInteger i=0; i<col*row; i++) {
         LEEmojiItem *btn=[LEEmojiItem new].leAddTo(self).leAnchor(LEInsideTopLeft).leSize(LESquareSize(size)).leLeft(margin+(margin+size)*(i%col)).leTop(margin+(margin+size)*(i/col));
+        [btn onSetEmojiSize:MIN(self.bounds.size.width,self.bounds.size.height)*0.2];
         [btn setDelegate:curDelegate];
         [btns addObject:btn];
         if(i+1==col*row){
@@ -142,6 +177,9 @@ LESingleton_implementation(LEEmoji)
 }
 -(void) leSetDelegate:(id<LEEmojiDelegate>)delegate{
     curDelegate=delegate;
+    curCategory=1;
+    isSwitchedToEmoji=NO;
+    btnSwitch.leBtnImg_N(isSwitchedToEmoji?switchKeyboard:switchEmoji);
 }
 -(void) leSetDeleteIcon:(UIImage *) icon{
     self.deleteIcon=icon;
@@ -157,6 +195,30 @@ LESingleton_implementation(LEEmoji)
 -(UIView *) leGetSwitchBar{
     return switchBar;
 }
+-(void) leDidRotateFrom:(UIInterfaceOrientation)from{
+    emojiColumn=LESCREEN_WIDTH/(LEEmojiSize+LEEmojiMargin);
+    emojiMargin=(LESCREEN_WIDTH-emojiColumn*LEEmojiSize)*1.0/(emojiColumn+1);
+    float emojiH=LEEmojiSize*3+emojiMargin*3;
+    emojiCountPerPage=emojiColumn*3-1;
+    [emojiPage setFrame:CGRectMake(0, 0, LESCREEN_WIDTH, emojiH+LEEmojiSize+LEBottomTabbarHeight)];
+    for (UIView *view in emojiPage.subviews) {
+        [view leUpdateLayout];
+    }
+    emojiScrollPage.leHeight(emojiH);
+    float maxW=0;
+    for (NSInteger i=0; i<bottomBarItems.count; i++) {
+        UIButton *btn=[bottomBarItems objectAtIndex:i];
+        maxW+=btn.bounds.size.width;
+    }
+    if(maxW<LESCREEN_WIDTH){
+        maxW=LESCREEN_WIDTH*1.0/bottomBarItems.count;
+        for (NSInteger i=0; i<bottomBarItems.count; i++) {
+            UIButton *btn=[bottomBarItems objectAtIndex:i];
+            btn.leWidth(maxW);
+        }
+    } 
+    [self onCategorySelected];
+}
 -(void) leInitEmojiWithDeleteIcon:(UIImage *) del KeyboardIcon:(UIImage *) keyboard EmojiIcon:(UIImage *) emoji{
     
     self.deleteIcon=del;
@@ -165,34 +227,29 @@ LESingleton_implementation(LEEmoji)
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     //Switch
-    switchBar=[UIView new].leWidth(LESCREEN_WIDTH).leHeight(LEBottomTabbarHeight).leBgColor(LEColorWhite).leAddTopSplitline(LEColorSplitline,0,LESCREEN_WIDTH);
+    switchBar=[UIView new].leEqualSuperViewWidth(1).leHeight(LEBottomTabbarHeight).leBgColor(LEColorWhite);
+    [UIView new].leAddTo(switchBar).leAnchor(LEI_BC).leEqualSuperViewWidth(1).leHeight(LESplitlineH).leBgColor(LEColorSplitline); 
     btnSwitch=[UIButton new].leAddTo(switchBar).leAnchor(LEInsideLeftCenter).leBtnFixedSize(LESquareSize(LEBottomTabbarHeight)).leTouchEvent(@selector(onSwitch),self).leBtnImg_N(switchEmoji);
     //Emoji
-    float pcH=LEEmojiSize;
     emojiColumn=LESCREEN_WIDTH/(LEEmojiSize+LEEmojiMargin);
     emojiMargin=(LESCREEN_WIDTH-emojiColumn*LEEmojiSize)*1.0/(emojiColumn+1);
     float emojiH=LEEmojiSize*3+emojiMargin*3;
     emojiCountPerPage=emojiColumn*3-1;
     //
-    emojiPage=[[UIView alloc] initWithFrame:CGRectMake(0, 0, LESCREEN_WIDTH, emojiH+pcH+LEBottomTabbarHeight)];
+    emojiPage=[[UIView alloc] initWithFrame:CGRectMake(0, 0, LESCREEN_WIDTH, emojiH+LEEmojiSize+LEBottomTabbarHeight)];
     emojiPage.backgroundColor=LEEmojiBGColor;
     //
-    emojiScrollPage=[[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, LESCREEN_WIDTH, emojiH)];
-    [emojiPage addSubview:emojiScrollPage];
+    emojiScrollPage=[UIScrollView new].leAddTo(emojiPage).leAnchor(LEI_TC).leEqualSuperViewWidth(1).leHeight(emojiH);
     emojiScrollPage.pagingEnabled=YES;
     emojiScrollPage.delegate=self;
     emojiScrollPage.showsHorizontalScrollIndicator=NO;
     //
-    UIView *pageControlContainer=[[UIView alloc] initWithFrame:CGRectMake(0, emojiH, LESCREEN_WIDTH, pcH)];
-    [emojiPage addSubview:pageControlContainer];
-    pageControl=[[UIPageControl alloc] initWithFrame:pageControlContainer.bounds];
+    UIView *pageControlContainer=[UIView new].leAddTo(emojiPage).leAnchor(LEI_BC).leEqualSuperViewWidth(1).leBottom(LEBottomTabbarHeight).leHeight(LEEmojiSize);
+    pageControl=[UIPageControl new].leAddTo(pageControlContainer).leMargins(UIEdgeInsetsZero);
     pageControl.currentPageIndicatorTintColor=LEColorMask5;
     pageControl.pageIndicatorTintColor=LEColorMask2;
-    [pageControlContainer addSubview:pageControl];
     //
-    bottomBar=[[UIScrollView alloc] initWithFrame:CGRectMake(0, emojiH+pcH, LESCREEN_WIDTH, LEBottomTabbarHeight)];
-    [emojiPage addSubview:bottomBar];
-    bottomBar.backgroundColor=LEColorWhite;
+    bottomBar=[UIScrollView new].leAddTo(emojiPage).leAnchor(LEI_BC).leEqualSuperViewWidth(1).leHeight(LEBottomTabbarHeight).leBgColor(LEColorWhite);
     //
     bottomBarItems=[NSMutableArray new];
     curEmojiPagesCache=[NSMutableArray new]; 
@@ -210,7 +267,6 @@ LESingleton_implementation(LEEmoji)
         }else{
             btn=[UIButton new].leAnchor(LEOutsideRightCenter).leRelativeTo(last);
         }
-//        LELogObject([icons objectAtIndex:i])
         last=btn.leAddTo(bottomBar).leBtnImg_N([UIImage imageNamed:[icons objectAtIndex:i]]).leBtnFixedSize(CGSizeMake(0, LEBottomTabbarHeight)).leTouchEvent(@selector(onCategory:),self);
         [bottomBarItems addObject:last];
         if(i==1){
@@ -244,7 +300,6 @@ LESingleton_implementation(LEEmoji)
                 return NSOrderedDescending;
             }
         }];
-//        LELogObject(array)
     }else{
         array=[curEmojis objectAtIndex:curCategory-1];
     }
@@ -253,6 +308,7 @@ LESingleton_implementation(LEEmoji)
     pageControl.numberOfPages=page;
     emojiScrollPage.contentOffset=CGPointZero;
     pageControl.currentPage=0;
+    LEEmojiPageItem *last=nil;
     for (NSInteger i=0; i<MAX(page, curEmojiPagesCache.count); i++) {
         if(i<page){
             LEEmojiPageItem *item=nil;
@@ -260,11 +316,16 @@ LESingleton_implementation(LEEmoji)
                 item=[curEmojiPagesCache objectAtIndex:i];
                 [item setHidden:NO];
             }else{
-                item=[[LEEmojiPageItem alloc] initWithFrame:CGRectMake(i*LESCREEN_WIDTH, 0, LESCREEN_WIDTH, emojiScrollPage.bounds.size.height) Col:emojiColumn Row:3 Margin:emojiMargin Size:LEEmojiSize Delegate:self];
+                if(last){
+                    item=[LEEmojiPageItem new].leAddTo(emojiScrollPage).leRelativeTo(last).leAnchor(LEO_RC).leEqualSuperViewWidth(1).leEqualSuperViewHeight(1);
+                }else{
+                    item=[LEEmojiPageItem new].leAddTo(emojiScrollPage).leAnchor(LEI_LC).leEqualSuperViewHeight(1).leEqualSuperViewWidth(1);
+                }
                 [curEmojiPagesCache addObject:item];
-                [emojiScrollPage addSubview:item];
             }
-            for (NSInteger j=emojiCountPerPage*i; j<MIN(j+emojiCountPerPage, array.count); j++) {
+            [item onSetCol:emojiColumn Row:3 Margin:emojiMargin Size:LEEmojiSize Delegate:self];
+            last=item;
+            for (NSInteger j=emojiCountPerPage*i; j<MIN(i*emojiCountPerPage+emojiCountPerPage, array.count); j++) {
                 [tmp addObject:[array objectAtIndex:j]];
             }
             [item setEmojis:tmp];
@@ -276,7 +337,6 @@ LESingleton_implementation(LEEmoji)
     [emojiScrollPage setContentSize:CGSizeMake(page*LESCREEN_WIDTH, emojiScrollPage.bounds.size.height)];
 }
 -(void) onSwitch{
-//    LELogInt(isSwitchedToEmoji)
     isSwitchedToEmoji=!isSwitchedToEmoji;
     btnSwitch.leImage(isSwitchedToEmoji?switchKeyboard:switchEmoji);
     if(curDelegate&&[curDelegate respondsToSelector:@selector(leOnSwitchedToEmoji:)]){
@@ -295,8 +355,8 @@ LESingleton_implementation(LEEmoji)
     NSTimeInterval animationDuration;
     [animationDurationValue getValue:&animationDuration];
     [UIView animateWithDuration:animationDuration animations:^{
-        if(curDelegate&&[curDelegate respondsToSelector:@selector(leOnKeyboardHeightChanged:)]){
-            [curDelegate leOnKeyboardHeightChanged:keyboardRect.size.height];
+        if(curDelegate&&[curDelegate respondsToSelector:@selector(leOnKeyboardHeightChanged:Duration:)]){
+            [curDelegate leOnKeyboardHeightChanged:keyboardRect.size.height Duration:animationDuration];
         }
     } completion:^(BOOL finished){}];
 }
@@ -305,8 +365,8 @@ LESingleton_implementation(LEEmoji)
     NSTimeInterval animationDuration;
     [animationDurationValue getValue:&animationDuration];
     [UIView animateWithDuration:animationDuration animations:^{
-        if(curDelegate&&[curDelegate respondsToSelector:@selector(leOnKeyboardHeightChanged:)]){
-            [curDelegate leOnKeyboardHeightChanged:0];
+        if(curDelegate&&[curDelegate respondsToSelector:@selector(leOnKeyboardHeightChanged:Duration:)]){
+            [curDelegate leOnKeyboardHeightChanged:0 Duration:animationDuration];
         }
     } completion:^(BOOL finished){}];
 }

@@ -4,6 +4,7 @@
 
 #import "LEBottomTabbar.h"
 #import "LEUIFoundation.h"
+#import "LEHUD.h"
 #import "LEViewAdditions.h"
 #import "LEUICommon.h"
 #import "LEUIMaker.h"

@@ -9,13 +9,13 @@
 #import "LESegment.h"
 
 @implementation LESegment{
-    int pageWidth;
     UIScrollView *curSegmentContainer;
     UIView *curIndicator;
     UIScrollView *curPageContainer;
     NSMutableArray *curTitlesCache;
     NSMutableArray *curTitlesWidth;
     NSMutableArray *curTitlesWidthSum;
+    NSMutableArray *curPages;
     NSInteger curSelectedIndex;
     float segmentSpeed;
     
@@ -28,14 +28,15 @@
     UIColor *highlightedColor;
     float margin;
     UIImage *indicator;
+    NSArray *lastTitles;
 }
 -(NSArray *) getTitleCache{
     return curTitlesCache;
 }
 -(__kindof LESegment *(^)(UIView *superView, NSArray *titles, NSArray *pages)) leInit{
     return ^id(UIView *superView, NSArray *titles, NSArray *pages){
-        self.leAddTo(superView).leMargins(UIEdgeInsetsZero).leBgColor(LEColorWhite);
-        pageWidth=self.bounds.size.width;
+        self.leAddTo(superView).leMargins(UIEdgeInsetsZero).leBgColor(LEColorWhite) ;
+        lastTitles=titles;
         if(!curSegmentContainer){
             normalColor=LEColorBlack;
             highlightedColor=LEColorBlue;
@@ -53,6 +54,7 @@
             curTitlesCache=[NSMutableArray new];
             curTitlesWidth=[NSMutableArray new];
             curTitlesWidthSum=[NSMutableArray new];
+            curPages=[NSMutableArray new];
             self.leBarHeight(LENavigationBarHeight);
             [self leOnSetTitles:titles];
             [self leOnSetPages:pages];
@@ -174,7 +176,7 @@
                 [curTitlesWidthSum addObject:[NSNumber numberWithFloat:btn.bounds.size.width/2]];
             }
             last=btn;
-            [curTitlesCache addObject:btn];
+            [curTitlesCache addObject:btn]; 
         }
         maxWidth=MAX(maxWidth, btn.bounds.size.width);
     }
@@ -192,8 +194,8 @@
         }
         float widthSum=last.frame.origin.x+last.frame.size.width;
         float gap=0;
-        if(widthSum<pageWidth&&titles.count>1){
-            gap=(pageWidth-widthSum)/2.0;
+        if(widthSum<LESCREEN_WIDTH&&titles.count>1){
+            gap=(LESCREEN_WIDTH-widthSum)/2.0;
         }
         last=nil;
         UIButton *btn=nil;
@@ -218,15 +220,15 @@
             last=btn;
         }
         [curTitlesWidth addObject:@(gap)];
-        segmentSpeed=(widthSum-pageWidth)*1.0/(pageWidth*(titles.count-1));
+        segmentSpeed=(widthSum-LESCREEN_WIDTH)*1.0/(LESCREEN_WIDTH*(titles.count-1));
         [curSegmentContainer setContentSize:CGSizeMake(widthSum+gap*2.0, curSegmentContainer.bounds.size.height)];
     }else{
         //
         float finalWidth=last.frame.origin.x+last.frame.size.width;
-        if(finalWidth<pageWidth&&titles.count>1){
+        if(finalWidth<LESCREEN_WIDTH&&titles.count>1){
             last=nil;
             UIButton *btn=nil;
-            int size=pageWidth*1.0/titles.count;
+            int size=LESCREEN_WIDTH*1.0/titles.count;
             [curTitlesWidth removeAllObjects];
             [curTitlesWidthSum removeAllObjects];
             for (int i=0; i<curTitlesCache.count; i++) {
@@ -245,18 +247,18 @@
                 }
                 last=btn;
             }
-            finalWidth=pageWidth;
+            finalWidth=LESCREEN_WIDTH;
         }
         [curTitlesWidth addObject:@(0)];
-        segmentSpeed=(finalWidth-pageWidth)*1.0/(pageWidth*(titles.count-1));
+        segmentSpeed=(finalWidth-LESCREEN_WIDTH)*1.0/(LESCREEN_WIDTH*(titles.count-1));
         [curSegmentContainer setContentSize:CGSizeMake(finalWidth, curSegmentContainer.bounds.size.height)];
     }
 }
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    NSInteger index=scrollView.contentOffset.x/pageWidth;
+    NSInteger index=scrollView.contentOffset.x/LESCREEN_WIDTH;
     float widthSum=[[curTitlesWidthSum objectAtIndex:index] floatValue];
     float width=[[curTitlesWidth objectAtIndex:index] floatValue];
-    float indicatorOffset=widthSum+(scrollView.contentOffset.x/pageWidth-index)*width-curIndicator.bounds.size.width/2;
+    float indicatorOffset=widthSum+(scrollView.contentOffset.x/LESCREEN_WIDTH-index)*width-curIndicator.bounds.size.width/2;
     curIndicator.leLeft(indicatorOffset);
     //
     index=MIN(index, curSelectedIndex);
@@ -273,7 +275,7 @@
     float W=[[curTitlesCache objectAtIndex:curSelectedIndex] bounds].size.width;
     float mid=curIndicator.frame.origin.x+curIndicator.frame.size.width/2-curSegmentContainer.contentOffset.x;
     float segStartX=mid-W/2.0;
-    float segEndX=mid+W/2.0-pageWidth;
+    float segEndX=mid+W/2.0-LESCREEN_WIDTH;
     if(segStartX<=0){
         [curSegmentContainer setContentOffset:CGPointMake(curSegmentContainer.contentOffset.x+segStartX, 0)];
     }else if(segEndX>=0){
@@ -281,7 +283,7 @@
     }
 }
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
-    curSelectedIndex = scrollView.contentOffset.x/pageWidth;
+    curSelectedIndex = scrollView.contentOffset.x/LESCREEN_WIDTH;
     if(curDelegate&&[curDelegate respondsToSelector:@selector(leOnSegmentSelectedWithIndex:)]){
         [curDelegate leOnSegmentSelectedWithIndex:curSelectedIndex];
     }
@@ -290,7 +292,7 @@
     float segEndX=segStartX+[[curTitlesCache objectAtIndex:curSelectedIndex] bounds].size.width;
     float segOffset=curSegmentContainer.contentOffset.x;
     float leftSpace=segStartX-segOffset;
-    float rightSpace=(segEndX-segOffset)-pageWidth;
+    float rightSpace=(segEndX-segOffset)-LESCREEN_WIDTH;
     if(leftSpace<0){
         [curSegmentContainer setContentOffset:CGPointMake(curSegmentContainer.contentOffset.x+leftSpace, 0) animated:YES ];
     }else if(rightSpace>0){
@@ -302,7 +304,7 @@
     if(curDelegate&&[curDelegate respondsToSelector:@selector(leOnSegmentSelectedWithIndex:)]){
         [curDelegate leOnSegmentSelectedWithIndex:curSelectedIndex];
     }
-    [curPageContainer setContentOffset:CGPointMake(pageWidth*curSelectedIndex, 0)];
+    [curPageContainer setContentOffset:CGPointMake(LESCREEN_WIDTH*curSelectedIndex, 0)];
     [self onChangeTitleState];
 }
 -(void) onChangeTitleState{
@@ -319,8 +321,99 @@
         id obj=[classname leGetInstanceFromClassName];
         NSAssert([obj isKindOfClass:[UIView class]],@"leOnSetPages传参为view的类名");
         UIView *view=[obj init];
-        view.leAddTo(curPageContainer).leEqualSuperViewWidth(1).leEqualSuperViewHeight(1).leLeft(pageWidth*i);
+        view.leSize(curPageContainer.bounds.size);
+        [curPageContainer lePushToStack:view,nil];
+        [curPages addObject:view];
     }
+}
+
+-(void) leDidRotateFrom:(UIInterfaceOrientation)from{
+    UIButton *last=nil;
+    float maxWidth;
+    int titlesCount=0;
+    for (NSInteger i=0; i<curTitlesCache.count; i++) {
+        if(![[curTitlesCache objectAtIndex:i] isHidden]){
+            maxWidth=MAX(maxWidth, [[curTitlesCache objectAtIndex:i] bounds].size.width);
+            titlesCount++;
+        }
+    }
+    if(equalWidth){
+        curIndicator.leSize(CGSizeMake(maxWidth-margin, curIndicator.bounds.size.height));
+        last=nil;
+        for (int i=0; i<titlesCount; i++) {
+            UIButton *btn=[curTitlesCache objectAtIndex:i];
+            btn.leSize(CGSizeMake(maxWidth, btn.bounds.size.height));
+            last=btn;
+        }
+        float widthSum=last.frame.origin.x+last.frame.size.width;
+        float gap=0;
+        if(widthSum<LESCREEN_WIDTH&&titlesCount>1){
+            gap=(LESCREEN_WIDTH-widthSum)/2.0;
+        }
+        last=nil;
+        UIButton *btn=nil;
+        int size=maxWidth;
+        [curTitlesWidth removeAllObjects];
+        [curTitlesWidthSum removeAllObjects];
+        for (int i=0; i<curTitlesCache.count; i++) {
+            btn=[curTitlesCache objectAtIndex:i];
+            btn.leSize(CGSizeMake(size, height));
+            if(last){
+                float sum=0;
+                if(curTitlesWidthSum.count>0){
+                    sum=[[curTitlesWidthSum objectAtIndex:i-1] floatValue];
+                }
+                [curTitlesWidthSum addObject:[NSNumber numberWithFloat:sum+btn.bounds.size.width/2+last.bounds.size.width/2]];
+                [curTitlesWidth addObject:@(btn.bounds.size.width/2+last.bounds.size.width/2)];
+            }else{
+                btn.leLeft(gap);
+                curIndicator.leLeft(gap+maxWidth/2-curIndicator.bounds.size.width/2);
+                [curTitlesWidthSum addObject:[NSNumber numberWithFloat:gap+btn.bounds.size.width/2]];
+            }
+            last=btn;
+        }
+        [curTitlesWidth addObject:@(gap)];
+        segmentSpeed=(widthSum-LESCREEN_WIDTH)*1.0/(LESCREEN_WIDTH*(titlesCount-1));
+        [curSegmentContainer setContentSize:CGSizeMake(widthSum+gap*2.0, curSegmentContainer.bounds.size.height)];
+    }else{
+        //
+        float finalWidth=last.frame.origin.x+last.frame.size.width;
+        if(finalWidth<LESCREEN_WIDTH&&titlesCount>1){
+            last=nil;
+            UIButton *btn=nil;
+            int size=LESCREEN_WIDTH*1.0/titlesCount;
+            [curTitlesWidth removeAllObjects];
+            [curTitlesWidthSum removeAllObjects];
+            for (int i=0; i<curTitlesCache.count; i++) {
+                btn=[curTitlesCache objectAtIndex:i];
+                btn.leSize(CGSizeMake(size, height));
+                if(last){
+                    float sum=0;
+                    if(curTitlesWidthSum.count>0){
+                        sum=[[curTitlesWidthSum objectAtIndex:i-1] floatValue];
+                    }
+                    [curTitlesWidthSum addObject:[NSNumber numberWithFloat:sum+btn.bounds.size.width/2+last.bounds.size.width/2]];
+                    [curTitlesWidth addObject:@(btn.bounds.size.width/2+last.bounds.size.width/2)];
+                }else{
+                    curIndicator.leLeft(btn.bounds.size.width/2-curIndicator.bounds.size.width/2);
+                    [curTitlesWidthSum addObject:[NSNumber numberWithFloat:btn.bounds.size.width/2]];
+                }
+                last=btn;
+            }
+            finalWidth=LESCREEN_WIDTH;
+        }
+        [curTitlesWidth addObject:@(0)];
+        segmentSpeed=(finalWidth-LESCREEN_WIDTH)*1.0/(LESCREEN_WIDTH*(titlesCount-1));
+        [curSegmentContainer setContentSize:CGSizeMake(finalWidth, curSegmentContainer.bounds.size.height)];
+    }
+
+    //
+    curPageContainer.leSize(CGSizeMake(LESCREEN_WIDTH, self.bounds.size.height-curSegmentContainer.bounds.size.height));
+    for (UIView *view in curPages) {
+        view.leSize(curPageContainer.bounds.size);
+    }
+    [curPageContainer setContentOffset:CGPointMake(curSelectedIndex*LESCREEN_WIDTH, 0)];
+    [self scrollViewDidScroll:curPageContainer];
 }
 @end
 

@@ -152,7 +152,7 @@ typedef NS_ENUM(NSInteger, LEAnchors) {
 -(__kindof UIView *(^)()) leAutoResizeContentView;
 /** 为UITableViewCell量身定做的自动根据所有子view的布局计算高度*/
 -(__kindof UIView *(^)()) leAutoCalcHeight;
-
+ 
 
 /** 入栈，入栈前需要设定为纵向或横向的栈，入栈参数可以单个或多个view，以nil结尾*/
 -(void) lePushToStack:(__kindof UIView *) view,...;
@@ -285,5 +285,8 @@ typedef NS_ENUM(NSInteger, LEAnchors) {
 @interface UIButton (LEVerticalButton) 
 @end
 @interface UIControl (LEDelayTouchEvent)
+@end
+@interface UIView (LERotate)
+-(void)leDidRotateFrom:(UIInterfaceOrientation)from;
 @end
 

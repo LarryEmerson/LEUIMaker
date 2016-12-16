@@ -123,6 +123,14 @@
         return self;
     };
 }
+-(void) leDidRotateFrom:(UIInterfaceOrientation)from{
+    float buttonWidth=LESCREEN_WIDTH*1.0/curItems.count;
+    for (NSInteger i=0; i<curItems.count; i++) {
+        UIButton *item=[curItems objectAtIndex:i];
+        item.leBtnFixedWidth(buttonWidth);
+        [item leUpdateLayout];
+    }
+}
 -(void) onClickForButton:(UIButton *) btn{
     int index=(int)[curItems indexOfObject:btn];
     if(index==lastIndex){

@@ -7,19 +7,20 @@
 //
 
 #import "TestMultiSectionTableView.h"
+#import "LEHUD.h"
 
 @interface MultiSectionTableViewCell : LETableViewCell @end
 @implementation MultiSectionTableViewCell{
     UILabel *label;
 }
 -(void) leExtraInits{
-    [super leExtraInits];
     label=[UILabel new].leAddTo(self).leAnchor(LEInsideCenter).leMaxWidth(LESCREEN_WIDTH-LESideSpace*2).leTop(LESideSpace).leAlignment(NSTextAlignmentCenter).leLine(0).leBottom(LESideSpace).leLineSpace(8);
     self.leBottomView(label);
 }
--(void) leSetData:(id)data{ 
-    label.leText([NSString stringWithFormat:@"类名：%@，当前indexpath为：{ %zd, %zd }",NSStringFromClass(self.class), self.leIndexPath.section,self.leIndexPath.row]);
-}
+-(void) leSetData:(id)data{
+    NSString *str=@"这是附加的内容，每个Cell会不定长的截取该内容追加到末尾展示出来";
+    label.leMaxWidth(LESCREEN_WIDTH-LESideSpace*2).leText([NSString stringWithFormat:@"类名：%@，当前indexpath为：{ %zd, %zd }  %@",NSStringFromClass(self.class), self.leIndexPath.section,self.leIndexPath.row, [str substringToIndex:str.length-1>self.leIndexPath.row*5?self.leIndexPath.row*5:str.length-1]]);
+} 
 @end
 
 @interface CellSection0Row0 : MultiSectionTableViewCell @end
@@ -52,6 +53,9 @@
      nil];
     [self leOnRefreshData];
 }
+-(id) leDataForIndex:(NSIndexPath *) index{
+    return @"";
+}
 -(void) leOnRefreshData{
     [tableView leOnRefreshedWithData:@[@"",@"",@""].mutableCopy];
 }
@@ -60,12 +64,13 @@
 }
 -(void) leOnCellEventWithInfo:(NSDictionary *)info{
     LELogObject(info)
+    [LEHUD leShowHud:[NSString stringWithFormat:@"leOnSegmentSelectedWithIndex:%zd",[[info objectForKey:LEKeyIndex] row]]];
 }
 -(CGFloat) leHeightForSection:(NSInteger)section{
     return LENavigationBarHeight;
 }
 -(UIView *) leViewForHeaderInSection:(NSInteger)section{
-    return [UIView new].leBgColor(LERandomColor).leWidth(LESCREEN_WIDTH).leHeight(LENavigationBarHeight);
+    return [UIView new].leBgColor(LERandomColor).leEqualSuperViewWidth(1).leHeight(LENavigationBarHeight);
 }
 -(NSInteger) leNumberOfSections{
     NSInteger sections=3;
@@ -90,7 +95,20 @@
     return classname;
 }
 @end
-@implementation TestMultiSectionTableView @end
+@implementation TestMultiSectionTableView
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
+    return YES;
+}
+- (BOOL)shouldAutorotate{
+    return YES;
+}
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskAll;
+}
+-(void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    [self leDidRotateFrom:fromInterfaceOrientation];
+}
+@end
 
 
 

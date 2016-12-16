@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
+#import "LEEmoji.h"
 @interface AppDelegate ()
 
 @end
@@ -24,6 +25,8 @@
     [nav setNavigationBarHidden:YES];
     [self.window setRootViewController:nav];
     [self.window makeKeyAndVisible];
+    [[LEEmoji sharedInstance] leInitEmojiWithDeleteIcon:[UIImage imageNamed:LEEmojiDeleteIcon] KeyboardIcon:[UIImage imageNamed:LEEmojiSwitchToKeyboard] EmojiIcon:[UIImage imageNamed:LEEmojiSwitchToEmoji]];
+    [[LEEmoji sharedInstance] leSetCategoryIcons:LEEmojiIcons Emojis:LEEmojiData];
     return YES;
 }
 

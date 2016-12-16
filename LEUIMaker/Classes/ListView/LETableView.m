@@ -20,7 +20,7 @@
     self.leAutoCalcHeight();
     curSideSpace=[UIView new].leAddTo(self).leAnchor(LEInsideLeftCenter).leLeft(LESideSpace).leSize(CGSizeZero);
     curIcon=[UIImageView new].leAddTo(self).leRelativeTo(curSideSpace).leAnchor(LEOutsideRightCenter);
-    curTitle=[UILabel new].leAddTo(self).leRelativeTo(curIcon).leAnchor(LEOutsideRightCenter).leWidth(LESCREEN_WIDTH-LESideSpace*2).leLine(1);
+    curTitle=[UILabel new].leAddTo(self).leRelativeTo(curIcon).leAnchor(LEOutsideRightCenter).leMaxWidth(LESCREEN_WIDTH-LESideSpace*2).leLine(1);
     [self leExtraInits];
     curSplitline=[UIView new].leAddTo(self).leAnchor(LEInsideBottomCenter).leEqualSuperViewWidth(1).leHeight(LESplitlineH).leBgColor(LEColorSplitline);
     return self;
@@ -34,7 +34,7 @@
 -(__kindof LETableViewSection *(^)(UIImage *)) leIcon{
     return ^id(UIImage *value){
         curIcon.leImage(value);
-        curTitle.leWidth(LESCREEN_WIDTH-LESideSpace*2-(value?value.size.width+LESideSpace:0)).leLeft(value?LESideSpace:0);
+        curTitle.leMaxWidth(LESCREEN_WIDTH-LESideSpace*2-(value?value.size.width+LESideSpace:0)).leLeft(value?LESideSpace:0);
         return self;
     };
 }
@@ -87,8 +87,18 @@
     __weak UIView *bottomView;
     BOOL touchDisabled;
 }
+-(void) leDidRotateFrom:(UIInterfaceOrientation)from{
+    CGRect rect =self.frame;
+    rect.size.width=LESCREEN_WIDTH;
+    rect.size.height=[self leGetCellHeightWithBottomView:bottomView];
+    self.frame=rect;
+    for (UIView *view in self.subviews) {
+        [view leUpdateLayout];
+    }
+}
 -(id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self=[super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    self.contentView.leAddTo(self).leMargins(UIEdgeInsetsZero);
     self.leWidth(LESCREEN_WIDTH).leHeight(LECellH).leBgColor(LEColorWhite);
     self.leArrow=[UIView new].leAddTo(self).leAnchor(LEInsideRightCenter).leRight(LESideSpace).leHorizontalStack();
     curArrow=[UIImageView new].leImage([LEUICommon sharedInstance].leListRightArrow);
@@ -97,7 +107,7 @@
     [self leExtraInits];
     curTouch=[UIButton new].leAddTo(self).leMargins(UIEdgeInsetsZero).leTouchEvent(@selector(onTouchEvent),self).leBtnBGImgH([LEColorMask2 leImage]);
     curTouch.hidden=touchDisabled;
-    curSplit=[UIView new].leAddTo(self).leAnchor(LEInsideBottomCenter).leWidth(LESCREEN_WIDTH).leHeight(1/LESCREEN_SCALE).leBgColor(LEColorSplitline); 
+    curSplit=[UIView new].leAddTo(self).leAnchor(LEInsideBottomCenter).leEqualSuperViewWidth(1).leHeight(1/LESCREEN_SCALE).leBgColor(LEColorSplitline);
     return self;
 }
 -(id<LETableViewDelegate>) leGetDelegate{
@@ -176,7 +186,12 @@
     NSMutableDictionary *tempCellsForHeightCalc;
     NSInteger lastCellCounts;
 }
-
+-(void) leDidRotateFrom:(UIInterfaceOrientation)from{
+    for (UITableViewCell *cell in self.visibleCells) {
+        [cell leDidRotateFrom:from];
+    }
+    [self reloadData];
+}
 -(id<LETableViewDelegate>) leGetDelegate{
     return curDelegate;
 }
@@ -423,15 +438,13 @@
     if(indexPath.row==0&&[self checkEmptyCellCondition:indexPath.section]){
         identifier=curEmptyCellClassname;
     }
-    return [tableView fd_heightForCellWithIdentifier:identifier cacheByIndexPath:indexPath configuration:^(LETableViewCell *cell) {
+    return [tableView fd_heightForCellWithIdentifier:identifier configuration:^(LETableViewCell *cell){
+//    return [tableView fd_heightForCellWithIdentifier:identifier cacheByIndexPath:indexPath configuration:^(LETableViewCell *cell) {
         cell.fd_enforceFrameLayout=YES;
         if(![identifier isEqualToString:curEmptyCellClassname]){
             cell.leIndexPath=indexPath;
-            if(self.leItemsArray&&indexPath.row<self.leItemsArray.count){
-                [cell leSetData:[self.leItemsArray objectAtIndex:indexPath.row]];
-            }else{
-                [cell leSetData:nil];
-            }
+            [cell leSetData:[self getDataForIndex:indexPath]];
+//            [cell layoutCellAfterConfig];
         }
     }];
 }

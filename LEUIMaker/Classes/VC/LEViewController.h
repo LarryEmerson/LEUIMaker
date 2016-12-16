@@ -18,7 +18,8 @@
  */
 @interface LEViewController : UIViewController 
 @property (nonatomic, readonly) id<LEViewControllerPopDelegate> lePopDelegate;
--(id) initWithDelegate:(id<LEViewControllerPopDelegate>) delegate; 
+-(id) initWithDelegate:(id<LEViewControllerPopDelegate>) delegate;
+- (void)leDidRotateFrom:(UIInterfaceOrientation)from;
 @end
 @interface LEView : UIView
 @property (nonatomic, readonly) int leContainerW;

@@ -21,7 +21,8 @@
     self.leBottomView(label);
 }
 -(void) leSetData:(id)data  {
-    label.leText([NSString stringWithFormat:@"%zd-%@",self.leIndexPath.row+1,data]);
+    [self.leArrow leUpdateLayout];
+    label.leMaxWidth(self.leArrow.frame.origin.x-LESideSpace ).leText([NSString stringWithFormat:@"%zd-%@",self.leIndexPath.row+1,data]);
 }
 @end
 
@@ -97,4 +98,17 @@
 }
 @end
 
-@implementation TestPopup @end
+@implementation TestPopup
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
+    return YES;
+}
+- (BOOL)shouldAutorotate{
+    return YES;
+}
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskAll;
+}
+-(void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    [self leDidRotateFrom:fromInterfaceOrientation];
+}
+@end

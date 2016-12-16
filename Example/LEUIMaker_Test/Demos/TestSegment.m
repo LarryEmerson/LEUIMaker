@@ -7,6 +7,7 @@
 //
 
 #import "TestSegment.h"
+#import "LEHUD.h"
 
 @interface SegmentPage : UIView
 @end
@@ -34,22 +35,36 @@
                       @"测",
                       @"测试",
                       @"测试页",
-                      @"测试页面",
-                      @"测试页面标",
-                      @"测试页面标题",
+//                      @"测试页面",
+//                      @"测试页面标",
+//                      @"测试页面标题",
                       ];
     NSArray *pages=@[
                      @"SegmentPage",
                      @"SegmentPage",
                      @"SegmentPage",
-                     @"SegmentPage",
-                     @"SegmentPage",
-                     @"SegmentPage",
+//                     @"SegmentPage",
+//                     @"SegmentPage",
+//                     @"SegmentPage",
                      ];
-    [LESegment new].leInit(self.leSubViewContainer,titles,pages).leDelegate(self).leEqualWidth(YES).leMargin(20).leIndicator([LEColorRed leImageWithSize:CGSizeMake(10, 4)]).leOffset(2);
+    [LESegment new].leInit(self.leSubViewContainer,titles,pages).leDelegate(self).leEqualWidth(NO).leMargin(20).leIndicator([LEColorRed leImageWithSize:CGSizeMake(10, 4)]).leOffset(2);
 }
 -(void) leOnSegmentSelectedWithIndex:(NSInteger) index{
     LELogInt(index)
+    [LEHUD leShowHud:[NSString stringWithFormat:@"leOnSegmentSelectedWithIndex:%zd",index]];
 }
 @end
-@implementation TestSegment @end
+@implementation TestSegment
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
+    return YES;
+}
+- (BOOL)shouldAutorotate{
+    return YES;
+}
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskAll;
+}
+-(void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    [self leDidRotateFrom:fromInterfaceOrientation];
+}
+@end

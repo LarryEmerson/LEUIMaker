@@ -40,7 +40,7 @@
 
 
 @interface LETableViewCell : UITableViewCell
--(void) leExtraInits NS_REQUIRES_SUPER;
+-(void) leDidRotateFrom:(UIInterfaceOrientation)from NS_REQUIRES_SUPER;
 @property (nonatomic) UIView *leArrow;
 @property (nonatomic) NSIndexPath *leIndexPath;
 //
