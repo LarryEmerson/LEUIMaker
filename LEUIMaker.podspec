@@ -10,5 +10,5 @@ Pod::Spec.new do |s|
   s.requires_arc = true
   s.source_files = 'LEUIMaker/Classes/**/*.{h,m}'
   s.dependency 'LEFoundation'
-  s.dependency 'UITableView+FDTemplateLayoutCell'
+  #s.dependency 'UITableView+FDTemplateLayoutCell'
 end

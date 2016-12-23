@@ -27,6 +27,15 @@
     [self.window makeKeyAndVisible];
     [[LEEmoji sharedInstance] leInitEmojiWithDeleteIcon:[UIImage imageNamed:LEEmojiDeleteIcon] KeyboardIcon:[UIImage imageNamed:LEEmojiSwitchToKeyboard] EmojiIcon:[UIImage imageNamed:LEEmojiSwitchToEmoji]];
     [[LEEmoji sharedInstance] leSetCategoryIcons:LEEmojiIcons Emojis:LEEmojiData];
+    
+//    UIImage *img2x=[UIImage imageNamed:@"LEMultiImagePickerCheck@2x"];
+//    UIImage *img3x=[UIImage imageNamed:@"LEMultiImagePickerCheck@3x"];
+//    NSData *data=UIImagePNGRepresentation(img2x);
+//    NSString *imgStr=[data base64EncodedStringWithOptions:0];
+//    LELogObject(imgStr)
+//    data=UIImagePNGRepresentation(img3x);
+//    imgStr=[data base64EncodedStringWithOptions:0];
+//    LELogObject(imgStr)
     return YES;
 }
 

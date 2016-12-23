@@ -5,7 +5,9 @@
 #import "LEBottomTabbar.h"
 #import "LEUIFoundation.h"
 #import "LEHUD.h"
+#import "LEImagePicker.h"
 #import "LEViewAdditions.h"
+#import "LEDate.h"
 #import "LEUICommon.h"
 #import "LEUIMaker.h"
 #import "LECollectionView.h"
@@ -13,6 +15,8 @@
 #import "LETableView.h"
 #import "LETableViewOptimized.h"
 #import "LEPopup.h"
+#import "LEScanQRCode.h"
+#import "LEShowQRCode.h"
 #import "LESegment.h"
 #import "LEViewController.h"
 

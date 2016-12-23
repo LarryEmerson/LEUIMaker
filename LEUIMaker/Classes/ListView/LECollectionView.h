@@ -27,8 +27,8 @@
 @class LECollectionView;
 @interface LECollectionItem : UICollectionViewCell
 @property (nonatomic) LECollectionView *leCollectionView; 
-@property (nonatomic, readonly) NSIndexPath *leIndexPath;
--(void) leSetData:(id) data IndexPath:(NSIndexPath *) path;
+@property (nonatomic) NSIndexPath *leIndexPath;
+-(void) leSetData:(id)data;
 @end
 @interface LECollectionSection : UICollectionReusableView
 @property (nonatomic) BOOL isInited;

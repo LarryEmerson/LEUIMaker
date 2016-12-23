@@ -80,7 +80,7 @@
     NSInteger rows=0;
     if(section==0)rows= 3;
     else if(section==1)rows= 3;
-    else rows= tableView.leItemsArray.count;
+    else if(section==2) rows= tableView.leItemsArray.count;
     return rows;
 }
 -(NSString *) leCellClassnameWithIndex:(NSIndexPath *)index{

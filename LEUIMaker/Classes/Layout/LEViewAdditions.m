@@ -352,9 +352,9 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     }
     return NO;
 }
--(void) dealloc{
-    NSLog(@"dealloc Additions");
-}
+//-(void) dealloc{
+//    NSLog(@"dealloc Additions");
+//}
 @end
 @implementation UIView (LEAdditions)
 //-(void) dealloc{

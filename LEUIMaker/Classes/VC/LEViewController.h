@@ -18,6 +18,7 @@
  */
 @interface LEViewController : UIViewController 
 @property (nonatomic, readonly) id<LEViewControllerPopDelegate> lePopDelegate;
+-(void) viewWillAppear:(BOOL)animated NS_REQUIRES_SUPER;
 -(id) initWithDelegate:(id<LEViewControllerPopDelegate>) delegate;
 - (void)leDidRotateFrom:(UIInterfaceOrientation)from;
 @end
@@ -30,6 +31,7 @@
 @property (nonatomic, readonly) UISwipeGestureRecognizer *leRecognizerRight;
 @property (nonatomic, weak, readonly) LEViewController *leViewController;
 -(id) initWithViewController:(LEViewController *) vc;
+-(__kindof LEView *(^)(LEViewController *)) leInit;
 -(void) leSwipGestureLogic;
 -(void) leOnSetRightSwipGesture:(BOOL) gesture; 
 @end

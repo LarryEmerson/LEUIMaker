@@ -105,6 +105,10 @@ LESingleton_interface(LEUICommon)
 @property (nonatomic, readonly) UIColor *leViewBGColor;
 /** 列表右侧箭头 */
 @property (nonatomic, readonly) UIImage *leListRightArrow;
+/** 图片多选选中标识 */
+@property (nonatomic, readonly) UIImage *leMultiImagePickerCheckbox;
+
+
 
 /** 设置导航栏标题字体 */
 -(void) leSetNaviTitleFont:(UIFont *) font;
@@ -122,6 +126,9 @@ LESingleton_interface(LEUICommon)
 -(void) leSetViewBGColor:(UIColor *) color;
 /** 设置列表右侧箭头 */
 -(void) leSetListRightArrow:(UIImage *) image;
+
+/** 设置图片多选选中标识 */
+-(void) leSetMultiImagePickerCheckbox:(UIImage *) image;
 /** 获得最顶端的window */
 -(UIWindow *) leGetTopWindow;
 @end

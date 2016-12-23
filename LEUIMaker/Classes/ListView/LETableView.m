@@ -237,6 +237,7 @@
         self.dataSource=self;
         self.separatorStyle=UITableViewCellSeparatorStyleNone;
         self.allowsSelection=NO;
+        curTouchEnabled=YES;
         tempCellsForHeightCalc=[NSMutableDictionary new];
         [self leExtraInits];
         if(curAutoRefresh){
@@ -436,17 +437,20 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *identifier=[self getCellClassnameWithIndex:indexPath];
     if(indexPath.row==0&&[self checkEmptyCellCondition:indexPath.section]){
-        identifier=curEmptyCellClassname;
+        identifier=curEmptyCellClassname; 
     }
-    return [tableView fd_heightForCellWithIdentifier:identifier configuration:^(LETableViewCell *cell){
-//    return [tableView fd_heightForCellWithIdentifier:identifier cacheByIndexPath:indexPath configuration:^(LETableViewCell *cell) {
-        cell.fd_enforceFrameLayout=YES;
-        if(![identifier isEqualToString:curEmptyCellClassname]){
-            cell.leIndexPath=indexPath;
-            [cell leSetData:[self getDataForIndex:indexPath]];
-//            [cell layoutCellAfterConfig];
-        }
-    }];
+    NSString *key=[identifier stringByAppendingString:@"_calc"];
+    LETableViewCell *cell=nil;
+    if([tempCellsForHeightCalc objectForKey:key]){
+        cell=[tempCellsForHeightCalc objectForKey:key];
+    }else{
+        LETableViewCell *cell=[(LETableViewCell *)[identifier leClass] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        [tempCellsForHeightCalc setObject:cell forKey:key];
+    }
+    cell.leIndexPath=indexPath;
+    [cell leSetData:[self getDataForIndex:indexPath]];
+    [cell layoutCellAfterConfig];
+    return cell.bounds.size.height;
 }
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return [self getNumberOfSections];

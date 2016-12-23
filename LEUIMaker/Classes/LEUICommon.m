@@ -25,6 +25,8 @@
 @property (nonatomic, readwrite) UIColor *leViewBGColor;
 /** 列表右侧箭头 */
 @property (nonatomic, readwrite) UIImage *leListRightArrow;
+/** 图片多选选中标识 */
+@property (nonatomic, readwrite) UIImage *leMultiImagePickerCheckbox;
 @end
 @implementation LEUICommon
 LESingleton_implementation(LEUICommon)
@@ -83,6 +85,21 @@ LESingleton_implementation(LEUICommon)
     }
     return _leListRightArrow;
 }
+-(UIImage *) leMultiImagePickerCheckbox{
+    if(!_leMultiImagePickerCheckbox){
+        NSString *value=nil;
+        if(LESCREEN_SCALE_INT==3){
+            value=@"iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAAAXNSR0IArs4c6QAAAAlwSFlzAAAhOAAAITgBRZYxYAAAABxpRE9UAAAAAgAAAAAAAAAYAAAAKAAAABgAAAAYAAABuFFlVyMAAAGESURBVGgF7JW/S8NAFMcDTvofOXqdRBRERAQRnHTyHxDBQXAxoYooWnBQBxF/i/gPCK4uDuLipbUNqUPVggklPt+LKWiT9q5YOQ/y4JYLST6ffO+9GEZC9Vr57ozJJ3AdMpM7uEDB8plpc3zvBbPsqcHNYk8CanyLwKMbVUC3eqfTZ/LJOHG0M3oAXWibU/ClW0EnXcsRa0yEWTyrAfyXELL+EGDL9rg28PV+ROZQghoW4Z+0E0BmYjeoMTSED49S2NQ4oo50FcBpeWww8/FeYwGOAryqrwD3SSBp1mqzlwqoTjBNIE0gGiJjWwXYuanA6e0bzJ240kPkXxyh6d0SvLwH8L22rytSEsoFZvZK8NoATyK14AOG1vJCCaUCzeDrSVAyoh5TJiCCr3oBDKzanRMY2SjA/JkLs/sOZKzf/b1F8Hh6YPGyLISndKQSWDgvg1fDp0Z1V/RgeF18PpPil4FfunqWgpcS6F+xgeJsrAfXb1ui0/BSAtRIzaodib+AJ4FPAAAA///+WWjgAAABk0lEQVTVlsFKw0AQQFdQf8gfMMlNqCJS8BP8A48WFLwkPYgoHkSEXhQ86MUv0JMHEQoexLpbQaqC1R5s0WbcEUNjyS7ZZEebwCabZDPzHpndhLkBB10rbTbhox+Cart57MH8VlMbY6n2AG/vfVUIwPDrp8/aGCpGproRv7531lYmxxs6CUp4ZEwl4MmBx5cdYwlq+NQCONBU4i/gjQRMJJaPWtDp0tQ8csRbqhKKP5DmTehqLc+EjXNEfWMBfDCrhG14ZMkkkEWCAj6XgIkEFXxugTQSlPBWBHQS1PDWBCKJ/fM2fP6snq/y12Hl5OnXkofjbLfMk1gFsrB9D/gRm9kQ1mGTcloXSEpCeQ0FupQJiGP3mBPwW+IklKXUYK7PDwoscMi8qlgsqgCys3KlPukGghdPQnBkZ7g5VTEnBcICSYTI/A0f7VxfrBZH4G4t4h4cAcakhD/yEpKRSdYB+FDPrfKSlKiPoEjDCcTsEG7y6XQFxrHGvEDsymX2Wsq8/INQS+a8kt+pmjyWp3YuJpJovwD43KRUhUcxPAAAAABJRU5ErkJggg==";
+        }else{
+            value=@"iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAABxpRE9UAAAAAgAAAAAAAAAQAAAAKAAAABAAAAAQAAABRIjWT1MAAAEQSURBVFgJYmBAAi69Dwydeh/Od+x9+AhI/wHi/1TCf6BmzgfZgWQllPn/P6NTz6NmoGV/qWQhPocD7XjQwgC0E+4QqOX4NNFADugIEHDsvadPJ5+je+IvyG4G595Hc+kQ7OiWg/kgu4EhAE5wWBXQwWH3GYCW/KODRbg8+AvkAFySdBEfdQDNQiBw2uP/G85/+n/w1tf/mUue44xOmjggaPqT/w/e/PoPAx++/f3vPuERVkdQ3QHolsMcEQx0FLYEj9MBzsDckQEMusjZT7FqxGYYLssP3PyK0wycDth97QvY8f/+/f8/ae87nAbAHILL8pP3vv13wxH8IL1YHQAyDBkA3fB/yj7cjiDXcpADAAAAAP//Cw6x+AAAASNJREFUxZNdDgExEMfrOiTuYDfhXRyFJwkHYMWD4EE4AGfglSNIkG15kYhIhPhYqrPRbFOq9d1kNtPt7P//y2wHWQ6mcsTLhK62JyquM9tUusub2mRtRt3FQSz188FkS0FH1pb3SH7B9+n2nO6OYBssGeJdc/BSAsBhpqOG+IS5FuARxGLtBa25Zn3DtoMuj4cd4EX3OiG7v2IO+kYAUHjvTnCIV82fAlBBvGP+NACH4CPaG26MRg2+U4XxLxAFEmy+U/WZUlSs1eUAcNIVffH8DADuFw00XSIYAFp/Ayi6TRQr4QgD8P4A4dlFHEawLIdkfw9Asr65/6A0ZJdw7kedgG7nEfMMAK6ZXZhGLcetsoIRiz0LzSUyPgetccwhDfAQjS/vtvxBFK+Q/AAAAABJRU5ErkJggg==";
+        }
+        UIImage *img=[UIImage imageWithData:[[NSData alloc] initWithBase64EncodedString:value options:NSDataBase64DecodingIgnoreUnknownCharacters]];
+        _leMultiImagePickerCheckbox = [UIImage imageWithCGImage:img.CGImage scale:2 orientation:img.imageOrientation];
+        img=nil;
+        value=nil;
+    }
+    return _leMultiImagePickerCheckbox;
+}
 /** 设置导航栏标题字体 */
 -(void) leSetNaviTitleFont:(UIFont *) font{
     self.leNaviTitleFont=font;
@@ -114,6 +131,9 @@ LESingleton_implementation(LEUICommon)
 /** 设置列表右侧箭头 */
 -(void) leSetListRightArrow:(UIImage *) image{
     self.leListRightArrow=image;
+}
+-(void) leSetMultiImagePickerCheckbox:(UIImage *) image{
+    self.leMultiImagePickerCheckbox=image;
 }
 -(UIWindow *) leGetTopWindow{
     NSEnumerator *frontToBackWindows = [UIApplication.sharedApplication.windows reverseObjectEnumerator];

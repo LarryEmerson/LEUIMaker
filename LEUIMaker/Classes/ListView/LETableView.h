@@ -6,8 +6,7 @@
 //
 //
 
-#import <UIKit/UIKit.h>
-#import <UITableView_FDTemplateLayoutCell/UITableView+FDTemplateLayoutCell.h>
+#import <UIKit/UIKit.h> 
 #import "LERefresh.h"
 #define LEEmptyCellTouchEvent @"emptycelltouchevent"
 @protocol LETableViewDelegate <NSObject>

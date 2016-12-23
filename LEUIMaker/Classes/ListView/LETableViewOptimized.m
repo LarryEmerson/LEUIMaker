@@ -120,9 +120,8 @@
             if(i<self.leDisplayCellCache.count){
                 cell=[self.leDisplayCellCache objectAtIndex:i];
             }else{
-                cell=[[self leCellClassnameWithIndex:[NSIndexPath indexPathForRow:0 inSection:0]] leGetInstanceFromClassName];
-                NSAssert([cell isKindOfClass:[LETableViewCellOptimized class]],([NSString stringWithFormat:@"请检查自定义DisplayCell是否继承于LETableViewCellOptimized：%@",self]));
-                cell=[cell init];
+                NSAssert([NSClassFromString([self leCellClassnameWithIndex:[NSIndexPath indexPathForRow:0 inSection:0]]) isKindOfClass:[LETableViewCellOptimized class]],([NSString stringWithFormat:@"请检查自定义DisplayCell是否继承于LETableViewCellOptimized：%@",self]));
+                cell=[[[self leCellClassnameWithIndex:[NSIndexPath indexPathForRow:0 inSection:0]] leClass] init];
                 [cell.leAutoCalcHeight() leSetDelegate:self.leGetDelegate];
                 [cell leTouchEnabled:self.leGetTouchEnabled];
                 [self.leDisplayCellCache addObject:cell];

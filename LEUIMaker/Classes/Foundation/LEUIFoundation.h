@@ -29,7 +29,13 @@
 #define LEDegreesToRadian(x) (M_PI * (x) / 180.0)
 #define LERadianToDegrees(radian) (radian*180.0)/(M_PI)
 
-
+@interface NSString (QRCode)
+-(UIImage *) leCreateQRWithSize:(float) size;
+@end
+@interface UIImage (BlackToTransparent)
+-(UIImage *) leImageBlackToTransparentWithRed:(CGFloat)red andGreen:(CGFloat)green andBlue:(CGFloat)blue;
+@end
 @interface LEUIFoundation : NSObject
-
++(UIImage *) leCreateQRForString:(NSString *)qrString Size:(CGFloat) size;
++(UIImage *) leImageBlackToTransparent:(UIImage*)image withRed:(CGFloat)red andGreen:(CGFloat)green andBlue:(CGFloat)blue;
 @end

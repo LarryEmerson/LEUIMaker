@@ -41,6 +41,10 @@
 		808FABE81DF2B4F700B7A640 /* TestCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 808FABE71DF2B4F700B7A640 /* TestCollectionView.m */; };
 		808FABEB1DF508E600B7A640 /* TestBottomTabbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 808FABEA1DF508E600B7A640 /* TestBottomTabbar.m */; };
 		808FABEE1DF5091700B7A640 /* TestSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = 808FABED1DF5091700B7A640 /* TestSegment.m */; };
+		80923B8B1E0A596B00C26AE5 /* TestImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 80923B8A1E0A596B00C26AE5 /* TestImagePicker.m */; };
+		80923B8E1E0B6B9E00C26AE5 /* LEMultiImagePickerCheck@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 80923B8C1E0B6B9E00C26AE5 /* LEMultiImagePickerCheck@2x.png */; };
+		80923B8F1E0B6B9E00C26AE5 /* LEMultiImagePickerCheck@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 80923B8D1E0B6B9E00C26AE5 /* LEMultiImagePickerCheck@3x.png */; };
+		80923BA61E0BD2E800C26AE5 /* TestShowQRCode.m in Sources */ = {isa = PBXBuildFile; fileRef = 80923BA51E0BD2E800C26AE5 /* TestShowQRCode.m */; };
 		80C9DACE1DF7F05A00F5780B /* TestMultiSectionTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 80C9DACD1DF7F05A00F5780B /* TestMultiSectionTableView.m */; };
 		80DA030C1E00DEAA00183345 /* TestPopup.m in Sources */ = {isa = PBXBuildFile; fileRef = 80DA030B1E00DEAA00183345 /* TestPopup.m */; };
 		80DA030F1E00ECBB00183345 /* TestWKWebview.m in Sources */ = {isa = PBXBuildFile; fileRef = 80DA030E1E00ECBB00183345 /* TestWKWebview.m */; };
@@ -97,6 +101,12 @@
 		808FABEA1DF508E600B7A640 /* TestBottomTabbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestBottomTabbar.m; sourceTree = "<group>"; };
 		808FABEC1DF5091700B7A640 /* TestSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestSegment.h; sourceTree = "<group>"; };
 		808FABED1DF5091700B7A640 /* TestSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestSegment.m; sourceTree = "<group>"; };
+		80923B891E0A596B00C26AE5 /* TestImagePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestImagePicker.h; sourceTree = "<group>"; };
+		80923B8A1E0A596B00C26AE5 /* TestImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestImagePicker.m; sourceTree = "<group>"; };
+		80923B8C1E0B6B9E00C26AE5 /* LEMultiImagePickerCheck@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LEMultiImagePickerCheck@2x.png"; sourceTree = "<group>"; };
+		80923B8D1E0B6B9E00C26AE5 /* LEMultiImagePickerCheck@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "LEMultiImagePickerCheck@3x.png"; sourceTree = "<group>"; };
+		80923BA41E0BD2E800C26AE5 /* TestShowQRCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestShowQRCode.h; sourceTree = "<group>"; };
+		80923BA51E0BD2E800C26AE5 /* TestShowQRCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestShowQRCode.m; sourceTree = "<group>"; };
 		80C9DACC1DF7F05A00F5780B /* TestMultiSectionTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestMultiSectionTableView.h; sourceTree = "<group>"; };
 		80C9DACD1DF7F05A00F5780B /* TestMultiSectionTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestMultiSectionTableView.m; sourceTree = "<group>"; };
 		80DA030A1E00DEAA00183345 /* TestPopup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestPopup.h; sourceTree = "<group>"; };
@@ -233,6 +243,10 @@
 				80DA030B1E00DEAA00183345 /* TestPopup.m */,
 				80DA030D1E00ECBB00183345 /* TestWKWebview.h */,
 				80DA030E1E00ECBB00183345 /* TestWKWebview.m */,
+				80923B891E0A596B00C26AE5 /* TestImagePicker.h */,
+				80923B8A1E0A596B00C26AE5 /* TestImagePicker.m */,
+				80923BA41E0BD2E800C26AE5 /* TestShowQRCode.h */,
+				80923BA51E0BD2E800C26AE5 /* TestShowQRCode.m */,
 			);
 			path = Demos;
 			sourceTree = "<group>";
@@ -245,6 +259,8 @@
 				8026F90B1DEE7A500087E88A /* navi_back_gray@2x.png */,
 				8026F90E1DEE80E50087E88A /* common_arrow_gray@3x.png */,
 				8026F90F1DEE80E50087E88A /* common_arrow_gray@2x.png */,
+				80923B8C1E0B6B9E00C26AE5 /* LEMultiImagePickerCheck@2x.png */,
+				80923B8D1E0B6B9E00C26AE5 /* LEMultiImagePickerCheck@3x.png */,
 				80EC74C11DEBCF1E000DF15F /* AppDelegate.h */,
 				80EC74C21DEBCF1E000DF15F /* AppDelegate.m */,
 				80EC74C41DEBCF1E000DF15F /* ViewController.h */,
@@ -346,6 +362,7 @@
 				80291C5F1DFA5CF4001A6861 /* emoji_icon_travel@2x.png in Resources */,
 				80291C521DFA5CF4001A6861 /* emoji_icon_food@3x.png in Resources */,
 				80291C501DFA5CF4001A6861 /* emoji_icon_flags@3x.png in Resources */,
+				80923B8F1E0B6B9E00C26AE5 /* LEMultiImagePickerCheck@3x.png in Resources */,
 				80291C5E1DFA5CF4001A6861 /* emoji_icon_symbols@3x.png in Resources */,
 				80EC74CB1DEBCF1E000DF15F /* Assets.xcassets in Resources */,
 				80291C571DFA5CF4001A6861 /* emoji_icon_smileys@2x.png in Resources */,
@@ -361,6 +378,7 @@
 				80291C541DFA5CF4001A6861 /* emoji_icon_history@3x.png in Resources */,
 				80291C4A1DFA5CF4001A6861 /* emoji_icon_activity@3x.png in Resources */,
 				80291C591DFA5CF4001A6861 /* emoji_icon_switchtoemoji@2x.png in Resources */,
+				80923B8E1E0B6B9E00C26AE5 /* LEMultiImagePickerCheck@2x.png in Resources */,
 				80291C5B1DFA5CF4001A6861 /* emoji_icon_switchtokeyboard@2x.png in Resources */,
 				8026F9111DEE80E50087E88A /* common_arrow_gray@2x.png in Resources */,
 				80291C4D1DFA5CF4001A6861 /* emoji_icon_delete@2x.png in Resources */,
@@ -430,6 +448,7 @@
 			files = (
 				808FABE51DF2B39A00B7A640 /* TestLayoutFramework.m in Sources */,
 				80C9DACE1DF7F05A00F5780B /* TestMultiSectionTableView.m in Sources */,
+				80923BA61E0BD2E800C26AE5 /* TestShowQRCode.m in Sources */,
 				808FABE81DF2B4F700B7A640 /* TestCollectionView.m in Sources */,
 				808FABEE1DF5091700B7A640 /* TestSegment.m in Sources */,
 				808FABEB1DF508E600B7A640 /* TestBottomTabbar.m in Sources */,
@@ -440,6 +459,7 @@
 				80DA030F1E00ECBB00183345 /* TestWKWebview.m in Sources */,
 				80E707E21DFE80B9005CCB8D /* TestEmoji.m in Sources */,
 				80EC74C01DEBCF1E000DF15F /* main.m in Sources */,
+				80923B8B1E0A596B00C26AE5 /* TestImagePicker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

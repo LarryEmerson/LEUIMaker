@@ -10,18 +10,13 @@
 
 
 //Item
-@interface LECollectionItem ()
-@property (nonatomic, readwrite) NSIndexPath *leIndexPath;
-@end
 @implementation LECollectionItem
 -(id) initWithFrame:(CGRect)frame{
     self=[super initWithFrame:frame];
     [self leExtraInits];
     return self;
 }
--(void) leSetData:(id) data IndexPath:(NSIndexPath *) path{
-    self.leIndexPath=path;
-}
+-(void) leSetData:(id) data {}
 @end
 //Section
 @interface LECollectionSection ()
@@ -103,13 +98,12 @@
 -(__kindof LECollectionView *(^)(UIView *superView, UICollectionViewLayout *layout, NSString *cellClassname)) leInit{
     return ^id(UIView *superView, UICollectionViewLayout *layout, NSString *cellClassname){
         [self initWithFrame:superView.bounds collectionViewLayout:layout];
+        self.leAddTo(superView).leMargins(UIEdgeInsetsZero);
         [superView addSubview:self];
         self.allowsSelection=YES;
         self.delegate=self;
         self.dataSource=self;
-        id obj=[cellClassname leGetInstanceFromClassName];
-        NSAssert([obj isKindOfClass:[LECollectionItem class]],([NSString stringWithFormat:@"请检查自定义(%@)是否继承于LECollectionCell",cellClassname]));
-        obj=nil;
+        NSAssert([NSClassFromString(cellClassname) isKindOfClass:[LECollectionItem class]],([NSString stringWithFormat:@"请检查自定义(%@)是否继承于LECollectionCell",cellClassname]));
         [self registerClass:NSClassFromString(cellClassname) forCellWithReuseIdentifier:LECollectionIdentifierItem];
         self.backgroundColor=LEColorClear;
         [self leExtraInits];
@@ -132,9 +126,7 @@
 }
 -(__kindof LECollectionView *(^)(NSString *sectionClassname)) leSectionClassname{
     return ^id(NSString *value){
-        id obj=[value leGetInstanceFromClassName];
-        NSAssert([obj isKindOfClass:[LECollectionSection class]],([NSString stringWithFormat:@"请检查自定义(%@)是否继承于LECollectionSection",value]));
-        obj=nil;
+        NSAssert([NSClassFromString(value) isKindOfClass:[LECollectionSection class]],([NSString stringWithFormat:@"请检查自定义(%@)是否继承于LECollectionSection",value]));
         [self registerClass:NSClassFromString(value) forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:LECollectionIdentifierSection];
         [self registerClass:NSClassFromString(value) forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:LECollectionIdentifierSection];
         return self;
@@ -190,18 +182,19 @@
     }
     LECollectionItem *cell=[self dequeueReusableCellWithReuseIdentifier:LECollectionIdentifierItem forIndexPath:indexPath];
     cell.leCollectionView=self;
+    cell.leIndexPath=indexPath;
     BOOL hasSet=NO;
     if(self.leItemsArray&&self.self.leItemsArray.count>0){
         NSInteger section=[self numberOfSectionsInCollectionView:collectionView];
         if(section==1){
-            [cell leSetData:indexPath.row<self.leItemsArray.count?[self.leItemsArray objectAtIndex:indexPath.row]:nil IndexPath:indexPath];
+            [cell leSetData:indexPath.row<self.leItemsArray.count?[self.leItemsArray objectAtIndex:indexPath.row]:nil];
             hasSet=YES;
         }else if(section>1){
             if(indexPath.section<self.leItemsArray.count){
                 id obj=[self.leItemsArray objectAtIndex:indexPath.section];
                 if(obj&&([obj isKindOfClass:[NSArray class]]||[obj isMemberOfClass:[NSArray class]])){
                     if(indexPath.row<[obj count]){
-                        [cell leSetData:[obj objectAtIndex:indexPath.row] IndexPath:indexPath];
+                        [cell leSetData:[obj objectAtIndex:indexPath.row]];
                         hasSet=YES;
                     }
                 }
@@ -209,7 +202,7 @@
         }
     }
     if(!hasSet){
-        [cell leSetData:nil IndexPath:indexPath];
+        [cell leSetData:nil];
     }
     return cell;
 }

@@ -20,8 +20,7 @@
     self.selectedBackgroundView=[UIView new].leBgColor(LEColorMask5);
     label=[UILabel new].leAddTo(self.contentView).leAnchor(LEInsideCenter).leCenterAlign;
 }
--(void) leSetData:(id)data IndexPath:(NSIndexPath *)path{
-    [super leSetData:data IndexPath:path];
+-(void) leSetData:(id)data {
     label.leText(data);
 }
 @end
@@ -35,7 +34,7 @@
 }
 -(void) leExtraInits{
     [LENavigation new].leSuperView(self).leTitle(NSStringFromClass(self.class));
-    UICollectionViewFlowLayout *layout=[[UICollectionViewFlowLayout alloc] init];
+    UICollectionViewFlowLayout *layout=[UICollectionViewFlowLayout new];
     layout.itemSize=CGSizeMake((LESCREEN_WIDTH-LESideSpace16*4)*1.0/3, LENavigationBarHeight);
     layout.scrollDirection=UICollectionViewScrollDirectionVertical;
     layout.sectionInset=UIEdgeInsetsMake(LESideSpace16, LESideSpace16, LESideSpace16, LESideSpace16);

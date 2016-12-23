@@ -318,9 +318,8 @@
     for (int i=0; i<pages.count; i++) {
         NSString *classname=[pages objectAtIndex:i];
         NSAssert([classname isKindOfClass:[NSString class]], @"leOnSetPages传参为page的类名，请检查");
-        id obj=[classname leGetInstanceFromClassName];
-        NSAssert([obj isKindOfClass:[UIView class]],@"leOnSetPages传参为view的类名");
-        UIView *view=[obj init];
+        NSAssert([NSClassFromString(classname) isKindOfClass:[UIView class]],@"leOnSetPages传参为view的类名");
+        UIView *view=[[classname leClass] new];
         view.leSize(curPageContainer.bounds.size);
         [curPageContainer lePushToStack:view,nil];
         [curPages addObject:view];

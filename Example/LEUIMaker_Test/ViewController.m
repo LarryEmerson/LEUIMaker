@@ -9,7 +9,6 @@
 #import "ViewController.h"
 #import <LEUIMaker/LEUIMaker.h>
 #import "LEHUD.h"
-
 @interface TestCellOptimized : LETableViewCellOptimized
 @end
 @implementation TestCellOptimized{
@@ -36,8 +35,7 @@
     UILabel *label;
     UILabel *subLabel;
 }
--(void) leExtraInits{ 
-    [super leExtraInits];
+-(void) leExtraInits{  
     self.leArrowEnabled(YES);
     label=[UILabel new].leAddTo(self).leAnchor(LEInsideTopLeft).leLeft(LESideSpace).leTop(LESideSpace).leMaxWidth(self.leArrow.frame.origin.x-LESideSpace ).leLine(0).leLineSpace(10).leColor(LEColorRed).leFont(LEBoldFont(LEFontML));
     subLabel=[UILabel new].leAddTo(self).leAnchor(LEOutsideBottomLeft).leRelativeTo(label).leTop(LESideSpace).leMaxWidth(self.leArrow.frame.origin.x-LESideSpace ).leLine(0).leBottom(LESideSpace).leColor(LEColorText9).leLineSpace(10).leFont(LEFont(LEFontML));
@@ -82,8 +80,13 @@
 /** 初始化内容位置 */
 - (void)leExtraInits {
     
+    
     navigationTitles=@[@"点我",@"点我-测试",@"点我-测试导航栏",@"点我-测试导航栏标题文字",@"点我-测试导航栏标题文字的宽度",@"点我-测试导航栏标题文字的宽度变动"];
     demoClassnames=@[
+//                     @{@"classname":@"TestWKWebview", @"text":@"测试TestWKWebview"},
+                     @{@"classname":@"TestShowQRCode", @"text":@"测试ShowQRCode"},
+                     @{@"classname":@"TestScanQRCode", @"text":@"测试ScanQRCode"},
+                     @{@"classname":@"TestImagePicker", @"text":@"测试TestImagePicker"},
                      @{@"classname":@"TestCollectionView", @"text":@"测试Collection封装模块的使用"},
                      @{@"classname":@"TestBottomTabbar", @"text":@"测试BottomTabbar封装模块的使用"},
                      @{@"classname":@"TestSegment", @"text":@"测试Segment封装模块的使用"},
@@ -97,7 +100,7 @@
     [self onTestNavigation];
     curList=[LETableViewWithRefresh new].leSuperView(self.leSubViewContainer).leDelegate(self).leDataSource(self).leCellClassname(@"TestCell").leEmptyCellClassname(@"TestEmptyCell").leTouchEnabled(YES);
     [curList leOnRefreshedWithData:[@[] mutableCopy]];
-    [curList setFd_debugLogEnabled:YES];
+//    [curList setFd_debugLogEnabled:YES];
     [self leOnRefreshData];
 }
 -(void) onTestNavigation{
@@ -138,17 +141,31 @@
         NSIndexPath *index=[info objectForKey:LEKeyIndex];
         if(index.row<demoClassnames.count){
             NSString *classname=[[demoClassnames objectAtIndex:index.row] objectForKey:@"classname"];
-            if(classname){
-                [self.leViewController lePush:[[classname leGetInstanceFromClassName] init]];
+            if([classname isEqualToString:@"TestShowQRCode"]){
+                [self.leViewController lePush:[LEShowQRCode new].leinit(@"二维码显示界面",@"LarryEmerson")];
+            }else if([classname isEqualToString:@"TestScanQRCode"]){
+                [self.leViewController lePush:[LEScanQRCode new]];
+            }else if(classname){
+                [self.leViewController lePush:(LEViewController *)[[classname leClass] new]];
             }
         }else{
             [LEHUD leShowHud:[NSString stringWithFormat:@"%zd-测试加载更多",index.row+1]];
         }
     }
-} 
+}
 @end
 
-@implementation ViewController
+@implementation ViewController{
+    UIDeviceOrientation deviceOrientation;
+}
+-(void) viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if(deviceOrientation==UIDeviceOrientationUnknown){
+        deviceOrientation=[UIDevice currentDevice].orientation;
+    }else if(deviceOrientation!=[UIDevice currentDevice].orientation){
+        [self leDidRotateFrom:(UIInterfaceOrientation)deviceOrientation];
+    }
+}
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
     return YES;
 }

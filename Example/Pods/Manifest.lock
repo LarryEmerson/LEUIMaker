@@ -1,9 +1,7 @@
 PODS:
-  - LEFoundation (0.1.2)
+  - LEFoundation (0.1.3)
   - LEUIMaker (0.1.2):
     - LEFoundation
-    - UITableView+FDTemplateLayoutCell
-  - UITableView+FDTemplateLayoutCell (1.4)
 
 DEPENDENCIES:
   - LEUIMaker (from `../`)
@@ -13,9 +11,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  LEFoundation: 0ae39ec6fa64da7f670962345ec6e7323993e4ba
-  LEUIMaker: 441ab11020932d955780ea37ca769cf31bed2fd2
-  UITableView+FDTemplateLayoutCell: 234e1582bcc4e18461af91155123bb96538ed030
+  LEFoundation: 0332dcc6c7a24ebffd7573d37b38525ac725d4d7
+  LEUIMaker: 6cf8fe488cf729f1109f1bd94b3ba001bb79e944
 
 PODFILE CHECKSUM: 2e974ed59d03f8829123d1edb6e72b2630407de0
 

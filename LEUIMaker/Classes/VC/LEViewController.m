@@ -26,10 +26,19 @@
     self.leViewContainer=nil;
     self.leSubViewContainer=nil;
     [self removeFromSuperview];
-} 
--(id) initWithViewController:(LEViewController *) vc{
-    self.leViewController=vc;
-    self=[super initWithFrame:vc.view.bounds];
+}
+-(__kindof LEView *(^)(LEViewController *)) leInit{
+    return ^id(LEViewController *value){
+        self.leViewController=value;
+        [self setFrame:self.leViewController.view.bounds];
+        [self selfInits];
+        return self; 
+    };
+}
+-(void) selfInits{
+    if(![self.leViewController.view isEqual:self]){
+        self.leViewController.view=self;
+    }
     [self setBackgroundColor:LEColorWhite];
     self.leContainerW=self.bounds.size.width;
     self.leContainerH=self.bounds.size.height-(self.leViewController.extendedLayoutIncludesOpaqueBars?0:(LESCREEN_HEIGHT>LESCREEN_WIDTH?LEStatusBarHeight+LENavigationBarHeight:LENavigationBarHeight));
@@ -45,6 +54,11 @@
     [self.leViewContainer addGestureRecognizer:self.recognizerRight];
     //
     [self leExtraInits];
+}
+-(id) initWithViewController:(LEViewController *) vc{
+    self=[super initWithFrame:vc.view.bounds];
+    self.leViewController=vc;
+    [self selfInits];
     return self;
 }
 -(void) leOnSetRightSwipGesture:(BOOL) gesture{
@@ -76,7 +90,17 @@
 @interface LEViewController ()
 @property (nonatomic, readwrite) id<LEViewControllerPopDelegate> lePopDelegate;
 @end
-@implementation LEViewController
+@implementation LEViewController{
+    UIDeviceOrientation deviceOrientation;
+}
+-(void) viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if(deviceOrientation==UIDeviceOrientationUnknown){
+        deviceOrientation=[UIDevice currentDevice].orientation;
+    }else if(deviceOrientation!=[UIDevice currentDevice].orientation){
+        [self leDidRotateFrom:(UIInterfaceOrientation)deviceOrientation];
+    }
+}
 -(id) initWithDelegate:(id<LEViewControllerPopDelegate>) delegate{
     self.lePopDelegate=delegate;
     return [super init];
@@ -300,7 +324,12 @@
     if(curDelegate&&[curDelegate respondsToSelector:@selector(leNavigationLeftButtonTapped)]){
         [curDelegate leNavigationLeftButtonTapped];
     }else{
-        [((LEView *)self.superview).leViewController lePop];
+        UIViewController *vc=nil;
+        if([self.superview isKindOfClass:[LEView class]]){
+            [((LEView *)self.superview).leViewController lePop];
+        }else{
+            LELogObject(@"LENavigation's superview should be kind of LEView")
+        }
     }
 }
 -(void) onRight{

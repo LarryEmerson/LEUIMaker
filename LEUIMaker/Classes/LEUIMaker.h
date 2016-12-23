@@ -15,3 +15,8 @@
 #import "LESegment.h"
 #import "LEBottomTabbar.h"
 #import "LEPopup.h"
+#import "LEImagePicker.h" 
+#import "LEHUD.h"
+#import "LEDate.h"
+#import "LEShowQRCode.h"
+#import "LEScanQRCode.h"

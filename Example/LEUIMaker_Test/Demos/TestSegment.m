@@ -35,17 +35,17 @@
                       @"测",
                       @"测试",
                       @"测试页",
-//                      @"测试页面",
-//                      @"测试页面标",
-//                      @"测试页面标题",
+                      @"测试页面",
+                      @"测试页面标",
+                      @"测试页面标题",
                       ];
     NSArray *pages=@[
                      @"SegmentPage",
                      @"SegmentPage",
                      @"SegmentPage",
-//                     @"SegmentPage",
-//                     @"SegmentPage",
-//                     @"SegmentPage",
+                     @"SegmentPage",
+                     @"SegmentPage",
+                     @"SegmentPage",
                      ];
     [LESegment new].leInit(self.leSubViewContainer,titles,pages).leDelegate(self).leEqualWidth(NO).leMargin(20).leIndicator([LEColorRed leImageWithSize:CGSizeMake(10, 4)]).leOffset(2);
 }

@@ -107,9 +107,8 @@
         curPages=[NSMutableArray new];
         for (NSInteger i=0; i<pages.count; i++) {
             NSString *classname=[pages objectAtIndex:i];
-            id obj=[classname leGetInstanceFromClassName];
-            NSAssert([obj isKindOfClass:[LEBottomTabbarPage class]],@"lePages中的类名需继承LEBottomTabbarPage");
-            LEBottomTabbarPage *page=[obj init];
+            NSAssert([NSClassFromString(classname) isKindOfClass:[LEBottomTabbarPage class]],@"lePages中的类名需继承LEBottomTabbarPage");
+            LEBottomTabbarPage *page=[[classname leClass] new];
             page.leAddTo(value).leMargins(UIEdgeInsetsMake(0, 0, LEBottomTabbarHeight, 0));
             [curPages addObject:page];
         }
