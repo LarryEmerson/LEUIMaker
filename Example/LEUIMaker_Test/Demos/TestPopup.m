@@ -17,7 +17,7 @@
 -(void) leExtraInits{
     [super leExtraInits];
     self.leArrowEnabled(YES);
-    label=[UILabel new].leAddTo(self).leAnchor(LEInsideTopLeft).leLeft(LESideSpace).leTop(LESideSpace).leMaxWidth(self.leArrow.frame.origin.x-LESideSpace ).leLine(0).leLineSpace(10).leColor(LERandomColor).leFont(LEFont(LEFontML)).leBottom(LESideSpace);
+    label=[UILabel new].leAddTo(self).leAnchor(LEInsideTopLeft).leLeft(LESideSpace).leTop(LESideSpace).leMaxWidth(self.leArrow.frame.origin.x-LESideSpace ).leLine(0).leLineSpace(10).leColor(LERandomColor).leFont(LEFontML).leBottom(LESideSpace);
     self.leBottomView(label);
 }
 -(void) leSetData:(id)data  {

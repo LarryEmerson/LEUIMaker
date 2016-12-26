@@ -163,7 +163,7 @@
             last=btn;
         }else{
             if(last){
-                btn=[UIButton new].leAddTo(curSegmentContainer).leAnchor(LEOutsideRightCenter).leRelativeTo(last).leFont(LEFont(LEFontMS)).leBtnColorN(normalColor).leBtnColorH(highlightedColor).leTouchEvent(@selector(onTitleTapped:),self).leBtnHInsect(margin).leText([titles objectAtIndex:i]);
+                btn=[UIButton new].leAddTo(curSegmentContainer).leAnchor(LEOutsideRightCenter).leRelativeTo(last).leFont(LEFontMS).leBtnColorN(normalColor).leBtnColorH(highlightedColor).leTouchEvent(@selector(onTitleTapped:),self).leBtnHInsect(margin).leText([titles objectAtIndex:i]);
                 float sum=0;
                 if(curTitlesWidthSum.count>0){
                     sum=[[curTitlesWidthSum objectAtIndex:i-1] floatValue];
@@ -171,7 +171,7 @@
                 [curTitlesWidthSum addObject:[NSNumber numberWithFloat:sum+btn.bounds.size.width/2+last.bounds.size.width/2]];
                 [curTitlesWidth addObject:@(btn.bounds.size.width/2+last.bounds.size.width/2)];
             }else{
-                btn=[UIButton new].leAddTo(curSegmentContainer).leAnchor(LEInsideLeftCenter).leFont(LEFont(LEFontMS)).leBtnColorN(normalColor).leBtnColorH(highlightedColor).leTouchEvent(@selector(onTitleTapped:),self).leBtnHInsect(margin).leText([titles objectAtIndex:i]);
+                btn=[UIButton new].leAddTo(curSegmentContainer).leAnchor(LEInsideLeftCenter).leFont(LEFontMS).leBtnColorN(normalColor).leBtnColorH(highlightedColor).leTouchEvent(@selector(onTitleTapped:),self).leBtnHInsect(margin).leText([titles objectAtIndex:i]);
                 curIndicator.leLeft(btn.bounds.size.width/2-curIndicator.bounds.size.width/2);
                 [curTitlesWidthSum addObject:[NSNumber numberWithFloat:btn.bounds.size.width/2]];
             }
@@ -318,8 +318,9 @@
     for (int i=0; i<pages.count; i++) {
         NSString *classname=[pages objectAtIndex:i];
         NSAssert([classname isKindOfClass:[NSString class]], @"leOnSetPages传参为page的类名，请检查");
-        NSAssert([NSClassFromString(classname) isKindOfClass:[UIView class]],@"leOnSetPages传参为view的类名");
-        UIView *view=[[classname leClass] new];
+        UIView *view=[classname leGetInstanceFromClassName];
+        NSAssert([view isKindOfClass:[UIView class]],@"leOnSetPages传参为view的类名");
+        view=[view init];
         view.leSize(curPageContainer.bounds.size);
         [curPageContainer lePushToStack:view,nil];
         [curPages addObject:view];

@@ -92,6 +92,7 @@
 @end
 @implementation LEViewController{
     UIDeviceOrientation deviceOrientation;
+    BOOL isBarHidden;
 }
 -(void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -100,12 +101,18 @@
     }else if(deviceOrientation!=[UIDevice currentDevice].orientation){
         [self leDidRotateFrom:(UIInterfaceOrientation)deviceOrientation];
     }
+    [self.navigationController setNavigationBarHidden:YES];
+}
+-(void) viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:isBarHidden animated:YES];
 }
 -(id) initWithDelegate:(id<LEViewControllerPopDelegate>) delegate{
     self.lePopDelegate=delegate;
     return [super init];
 }
 -(void) viewDidLoad{
+    isBarHidden=self.navigationController.navigationBarHidden; 
     [self setExtendedLayoutIncludesOpaqueBars:YES];
     [self setEdgesForExtendedLayout:UIRectEdgeAll];
     [self setAutomaticallyAdjustsScrollViewInsets:NO];
@@ -113,11 +120,13 @@
     [self leExtraInits];
 }
 -(void) leExtraInits{
-    NSString *class=NSStringFromClass(self.class);
-    class=[class stringByAppendingString:@"Page"];
-    NSObject *obj=[NSClassFromString(class) alloc];
-    if(obj&&([obj isKindOfClass:[LEView class]]||[obj isMemberOfClass:[LEView class]])){
-        self.view=[(LEView *) obj initWithViewController:self];
+    NSString *className=NSStringFromClass(self.class);
+    className=[className stringByAppendingString:@"Page"];
+    LEView *view=[className leGetInstanceFromClassName];
+    if(view&&([view isKindOfClass:[LEView class]]||[view isMemberOfClass:[LEView class]])){
+        self.view=((LEView *)[view init]).leInit(self);
+    }else{
+        view=nil;
     }
 }
 -(void) leDidRotateFrom:(UIInterfaceOrientation)from{

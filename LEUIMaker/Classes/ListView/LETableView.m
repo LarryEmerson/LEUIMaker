@@ -217,7 +217,7 @@
     }
     for (NSInteger i=0; i<muta.count; i++) {
         classname=[muta objectAtIndex:i];
-        Class cls=NSClassFromString(classname);
+        Class cls=[classname leClass];
         id obj=[cls alloc];
         if([obj isKindOfClass:[UITableViewCell class]]){
             [curCellClassnames addObject:classname];
@@ -263,7 +263,7 @@
         if(!curCellClassnames){
             curCellClassnames=[NSMutableArray new];
         }
-        Class cls=NSClassFromString(value);
+        Class cls=[value leClass];
         id obj=[cls alloc];
         if([obj isKindOfClass:[UITableViewCell class]]){
             [curCellClassnames addObject:value];
@@ -292,6 +292,42 @@
         if(self.superview){
             [self leOnAutoRefresh];
         }
+        return self;
+    };
+}
+-(__kindof LETableView *(^)(BOOL)) leTopRefresh{
+    return ^id(BOOL value){
+        [self leSetTopRefresh:value];
+        return self;
+    };
+}
+-(__kindof LETableView *(^)(BOOL)) leBottomRefresh{
+    return ^id(BOOL value){
+        [self leSetBottomRefresh:value];
+        return self;
+    };
+}
+-(__kindof LETableView *(^)()) leStopTopRefresh{
+    return ^id(){
+        [self leOnStopTopRefresh];
+        return self;
+    };
+}
+-(__kindof LETableView *(^)()) leStopBottomRefresh{
+    return ^id(){
+        [self leOnStopBottomRefresh];
+        return self;
+    };
+}
+-(__kindof LETableView *(^)(NSMutableArray *)) leRefreshedWithData{
+    return ^id(NSMutableArray *value){
+        [self leOnRefreshedWithData:value];
+        return self;
+    };
+}
+-(__kindof LETableView *(^)(NSMutableArray *)) leLoadMoreWithData{
+    return ^id(NSMutableArray *value){
+        [self leOnLoadedMoreWithData:value];
         return self;
     };
 }
@@ -444,7 +480,7 @@
     if([tempCellsForHeightCalc objectForKey:key]){
         cell=[tempCellsForHeightCalc objectForKey:key];
     }else{
-        LETableViewCell *cell=[(LETableViewCell *)[identifier leClass] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        LETableViewCell *cell=[(LETableViewCell *)[identifier leGetInstanceFromClassName] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         [tempCellsForHeightCalc setObject:cell forKey:key];
     }
     cell.leIndexPath=indexPath;

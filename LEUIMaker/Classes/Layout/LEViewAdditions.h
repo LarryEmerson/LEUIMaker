@@ -260,33 +260,17 @@ typedef NS_ENUM(NSInteger, LEAnchors) {
 -(__kindof UIView *(^)(UIColor *color, CGFloat offset, CGFloat height)) leAddLeftSplitline;
 /** 添加右侧分割线 颜色、偏移量、高度 */
 -(__kindof UIView *(^)(UIColor *color, CGFloat offset, CGFloat height)) leAddRightSplitline;
-
+/** 仅适用于列表（LETableView），根据设定的bottomView获取Cell的高度 */
 -(CGFloat) leGetCellHeightWithBottomView:(UIView *) view;
-
-@end
-@interface UIViewController (LEAdditions)
--(void) lePush:(UIViewController *) vc;
--(void) lePop;
-@end
-@interface UIImage (LEAdditions)
--(UIImage *)leStreched;
-@end
-@interface UIColor (LEAdditions)
--(UIImage *) leImage;
--(UIImage *) leImageWithSize:(CGSize)size;
-@end
-@interface UILabel (LEAdditions)
--(CGSize) leSizeWithMaxSize:(CGSize) size;
-@end
-@interface NSAttributedString (LEAdditions)
--(CGRect) leRectWithMaxSize:(CGSize) size;
 @end
 
-@interface UIButton (LEVerticalButton) 
-@end
+/** method swizzling 按钮延时、避免多次触发*/
 @interface UIControl (LEDelayTouchEvent)
 @end
-@interface UIView (LERotate)
--(void)leDidRotateFrom:(UIInterfaceOrientation)from;
+/** method swizzling 按钮的纵向排版*/
+@interface UIButton (LEVerticalButton)
 @end
-
+@interface UILabel (LEAdditions)
+/** 获取label的size*/
+-(CGSize) leSizeWithMaxSize:(CGSize) size;
+@end

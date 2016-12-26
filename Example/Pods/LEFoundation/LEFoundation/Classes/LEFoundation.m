@@ -106,7 +106,7 @@
 }
 -(Class) leClass{
     Class class=NSClassFromString(self);
-    NSAssert(class,([NSString stringWithFormat:@"请检查类名是否正确：%@",self]));
+    NSAssert(class!=[NSNull null],([NSString stringWithFormat:@"请检查类名是否正确：%@",self]));
     return class;
 }
 -(id)leJSONValue {

@@ -107,15 +107,16 @@
         curPages=[NSMutableArray new];
         for (NSInteger i=0; i<pages.count; i++) {
             NSString *classname=[pages objectAtIndex:i];
-            NSAssert([NSClassFromString(classname) isKindOfClass:[LEBottomTabbarPage class]],@"lePages中的类名需继承LEBottomTabbarPage");
-            LEBottomTabbarPage *page=[[classname leClass] new];
+            LEBottomTabbarPage *page=[classname leGetInstanceFromClassName];
+            NSAssert([page isKindOfClass:[LEBottomTabbarPage class]],@"lePages中的类名需继承LEBottomTabbarPage");
+            page=[page init];
             page.leAddTo(value).leMargins(UIEdgeInsetsMake(0, 0, LEBottomTabbarHeight, 0));
             [curPages addObject:page];
         }
         curItems=[NSMutableArray new];
         float buttonWidth=LESCREEN_WIDTH*1.0/normalIcons.count;
         for (NSInteger i=0; i<normalIcons.count; i++) {
-            UIButton *item=[UIButton new].leBtnVerticalLayout(YES).leBtnFixedSize(CGSizeMake(buttonWidth, LEBottomTabbarHeight)).leFont(LEFont(LEFontSS)).leBtnImg_N([normalIcons objectAtIndex:i]).leBtnColorN(normalColor).leBtnColorH(highlightedColor).leTouchEvent(@selector(onClickForButton:),self).leText(titles?[titles objectAtIndex:i]:nil);
+            UIButton *item=[UIButton new].leBtnVerticalLayout(YES).leBtnFixedSize(CGSizeMake(buttonWidth, LEBottomTabbarHeight)).leFont(LEFontSS).leBtnImg_N([normalIcons objectAtIndex:i]).leBtnColorN(normalColor).leBtnColorH(highlightedColor).leTouchEvent(@selector(onClickForButton:),self).leText(titles?[titles objectAtIndex:i]:nil);
             [curItems addObject:item];
             [self lePushToStack:item, nil];
         }

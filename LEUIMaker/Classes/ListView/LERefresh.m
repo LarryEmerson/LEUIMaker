@@ -89,7 +89,7 @@
     topRefreshHeight=LENavigationBarHeight;
     self.refreshContainer=[UIView new].leAddTo(self.curScrollView).leAnchor(LEOutsideTopCenter).leWidth(LESCREEN_WIDTH).leHeight(topRefreshHeight);
     UIView *wrapper=[UIView new].leAddTo(self.refreshContainer).leAnchor(LEInsideCenter).leWrapper();
-    self.curRefreshLabel=[UILabel new].leAddTo(wrapper).leAnchor(LEInsideRightCenter).leFont(LEFont(LEFontSL)).leAlignment(NSTextAlignmentCenter).leText(self.beginRefreshString);
+    self.curRefreshLabel=[UILabel new].leAddTo(wrapper).leAnchor(LEInsideRightCenter).leFont(LEFontSL).leAlignment(NSTextAlignmentCenter).leText(self.beginRefreshString);
     self.curIndicator.leAddTo(wrapper).leAnchor(LEOutsideLeftCenter).leRelativeTo(self.curRefreshLabel).leRight(LESideSpace).leSize(LESquareSize(LEIndicatorSize));
     [self setIsEnabled:YES];
 }
@@ -148,7 +148,7 @@
     topRefreshHeight=LENavigationBarHeight;
     self.refreshContainer=[UIView new].leAddTo(self.curScrollView).leAnchor(LEOutsideBottomCenter).leWidth(LESCREEN_WIDTH).leHeight(topRefreshHeight);
     UIView *wrapper=[UIView new].leAddTo(self.refreshContainer).leAnchor(LEInsideCenter).leWrapper();
-    self.curRefreshLabel=[UILabel new].leAddTo(wrapper).leAnchor(LEInsideRightCenter).leFont(LEFont(LEFontSL)).leAlignment(NSTextAlignmentCenter).leText(self.beginRefreshString);
+    self.curRefreshLabel=[UILabel new].leAddTo(wrapper).leAnchor(LEInsideRightCenter).leFont(LEFontSL).leAlignment(NSTextAlignmentCenter).leText(self.beginRefreshString);
     self.curIndicator.leAddTo(wrapper).leAnchor(LEOutsideLeftCenter).leRelativeTo(self.curRefreshLabel).leRight(LESideSpace).leSize(LESquareSize(LEIndicatorSize));
     [self setIsEnabled:YES];
 }

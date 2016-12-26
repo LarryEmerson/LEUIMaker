@@ -41,10 +41,16 @@ typedef NS_ENUM(NSInteger, LEPopopType) {
 -(id) initWithDelegate:(id<LEPopupDelegate>) delegate Type:(LEPopopType) type;
 -(id) initWithDelegate:(id<LEPopupDelegate>) delegate Type:(LEPopopType) type Identifier:(NSString *) identifier;
 
+/** 询问：delegate、subtitle、identifier */
 +(LEPopup *) leShowQuestionPopupWithDelegate:(id<LEPopupDelegate>) delegate Subtitle:(NSString *) subtitle Identifier:(NSString *) identifier;
+/** 询问：delegate、title、subtitle、alignment、identifier */
 +(LEPopup *) leShowQuestionPopupWithDelegate:(id<LEPopupDelegate>) delegate Title:(NSString *) title Subtitle:(NSString *) subtitle Alignment:(NSTextAlignment) alignment Identifier:(NSString *) identifier;
+/** 询问：delegate、title、subtitle、alignment、leftbuttontext、rightbuttontext、identifier */
 +(LEPopup *) leShowQuestionPopupWithDelegate:(id<LEPopupDelegate>) delegate Title:(NSString *) title Subtitle:(NSString *) subtitle Alignment:(NSTextAlignment) alignment LeftButtonText:(NSString *)leftText RightButtonText:(NSString *)rightText Identifier:(NSString *) identifier;
+/** 提示：delegate、title、subtitle、identifier */
 +(LEPopup *) leShowTipPopupWithDelegate:(id<LEPopupDelegate>) delegate Title:(NSString *) title Subtitle:(NSString *) subtitle Identifier:(NSString *) identifier;
+/** 提示：delegate、title、subtitle、alignment、identifier */
 +(LEPopup *) leShowTipPopupWithDelegate:(id<LEPopupDelegate>) delegate Title:(NSString *) title Subtitle:(NSString *) subtitle Aligment:(NSTextAlignment) aligment Identifier:(NSString *) identifier;
+/** 提示：delegate、title、subtitle、alignment、buttontext、identifier */
 +(LEPopup *) leShowTipPopupWithDelegate:(id<LEPopupDelegate>) delegate Title:(NSString *) title Subtitle:(NSString *) subtitle Aligment:(NSTextAlignment) aligment ButtonText:(NSString *) text Identifier:(NSString *) identifier;
 @end

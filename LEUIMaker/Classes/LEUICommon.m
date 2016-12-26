@@ -27,18 +27,22 @@
 @property (nonatomic, readwrite) UIImage *leListRightArrow;
 /** 图片多选选中标识 */
 @property (nonatomic, readwrite) UIImage *leMultiImagePickerCheckbox;
+/** 二维码扫码框 */
+@property (nonatomic, readwrite) UIImage *leQRCodeScanRect;
+/** 二维码扫描条 */
+@property (nonatomic, readwrite) UIImage *leQRCodeScanLine;
 @end
 @implementation LEUICommon
 LESingleton_implementation(LEUICommon)
 -(UIFont *) leNaviTitleFont{
     if(!_leNaviTitleFont){
-        _leNaviTitleFont=LEBoldFont(LEFontLS);
+        _leNaviTitleFont=LEBoldFontLS;
     }
     return _leNaviTitleFont;
 }
 -(UIFont *) leNaviBtnFont{
     if(!_leNaviBtnFont){
-        _leNaviBtnFont=LEFont(LEFontMS);
+        _leNaviBtnFont=LEFontMS;
     }
     return _leNaviBtnFont;
 }
@@ -100,6 +104,29 @@ LESingleton_implementation(LEUICommon)
     }
     return _leMultiImagePickerCheckbox;
 }
+//
+-(UIImage *) leQRCodeScanRect{
+    if(!_leQRCodeScanRect){
+        NSString *value=nil;
+        if(LESCREEN_SCALE_INT==3){
+            value=@"iVBORw0KGgoAAAANSUhEUgAAADwAAAA8CAYAAAA6/NlyAAAAAXNSR0IArs4c6QAAAAlwSFlzAAAhOAAAITgBRZYxYAAAABxpRE9UAAAAAgAAAAAAAAAeAAAAKAAAAB4AAAAeAAAA08lw5ZAAAACfSURBVGgF7JQxDsAgDAP5/8f6qUqtWI8MLFipekgd8NAk9oUxrvuJfgMnXj9e0IHDhJnw4Z0G0dH3Y4abL4iJ44TFCzqwj9bRNdv6OShse91ZTweuXGobKRqreqdmwnRk3r9yqt6pmTAdMeHGfFdhURNpOiLSIt3HgYpOau4wHXGH+xC8dFKFRU2k6YhILyD1EaqwqP0P6T752MkJB14AAAD//yfpndIAAACvSURBVO2ZQQqAMAwE+/+P+SlBqSdZF9K0l1RG8NCYSnZ3etHWuP7uwHFeLbp38SDS0Z+HYp+mTRQj2NBLwg6LTYgeC88J1BqCizqgQbn1GAZFBepYTqDWEKyO9PUul5tdaySsjpBwYb5dWFoDaXUEpEG6jgOOTq1xhtURznAdgj+TuLC0NoS0blpZ65Qr75rZi+AZ1zJ7SNh8aMsYmO0F6axj2X6QBun410+Wqlf/DYTb0mxNqtCAAAAAAElFTkSuQmCC";
+        }else{
+            value=@"iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAAXNSR0IArs4c6QAAAAlwSFlzAAAWJQAAFiUBSVIk8AAAABxpRE9UAAAAAgAAAAAAAAAUAAAAKAAAABQAAAAUAAAAkbwQiEoAAABdSURBVFgJ7JQxCgAgDAP7/4/5KUEXM3ZJQ0CIIJnSplexau0ju/WOtKa0WAIO150VT9+jlSCaubSD034xrmDok4AgwWoIsuTgC0GQYDUEWXLwhSBIsPovQXZik+8CAAD//3ue0MMAAABoSURBVGNgGPTg+J//DNgwvR2OzQ0gMayOA0vQ2YWjDqQ0wEdDcDQE0dMApSFCqn50+2H80WKG2JCEhRg6PRqCIzcE0dMCMXxYaBGjllg1ONMgsQYgqxt1IHJokMMeDUFyQg1ZDw1CEADfJ0Z5C0+/xwAAAABJRU5ErkJggg==";
+        }
+        UIImage *img=[UIImage imageWithData:[[NSData alloc] initWithBase64EncodedString:value options:NSDataBase64DecodingIgnoreUnknownCharacters]];
+        _leQRCodeScanRect = [UIImage imageWithCGImage:img.CGImage scale:2 orientation:img.imageOrientation];
+        img=nil;
+        value=nil;
+    }
+    return _leQRCodeScanRect;
+}
+-(UIImage *) leQRCodeScanLine{
+    if(!_leQRCodeScanLine){
+        _leQRCodeScanLine = [[UIColor colorWithRed:37/255.0 green:200/255.0 blue:250/255.0 alpha:1] leImageWithSize:LESquareSize(3)]; 
+    }
+    return _leQRCodeScanLine;
+}
+//
 /** 设置导航栏标题字体 */
 -(void) leSetNaviTitleFont:(UIFont *) font{
     self.leNaviTitleFont=font;
@@ -135,6 +162,15 @@ LESingleton_implementation(LEUICommon)
 -(void) leSetMultiImagePickerCheckbox:(UIImage *) image{
     self.leMultiImagePickerCheckbox=image;
 }
+/** 设置图片多选选中标识 */
+-(void) leSetQRCodeScanRect:(UIImage *) image{
+    self.leQRCodeScanRect=image;
+}
+/** 设置图片多选选中标识 */
+-(void) leSetQRCodeScanLine:(UIImage *) image{
+    self.leQRCodeScanLine=image;
+}
+
 -(UIWindow *) leGetTopWindow{
     NSEnumerator *frontToBackWindows = [UIApplication.sharedApplication.windows reverseObjectEnumerator];
     for (UIWindow *window in frontToBackWindows) {

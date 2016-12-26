@@ -56,7 +56,7 @@
     curMaxCount=max;
     hasMaxCount=max!=INT_MAX&&(!(curRemainCount==1&&curMaxCount==1));
     LEView *view=[[LEView alloc] initWithViewController:self];
-    [LENavigation new].leSuperView(view).leDelegate(self).leTitle([[LEImagePickerManager sharedInstance] leTransformAblumTitle:collection.localizedTitle]).leRightItemText(@"完成");
+    [LENavigation new].leSuperView(view).leDelegate(self).leTitle(collection.localizedTitle).leRightItemText(@"完成");
     view.leSubViewContainer.leBgColor(LEColorBG5);
     float cellSize=(LESCREEN_WIDTH-LESideSpace*5)*0.25; 
     UICollectionViewFlowLayout *layout=[[UICollectionViewFlowLayout alloc] init];
@@ -68,12 +68,15 @@
     collectionView=[LECollectionView alloc].leInit(view.leSubViewContainer, layout, @"LEMultiImagePickerItem").leDelegate(self);
     curArray=[NSMutableArray new];
     NSArray *array=[[LEImagePickerManager sharedInstance] leGetAssetsInAssetCollection:collection ascending:NO];
-    curSelections=[NSMutableArray new];
+    if(assets){
+        curSelections=assets.mutableCopy;
+    }else{
+        curSelections=[NSMutableArray new];
+    }
     for (NSInteger i=0; i<array.count; i++) {
         PHAsset *asset=[array objectAtIndex:i];
         NSMutableDictionary *dic=[NSMutableDictionary new];
         if(assets&&[assets containsObject:asset]){
-            [curSelections addObject:@(i)];
             [dic setObject:@(YES) forKey:LEImagePickerCheckbox];
         }else{
             [dic setObject:@(NO) forKey:LEImagePickerCheckbox];
@@ -84,21 +87,14 @@
     [collectionView leOnRefreshedWithData:curArray];
     if(hasMaxCount){
         UIView *btm=[UIView new].leAddTo(view.leSubViewContainer).leAnchor(LEI_BC).leSize(CGSizeMake(LESCREEN_WIDTH, LEBottomTabbarHeight)).leBgColor(LEColorWhite).leAddTopSplitline(LEColorSplitline,0,LESCREEN_WIDTH);
-        labelCount=[UILabel new].leAddTo(btm).leAnchor(LEI_C).leFont(LEBoldFont(LEFontLL)).leColor(LEColorBlack).leText([NSString stringWithFormat:@"%zd/%zd",curMaxCount-curRemainCount,curMaxCount]);
+        labelCount=[UILabel new].leAddTo(btm).leAnchor(LEI_C).leFont(LEBoldFontLL).leColor(LEColorBlack).leText([NSString stringWithFormat:@"%zd/%zd",curMaxCount-curRemainCount,curMaxCount]);
     }
     
     return self;
 }
 -(void) leNavigationRightButtonTapped{
-    NSMutableArray *muta=[NSMutableArray new];
-    for (NSInteger i=0; i<curSelections.count; i++) {
-        NSInteger index=[[curSelections objectAtIndex:i] integerValue];
-        if(index<curArray.count){
-            [muta addObject:[[curArray objectAtIndex:index] objectForKey:LEImagePickerCellAsset]];
-        }
-    }
     if(curDelegate&&[curDelegate respondsToSelector:@selector(leOnImageAssetPickedWith:)]){
-        [curDelegate leOnImageAssetPickedWith:muta];
+        [curDelegate leOnImageAssetPickedWith:curSelections];
     }
     [self.navigationController popViewControllerAnimated:NO];
     [[NSNotificationCenter defaultCenter] postNotificationName:LEImagePickerPopup object:nil];
@@ -108,17 +104,12 @@
     if(index.row<curArray.count){
         NSMutableDictionary *dic=[curArray objectAtIndex:index.row];
         BOOL check=[[dic objectForKey:LEImagePickerCheckbox] boolValue];
+        PHAsset *asset=[dic objectForKey:LEImagePickerCellAsset];
         if(check||curRemainCount>0){
             if(check){
-                for (NSInteger i=0; i<curSelections.count; i++) {
-                    NSInteger ind=[[curSelections objectAtIndex:i] integerValue];
-                    if(ind==index.row){
-                        [curSelections removeObjectAtIndex:i];
-                        break;
-                    }
-                }
+                [curSelections removeObject:asset];
             }else{
-                [curSelections addObject:@(index.row)];
+                [curSelections addObject:asset];
             }
             [dic setObject:@(!check) forKey:LEImagePickerCheckbox];
             [collectionView reloadItemsAtIndexPaths:@[index]];
@@ -146,15 +137,15 @@
     curIcon=[UIImageView new].leAddTo(container).leAnchor(LEI_LC).leLeft(LESideSpace20).leWidth(cellH-LESideSpace20).leHeight(cellH-LESideSpace20).leMaxWidth(cellH-LESideSpace20).leMaxHeight(cellH-LESideSpace20);
     curIcon.contentMode=UIViewContentModeScaleAspectFill;
     curIcon.clipsToBounds=YES;
-    curTitle=[UILabel new].leAddTo(self).leAnchor(LEO_RC).leRelativeTo(curIcon).leLeft(LESideSpace).leFont(LEBoldFont(LEFontLL)).leLine(1);
-    curSubtitle=[UILabel new].leAddTo(self).leAnchor(LEO_RC).leRelativeTo(curTitle).leLeft(LESideSpace).leFont(LEFont(LEFontML)).leLine(1).leColor(LEColorText9);
+    curTitle=[UILabel new].leAddTo(self).leAnchor(LEO_RC).leRelativeTo(curIcon).leLeft(LESideSpace).leFont(LEBoldFontLL).leLine(1);
+    curSubtitle=[UILabel new].leAddTo(self).leAnchor(LEO_RC).leRelativeTo(curTitle).leLeft(LESideSpace).leFont(LEFontML).leLine(1).leColor(LEColorText9);
     self.leBottomView(container);
 }
 -(void) leSetData:(id)data  {
     if([data isKindOfClass:[PHAssetCollection class]]){
         PHAssetCollection *collection=data;
         PHFetchResult *result=[[LEImagePickerManager sharedInstance] leFetchAssetsInAssetCollection:collection ascending:NO];
-        curTitle.leText([[LEImagePickerManager sharedInstance] leTransformAblumTitle:collection.localizedTitle]);
+        curTitle.leText(collection.localizedTitle);
         curSubtitle.leText([NSString stringWithFormat:@"(%zd)", result.count]);
         [[LEImagePickerManager sharedInstance] leGetImageByAsset:result.firstObject makeSize:CGSizeMake(curIcon.bounds.size.width*LESCREEN_SCALE, curIcon.bounds.size.height*LESCREEN_SCALE) makeResizeMode:PHImageRequestOptionsResizeModeFast completion:^(UIImage * value) {
             curIcon.leImage(value);
@@ -232,27 +223,22 @@
 -(__kindof LEImagePicker *(^)(NSInteger count)) leMaxCount{
     return ^id(NSInteger value){
         curMaxCount=value;
-        if(curSelectedAssets){
-            curRemainCount=value-curSelectedAssets.count;
-        }
         return self;
     };
 }
 -(__kindof LEImagePicker *(^)(NSArray<PHAsset *> *assets)) leSelectedAssets{
     return ^id(NSArray<PHAsset *> *value){
         curSelectedAssets=value;
-        if(value){
-            curRemainCount=curMaxCount-value.count;
-        }else{
-            curRemainCount=curMaxCount;
-        }
         return self;
     };
 }
 @end
 
+@interface LEImagePickerManager ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
+@end
 @implementation LEImagePickerManager{
     UIAlertController *alert;
+    UIImagePickerController *imagePickerController;
 }
 LESingleton_implementation(LEImagePickerManager)
 -(void) leShowTypeSelectionWithTitle:(NSString *) title Camera:(BOOL) camera Ablum:(BOOL) ablum Remain:(NSInteger) remain Max:(NSInteger) max Assets:(NSArray<PHAsset *> *)assets Delegate:(id<LEImagePickerDelegate>) delegate VC:(UIViewController *) vc{
@@ -261,8 +247,8 @@ LESingleton_implementation(LEImagePickerManager)
     alert=[UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *cancleAction=[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     UIAlertAction *ablumAction = nil;
+    LEWeakSelf(self)
     if(ablum){
-        LEWeakSelf(self)
         ablumAction=[UIAlertAction actionWithTitle:@"相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             if([LEImagePickerManager sharedInstance].leAlbumAuthorityNotDetermined){
                 [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
@@ -290,11 +276,11 @@ LESingleton_implementation(LEImagePickerManager)
                 if([LEImagePickerManager sharedInstance].leCameraAuthorityNotDetermined){
                     [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
                         if(granted){
-                            //                      [self takePhotoFromiPhone];
+                            [self takePhotoFromiPhone];
                         }
                     }];
                 }else if ([LEImagePickerManager sharedInstance].leCameraAuthority) {
-                    //                [self takePhotoFromiPhone];
+                    [self takePhotoFromiPhone];
                 }else{
                     if([LEImagePickerManager sharedInstance].leDelegate&&[[LEImagePickerManager sharedInstance].leDelegate respondsToSelector:@selector(leOnShowMessage:)]){
                         NSDictionary *mainInfoDictionary = [[NSBundle mainBundle] infoDictionary];
@@ -314,7 +300,26 @@ LESingleton_implementation(LEImagePickerManager)
     [alert addAction:cancleAction];
     [vc presentViewController:alert animated:YES completion:nil];
 }
--(BOOL) leAlbumAuthorityNotDetermined{  
+-(void) takePhotoFromiPhone{
+    LEWeakSelf(self)
+    imagePickerController = [[UIImagePickerController alloc] init];
+    imagePickerController.delegate = self;
+    imagePickerController.allowsEditing = NO;
+    imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+    [weakself.leVC presentViewController:imagePickerController animated:YES completion:^(void){
+    }];
+}
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    LEWeakSelf(self)
+    [picker dismissViewControllerAnimated:YES completion:^(void){
+        UIImage *oriImage = [info objectForKeyedSubscript:@"UIImagePickerControllerOriginalImage"];
+        if(weakself.leDelegate&&[weakself.leDelegate respondsToSelector:@selector(leOnImagePickedWith:)]){ 
+            [weakself.leDelegate leOnImagePickedWith:oriImage];
+        }
+    }];
+}
+
+-(BOOL) leAlbumAuthorityNotDetermined{
     return [PHPhotoLibrary authorizationStatus]==PHAuthorizationStatusNotDetermined;
 }
 -(BOOL) leAlbumAuthority{
@@ -351,11 +356,9 @@ LESingleton_implementation(LEImagePickerManager)
     NSMutableArray<PHAssetCollection *> * albums = [NSMutableArray array];
     PHFetchResult * smartAlbum = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
     [smartAlbum enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull collection, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (!([collection.localizedTitle isEqualToString:@"Recently Deleted"] || [collection.localizedTitle isEqualToString:@"Videos"])) {
-            PHFetchResult * result = [self leFetchAssetsInAssetCollection:collection ascending:YES];
-            if (result.count > 0) {
-                [albums addObject:collection];
-            }
+        PHFetchResult * result = [self leFetchAssetsInAssetCollection:collection ascending:YES];
+        if (result.count > 0) {
+            [albums addObject:collection];
         }
     }];
     PHFetchResult * userAlbum = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeSmartAlbumUserLibrary options:nil];
@@ -368,30 +371,6 @@ LESingleton_implementation(LEImagePickerManager)
     return albums;
 }
 
--(NSString *) leTransformAblumTitle:(NSString *)title{
-    if ([title isEqualToString:@"Slo-mo"]) {
-        return @"慢动作";
-    } else if ([title isEqualToString:@"Recently Added"]) {
-        return @"最近添加";
-    } else if ([title isEqualToString:@"Favorites"]) {
-        return @"最爱";
-    } else if ([title isEqualToString:@"Recently Deleted"]) {
-        return @"最近删除";
-    } else if ([title isEqualToString:@"Videos"]) {
-        return @"视频";
-    } else if ([title isEqualToString:@"All Photos"]) {
-        return @"所有照片";
-    } else if ([title isEqualToString:@"Selfies"]) {
-        return @"自拍";
-    } else if ([title isEqualToString:@"Screenshots"]) {
-        return @"屏幕快照";
-    } else if ([title isEqualToString:@"Camera Roll"]) {
-        return @"相机胶卷";
-    }else if ([title isEqualToString:@"My Photo Stream"]){
-        return @"我的照片流";
-    }
-    return nil;
-}
 -(void) leGetImageByAsset:(PHAsset *)asset makeSize:(CGSize)size makeResizeMode:(PHImageRequestOptionsResizeMode)resizeMode completion:(void (^)(UIImage *))completion{
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
     /**

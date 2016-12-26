@@ -1223,64 +1223,52 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     [self endEditing:YES];
 }
 @end
-@implementation UIViewController (LEAdditions)
--(void) lePush:(UIViewController *) vc{
-    [self.navigationController pushViewController:vc animated:YES];
+//
+@interface LETouchEventLock : NSObject
+LESingleton_interface(LETouchEventLock)
+-(BOOL) isTouchEventLocked;
+@end
+@implementation LETouchEventLock{
+    BOOL touchEventLock;
 }
--(void) lePop{
-    [self.navigationController popViewControllerAnimated:YES];
+LESingleton_implementation(LETouchEventLock)
+-(BOOL) isTouchEventLocked{
+    BOOL lock=touchEventLock;
+    if(!touchEventLock){
+        touchEventLock=YES;
+        [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(unLockTouchEvent) userInfo:nil repeats:NO];
+    }else NSLog(@"Touch event was ignored for too many in 0.6s");
+    return lock;
+}
+-(void) unLockTouchEvent{
+    touchEventLock=NO;
 }
 @end
-@implementation UIImage (LEAdditions)
--(UIImage *)leStreched{
-    return [self stretchableImageWithLeftCapWidth:self.size.width/2 topCapHeight:self.size.height/2];
+@implementation UIControl (LEDelayTouchEvent)
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        Class class = [self class];
+        SEL originalSelector = @selector(sendAction:to:forEvent:);
+        SEL swizzledSelector = @selector(leSendAction:to:forEvent:);
+        Method originalMethod = class_getInstanceMethod(class, originalSelector);
+        Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
+        BOOL didAddMethod = class_addMethod(class, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod));
+        if (didAddMethod) {
+            class_replaceMethod(class, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
+        } else {
+            method_exchangeImplementations(originalMethod, swizzledMethod);
+        }
+    });
 }
-@end
-@implementation UITableView (LEAdditions)
--(BOOL) touchesShouldCancelInContentView:(UIView *)view{
-    return YES;
-}
-@end
-@implementation UIColor (LEAdditions)
--(UIImage *) leImage{
-    return [self leImageWithSize:CGSizeMake(1, 1)]; 
-}
--(UIImage *) leImageWithSize:(CGSize)size {
-    CGRect rect = CGRectMake(0, 0, size.width, size.height);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context, [self CGColor]);
-    CGContextFillRect(context, rect);
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
-}
-@end
-@implementation UILabel (LEAdditions)
--(CGSize) leSizeWithMaxSize:(CGSize) size{
-    if(self.text.length==0){
-        return CGSizeZero;
+- (void)leSendAction:(SEL)action to:(nullable id)target forEvent:(nullable UIEvent *)event{
+    if (!self.leViewAdditions.isIgnoreTouchEventLock&&event.type == UIEventTypeTouches && [[event.allTouches anyObject] phase] == UITouchPhaseBegan&&![LETouchEventLock sharedInstance].isTouchEventLocked){
+        [self leSendAction:action to:target forEvent:event];
+    }else{
+        [self leSendAction:action to:target forEvent:event];
     }
-    NSMutableDictionary *dic=[NSMutableDictionary new];
-    [dic setObject:self.font forKey:NSFontAttributeName];
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    [paragraphStyle setLineBreakMode:NSLineBreakByWordWrapping];
-    [paragraphStyle setAlignment:self.textAlignment];
-    if(self.leViewAdditions.lineSpace>0){
-        [paragraphStyle setLineSpacing:self.leViewAdditions.lineSpace];
-    }
-    [dic setObject:paragraphStyle forKey:NSParagraphStyleAttributeName];
-    CGRect rect = [self.text boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dic context:nil];
-    rect.size.height=rect.size.height+1;
-    return rect.size;
 }
 @end
-@implementation NSAttributedString (LEAdditions)
--(CGRect) leRectWithMaxSize:(CGSize) size{
-    return [self boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
-}
-@end
-
 @implementation UIButton (LEVerticalButton)
 + (void)load {
     static dispatch_once_t onceToken;
@@ -1311,54 +1299,22 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     }
 }
 @end
-
-
-@interface LETouchEventLock : NSObject
-LESingleton_interface(LETouchEventLock)
--(BOOL) isTouchEventLocked;
-@end
-@implementation LETouchEventLock{
-    BOOL touchEventLock;
-}
-LESingleton_implementation(LETouchEventLock)
--(BOOL) isTouchEventLocked{
-    BOOL lock=touchEventLock;
-    if(!touchEventLock){
-        touchEventLock=YES;
-        [NSTimer scheduledTimerWithTimeInterval:0.6 target:self selector:@selector(unLockTouchEvent) userInfo:nil repeats:NO];
-    }else NSLog(@"Touch event was ignored for too many in 0.6s");
-    return lock;
-}
--(void) unLockTouchEvent{
-    touchEventLock=NO;
-}
-@end
-
-@implementation UIControl (LEDelayTouchEvent)
-+ (void)load {
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        Class class = [self class];
-        SEL originalSelector = @selector(sendAction:to:forEvent:);
-        SEL swizzledSelector = @selector(leSendAction:to:forEvent:);
-        Method originalMethod = class_getInstanceMethod(class, originalSelector);
-        Method swizzledMethod = class_getInstanceMethod(class, swizzledSelector);
-        BOOL didAddMethod = class_addMethod(class, originalSelector, method_getImplementation(swizzledMethod), method_getTypeEncoding(swizzledMethod));
-        if (didAddMethod) {
-            class_replaceMethod(class, swizzledSelector, method_getImplementation(originalMethod), method_getTypeEncoding(originalMethod));
-        } else {
-            method_exchangeImplementations(originalMethod, swizzledMethod);
-        }
-    });
-}
-- (void)leSendAction:(SEL)action to:(nullable id)target forEvent:(nullable UIEvent *)event{
-    if (!self.leViewAdditions.isIgnoreTouchEventLock&&![LETouchEventLock sharedInstance].isTouchEventLocked){
-        [self leSendAction:action to:target forEvent:event];
+@implementation UILabel (LEAdditions)
+-(CGSize) leSizeWithMaxSize:(CGSize) size{
+    if(self.text.length==0){
+        return CGSizeZero;
     }
+    NSMutableDictionary *dic=[NSMutableDictionary new];
+    [dic setObject:self.font forKey:NSFontAttributeName];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineBreakMode:NSLineBreakByWordWrapping];
+    [paragraphStyle setAlignment:self.textAlignment];
+    if(self.leViewAdditions.lineSpace>0){
+        [paragraphStyle setLineSpacing:self.leViewAdditions.lineSpace];
+    }
+    [dic setObject:paragraphStyle forKey:NSParagraphStyleAttributeName];
+    CGRect rect = [self.text boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dic context:nil];
+    rect.size.height=rect.size.height+1;
+    return rect.size;
 }
 @end
-
-@implementation UIView (LERotate)
--(void)leDidRotateFrom:(UIInterfaceOrientation)from{}
-@end
-

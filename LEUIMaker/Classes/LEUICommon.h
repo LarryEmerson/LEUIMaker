@@ -15,23 +15,29 @@
 #define LEColorWhite          [UIColor whiteColor]
 #define LEColorBlack          [UIColor blackColor]
 #define LERandomColor         [UIColor colorWithRed:arc4random_uniform(256)/255.0 green:arc4random_uniform(256)/255.0 blue:arc4random_uniform(256)/255.0 alpha:1.0]
-#define LEColorTest           [UIColor colorWithRed:0.867 green:0.852 blue:0.539 alpha:1.000]
+/** 测试颜色 */
+#define LEColorTest           [UIColor colorWithRed:0.985 green:0.000 blue:0.961 alpha:1.000]
 #define LEColorBlue           [UIColor colorWithRed:0.2071 green:0.467 blue:0.8529 alpha:1.0]
 #define LEColorRed 			  [UIColor colorWithRed:0.9337 green:0.2135 blue:0.3201  alpha:1.0]
 
 #pragma mark ColorText
 #define LEColorText         LEColorWhite
+/** B - - ^ - W */
 #define LEColorText9        [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1]
+/** B - ^ - W */
 #define LEColorText6        [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1]
+/** B - ^ - - W */
 #define LEColorText3        [UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1]
-
+/** 分割线颜色 */
 #define LEColorSplitline    [UIColor colorWithRed:217/255.0 green:217/255.0 blue:217/255.0 alpha:1]
-
 #define LEColorBG           LEColorWhite
+/** White 249 */
 #define LEColorBG9          [UIColor colorWithRed:249/255.0 green:249/255.0 blue:249/255.0 alpha:1]
+/** White 245 */
 #define LEColorBG5          [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1]
 
 #pragma mark Color Mask
+/** 高亮颜色 */
 #define LEColorHighlighted  [UIColor colorWithRed:209/255.0 green:209/255.0 blue:209/255.0 alpha:1]
 
 #define LEColorMaskLight      [[UIColor alloc] initWithWhite:0.906 alpha:1.000]
@@ -56,12 +62,37 @@
 #define LEAvatarSize        30
 #define LEAvatarSpace       20
 #pragma mark Font
-#define LEFontLL    (9.5*[[UIScreen mainScreen] scale])
-#define LEFontLS    (9  *[[UIScreen mainScreen] scale])
-#define LEFontML    (8  *[[UIScreen mainScreen] scale])
-#define LEFontMS    (7  *[[UIScreen mainScreen] scale])
-#define LEFontSL    (6  *[[UIScreen mainScreen] scale])
-#define LEFontSS    (5.5*[[UIScreen mainScreen] scale])
+
+#define LEFontSizeLL    (9.5*[[UIScreen mainScreen] scale])
+#define LEFontSizeLS    (9  *[[UIScreen mainScreen] scale])
+#define LEFontSizeML    (8  *[[UIScreen mainScreen] scale])
+#define LEFontSizeMS    (7  *[[UIScreen mainScreen] scale])
+#define LEFontSizeSL    (6  *[[UIScreen mainScreen] scale])
+#define LEFontSizeSS    (5.5*[[UIScreen mainScreen] scale])
+/** normal font 9.5 */
+#define LEFontLL        LEFont(LEFontSizeLL)
+/** normal font 9 */
+#define LEFontLS        LEFont(LEFontSizeLS)
+/** normal font 8 */
+#define LEFontML        LEFont(LEFontSizeML)
+/** normal font 7 */
+#define LEFontMS        LEFont(LEFontSizeMS)
+/** normal font 6 */
+#define LEFontSL        LEFont(LEFontSizeSL)
+/** normal font 5.5 */
+#define LEFontSS        LEFont(LEFontSizeSS)
+/** normal font 9.5 */
+#define LEBoldFontLL    LEBoldFont(LEFontSizeLL)
+/** normal font 9 */
+#define LEBoldFontLS    LEBoldFont(LEFontSizeLS)
+/** normal font 8 */
+#define LEBoldFontML    LEBoldFont(LEFontSizeML)
+/** normal font 7 */
+#define LEBoldFontMS    LEBoldFont(LEFontSizeMS)
+/** normal font 6 */
+#define LEBoldFontSL    LEBoldFont(LEFontSizeSL)
+/** normal font 5.5 */
+#define LEBoldFontSS    LEBoldFont(LEFontSizeSS)
 
 #pragma mark DeviceInfo
 #pragma mark DeviceInfo
@@ -74,17 +105,25 @@
 #define LEIS_IPHONE_6P (LEIS_IPHONE && LESCREEN_MAX_LENGTH == 736.0)
 
 #pragma mark List
+/** 列表高度 64 */
 #define LECellHL 64.0
+/** 列表高度 52 */
 #define LECellHM 52.0
+/** 列表高度 44 */
 #define LECellHS 44.0
+/** 列表高度 根据不同机器返回不同高度。6p->HL, 6->HM, Oth->HS */
 #define LECellH (LEIS_IPHONE_6P?LECellHL:(LEIS_IPHONE_6?LECellHM:LECellHS))
-
+/** 列表Section 24 */
 #define LESectionHL 24.0
+/** 列表Section 12 */
 #define LESectionHM 12.0
+/** 列表Section 8 */
 #define LESectionHS 8.0
-
+/** 分割线高度 */
 #define LESplitlineH (1.0/LESCREEN_SCALE)
+/** 列表回调 info的key值，index */
 #define LEKeyIndex  @"index"
+/** 列表回调 info的key值，info */
 #define LEKeyInfo   @"info"
 
 @interface LEUICommon : NSObject
@@ -108,7 +147,10 @@ LESingleton_interface(LEUICommon)
 /** 图片多选选中标识 */
 @property (nonatomic, readonly) UIImage *leMultiImagePickerCheckbox;
 
-
+/** 二维码扫码框 */
+@property (nonatomic, readonly) UIImage *leQRCodeScanRect;
+/** 二维码扫描条 */
+@property (nonatomic, readonly) UIImage *leQRCodeScanLine;
 
 /** 设置导航栏标题字体 */
 -(void) leSetNaviTitleFont:(UIFont *) font;
@@ -129,6 +171,12 @@ LESingleton_interface(LEUICommon)
 
 /** 设置图片多选选中标识 */
 -(void) leSetMultiImagePickerCheckbox:(UIImage *) image;
+
+/** 设置图片多选选中标识 */
+-(void) leSetQRCodeScanRect:(UIImage *) image;
+/** 设置图片多选选中标识 */
+-(void) leSetQRCodeScanLine:(UIImage *) image;
+
 /** 获得最顶端的window */
 -(UIWindow *) leGetTopWindow;
 @end

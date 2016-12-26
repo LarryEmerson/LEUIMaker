@@ -103,7 +103,9 @@
         self.allowsSelection=YES;
         self.delegate=self;
         self.dataSource=self;
-        NSAssert([NSClassFromString(cellClassname) isKindOfClass:[LECollectionItem class]],([NSString stringWithFormat:@"请检查自定义(%@)是否继承于LECollectionCell",cellClassname]));
+        LECollectionItem *item=[cellClassname leGetInstanceFromClassName];
+        NSAssert([item isKindOfClass:[LECollectionItem class]],([NSString stringWithFormat:@"请检查自定义(%@)是否继承于LECollectionCell",cellClassname]));
+        item=nil;
         [self registerClass:NSClassFromString(cellClassname) forCellWithReuseIdentifier:LECollectionIdentifierItem];
         self.backgroundColor=LEColorClear;
         [self leExtraInits];
@@ -126,7 +128,9 @@
 }
 -(__kindof LECollectionView *(^)(NSString *sectionClassname)) leSectionClassname{
     return ^id(NSString *value){
-        NSAssert([NSClassFromString(value) isKindOfClass:[LECollectionSection class]],([NSString stringWithFormat:@"请检查自定义(%@)是否继承于LECollectionSection",value]));
+        LECollectionSection *sec=[value leGetInstanceFromClassName];
+        NSAssert([sec isKindOfClass:[LECollectionSection class]],([NSString stringWithFormat:@"请检查自定义(%@)是否继承于LECollectionSection",value]));
+        sec=nil;
         [self registerClass:NSClassFromString(value) forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:LECollectionIdentifierSection];
         [self registerClass:NSClassFromString(value) forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:LECollectionIdentifierSection];
         return self;

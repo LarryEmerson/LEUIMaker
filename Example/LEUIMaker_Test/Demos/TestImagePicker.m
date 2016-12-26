@@ -23,10 +23,14 @@
     checkStatus.hidden=!value;
 }
 -(void) leSetData:(id)data{
-    PHAsset *asset=data;
-    [[LEImagePickerManager sharedInstance] leGetImageByAsset:asset makeSize:CGSizeMake(curIcon.bounds.size.width*LESCREEN_SCALE, curIcon.bounds.size.height*LESCREEN_SCALE) makeResizeMode:PHImageRequestOptionsResizeModeFast completion:^(UIImage * value) {
-        curIcon.leImage(value);
-    }];
+    if([data isKindOfClass:[UIImage class]]){
+        curIcon.leImage(data);
+    }else{
+        PHAsset *asset=data;
+        [[LEImagePickerManager sharedInstance] leGetImageByAsset:asset makeSize:CGSizeMake(curIcon.bounds.size.width*LESCREEN_SCALE, curIcon.bounds.size.height*LESCREEN_SCALE) makeResizeMode:PHImageRequestOptionsResizeModeFast completion:^(UIImage * value) {
+            curIcon.leImage(value);
+        }];
+    }
 }
 @end
 
@@ -36,8 +40,10 @@
 @implementation TestImagePickerPage{
     NSArray<PHAsset *> *curSelected;
     LECollectionView *collectionView;
+    NSMutableArray *curDataSource;
 }
 -(void) leExtraInits{
+    curDataSource=[NSMutableArray new];
     [LENavigation new].leSuperView(self).leTitle(@"最大照片数量随机生成").leRightItemText(@"有序添加").leDelegate(self);
     float cellSize=(LESCREEN_WIDTH-LESideSpace*5)*0.25;
     UICollectionViewFlowLayout *layout=[UICollectionViewFlowLayout new];
@@ -52,11 +58,31 @@
 -(void) leNavigationRightButtonTapped{
 //    LEImagePicker *picker=[LEImagePicker new].leInit(self.leViewController,self);
 //    picker.leMaxCount(MAX(curSelected.count, rand()%10)).leSelectedAssets(curSelected);
-    [[LEImagePickerManager sharedInstance] leShowTypeSelectionWithTitle:@"选择图片" Camera:YES Ablum:YES Remain:0 Max:MAX(curSelected.count, rand()%10) Assets:curSelected Delegate:self VC:self.leViewController];
+    NSInteger ran=rand()%10;
+    NSInteger max=MAX(curDataSource.count+1, ran);
+    [[LEImagePickerManager sharedInstance] leShowTypeSelectionWithTitle:@"选择图片" Camera:YES Ablum:YES Remain:max-curDataSource.count Max:max Assets:curSelected Delegate:self VC:self.leViewController];
 }
 -(void) leOnImageAssetPickedWith:(NSArray *)assets{
     curSelected=assets;
-    [collectionView leOnRefreshedWithData:curSelected.mutableCopy];
+    for (NSInteger i=curDataSource.count-1;i>=0; i--) {
+        id obj=[curDataSource objectAtIndex:i];
+        if(![obj isKindOfClass:[UIImage class]]){
+            if(![assets containsObject:obj]){
+                [curDataSource removeObjectAtIndex:i];
+            }
+        }
+    }
+    for (NSInteger i=0; i<assets.count; i++) {
+        PHAsset *asset=[assets objectAtIndex:i];
+        if(![curDataSource containsObject:asset]){
+            [curDataSource addObject:asset];
+        }
+    }
+    [collectionView leOnRefreshedWithData:curDataSource];
+}
+-(void) leOnImagePickedWith:(UIImage *) image{
+    [curDataSource addObject:image];
+    [collectionView leOnRefreshedWithData:curDataSource];
 }
 -(void) leOnShowMessage:(NSString *) message{ 
     [LEHUD leShowHud:message];

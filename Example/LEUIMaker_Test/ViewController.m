@@ -37,8 +37,8 @@
 }
 -(void) leExtraInits{  
     self.leArrowEnabled(YES);
-    label=[UILabel new].leAddTo(self).leAnchor(LEInsideTopLeft).leLeft(LESideSpace).leTop(LESideSpace).leMaxWidth(self.leArrow.frame.origin.x-LESideSpace ).leLine(0).leLineSpace(10).leColor(LEColorRed).leFont(LEBoldFont(LEFontML));
-    subLabel=[UILabel new].leAddTo(self).leAnchor(LEOutsideBottomLeft).leRelativeTo(label).leTop(LESideSpace).leMaxWidth(self.leArrow.frame.origin.x-LESideSpace ).leLine(0).leBottom(LESideSpace).leColor(LEColorText9).leLineSpace(10).leFont(LEFont(LEFontML));
+    label=[UILabel new].leAddTo(self).leAnchor(LEInsideTopLeft).leLeft(LESideSpace).leTop(LESideSpace).leMaxWidth(self.leArrow.frame.origin.x-LESideSpace ).leLine(0).leLineSpace(10).leColor(LEColorRed).leFont(LEBoldFontML);
+    subLabel=[UILabel new].leAddTo(self).leAnchor(LEOutsideBottomLeft).leRelativeTo(label).leTop(LESideSpace).leMaxWidth(self.leArrow.frame.origin.x-LESideSpace ).leLine(0).leBottom(LESideSpace).leColor(LEColorText9).leLineSpace(10).leFont(LEFontML);
     self.leBottomView(subLabel);
 }
 -(void) leSetData:(id)data  {
@@ -57,14 +57,14 @@
 -(void) leExtraInits{
     [super leExtraInits];
     UIView *view=[UIView new].leAddTo(self).leWidth(LESCREEN_WIDTH).leHeight(LESCREEN_HEIGHT-LEStatusBarHeight-LENavigationBarHeight).leEnableTouch(NO);
-    label=[UILabel new].leAddTo(self).leAnchor(LEInsideTopCenter).leTop(LESideSpace).leFont(LEBoldFont(LEFontLL)).leMaxWidth(LESCREEN_WIDTH-LESideSpace*2).leColor(LEColorRed).leAlignment(NSTextAlignmentCenter).leText(@"空列表展示");
+    label=[UILabel new].leAddTo(self).leAnchor(LEInsideTopCenter).leTop(LESideSpace).leFont(LEBoldFontLL).leMaxWidth(LESCREEN_WIDTH-LESideSpace*2).leColor(LEColorRed).leAlignment(NSTextAlignmentCenter).leText(@"空列表展示");
     label2=[UILabel new].leAddTo(self).leAnchor(LEOutsideBottomCenter).leRelativeTo(label).leTop(LESideSpace).leBottom(LESideSpace).leMaxWidth(LESCREEN_WIDTH-LESideSpace*2).leLine(0).leAlignment(NSTextAlignmentCenter).leLineSpace(10).leText(@"这段文字本身也是一个Cell，用于展示空列表的处理。\n点击或下拉后，继续");
     self.leBottomView(view);
 }
 @end
 
 
-@interface ViewControllerPage : LEView<LENavigationDelegate,LETableViewDataSource,LETableViewDelegate>
+@interface ViewControllerPage : LEView<LENavigationDelegate,LETableViewDataSource,LETableViewDelegate,LEScanQRCodeDelegate>
 @end
 @implementation ViewControllerPage{
     LENavigation *navigationView;
@@ -78,9 +78,7 @@
 }
  
 /** 初始化内容位置 */
-- (void)leExtraInits {
-    
-    
+- (void)leExtraInits { 
     navigationTitles=@[@"点我",@"点我-测试",@"点我-测试导航栏",@"点我-测试导航栏标题文字",@"点我-测试导航栏标题文字的宽度",@"点我-测试导航栏标题文字的宽度变动"];
     demoClassnames=@[
 //                     @{@"classname":@"TestWKWebview", @"text":@"测试TestWKWebview"},
@@ -144,14 +142,17 @@
             if([classname isEqualToString:@"TestShowQRCode"]){
                 [self.leViewController lePush:[LEShowQRCode new].leinit(@"二维码显示界面",@"LarryEmerson")];
             }else if([classname isEqualToString:@"TestScanQRCode"]){
-                [self.leViewController lePush:[LEScanQRCode new]];
+                [self.leViewController lePush:[LEScanQRCode new].leDelegate(self)];
             }else if(classname){
-                [self.leViewController lePush:(LEViewController *)[[classname leClass] new]];
+                [self.leViewController lePush:(LEViewController *)[[classname leGetInstanceFromClassName] init]];
             }
         }else{
             [LEHUD leShowHud:[NSString stringWithFormat:@"%zd-测试加载更多",index.row+1]];
         }
     }
+}
+-(void) leOnScannedQRCodeWithResult:(NSString *)code{
+    LELogObject(code)
 }
 @end
 

@@ -18,6 +18,57 @@
     return [LEUIFoundation leImageBlackToTransparent:self withRed:red andGreen:green andBlue:blue];
 }
 @end
+@implementation UIViewController (LEAdditions)
+-(void) lePush:(UIViewController *) vc{
+    [self.navigationController pushViewController:vc animated:YES];
+}
+-(void) lePop{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+@end
+@implementation UIImage (LEAdditions)
+-(UIImage *)leStreched{
+    return [self stretchableImageWithLeftCapWidth:self.size.width/2 topCapHeight:self.size.height/2];
+}
+@end
+@implementation UITableView (LEAdditions)
+-(BOOL) touchesShouldCancelInContentView:(UIView *)view{
+    return YES;
+}
+@end
+@implementation UIColor (LEAdditions)
+-(UIImage *) leImage{
+    return [self leImageWithSize:CGSizeMake(1, 1)];
+}
+-(UIImage *) leImageWithSize:(CGSize)size {
+    CGRect rect = CGRectMake(0, 0, size.width, size.height);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [self CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
+}
+@end
+
+@implementation NSAttributedString (LEAdditions)
+-(CGRect) leRectWithMaxSize:(CGSize) size{  
+    return [self boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading context:nil];
+}
+@end
+
+
+
+
+
+
+
+
+@implementation UIView (LERotate)
+-(void)leDidRotateFrom:(UIInterfaceOrientation)from{}
+@end
+
 @implementation LEUIFoundation
 + (UIImage *)leCreateQRForString:(NSString *)qrString Size:(CGFloat) size {
     NSData *stringData = [qrString dataUsingEncoding:NSUTF8StringEncoding];

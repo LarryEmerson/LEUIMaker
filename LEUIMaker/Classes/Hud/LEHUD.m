@@ -33,7 +33,7 @@
 }
 -(void) leExtraInits{
     self.leEnableTouch(NO).leCorner(6).leBgColor(LEColorText3).leAutoCalcHeight();
-    labelNoti=[UILabel new].leAddTo(self).leAnchor(LEI_C).leMaxWidth(self.bounds.size.width-LESideSpace*2).leFont(LEFont(LEFontML)).leColor(LEColorWhite).leLine(0).leLineSpace(4).leMargins(UIEdgeInsetsMake(LESideSpace, LESideSpace, LESideSpace, LESideSpace)).leCenterAlign;
+    labelNoti=[UILabel new].leAddTo(self).leAnchor(LEI_C).leMaxWidth(self.bounds.size.width-LESideSpace*2).leFont(LEFontML).leColor(LEColorWhite).leLine(0).leLineSpace(4).leMargins(UIEdgeInsetsMake(LESideSpace, LESideSpace, LESideSpace, LESideSpace)).leCenterAlign;
     // effect
     transition = [CATransition animation];
     [transition setDuration:MessageEnterTime];

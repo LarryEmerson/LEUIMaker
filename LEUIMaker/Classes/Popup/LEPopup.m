@@ -28,17 +28,17 @@
     self.leBackground=[UIImageView new].leAddTo(self).leAnchor(LEI_C).leWidth(contentW).leImage([LEColorWhite leImage]).leCorner(8).leEnableTouch(YES).leTouchEvent(nil,nil).leWrapper();
     UIView *curContentContainer=[UIView new].leAddTo(self.leBackground).leAnchor(LEI_C).leVerticalStack();
     contentW-=LESideSpace*2;
-    self.leTitle=[UILabel new].leLeft(LESideSpace).leRight(LESideSpace).leTop(LESideSpace).leBottom(LESideSpace).leFont(LEBoldFont(LEFontML)).leMaxWidth(contentW).leColor(LEColorBlack).leLine(0).leLineSpace(8).leCenterAlign;
+    self.leTitle=[UILabel new].leLeft(LESideSpace).leRight(LESideSpace).leTop(LESideSpace).leBottom(LESideSpace).leFont(LEBoldFontML).leMaxWidth(contentW).leColor(LEColorBlack).leLine(0).leLineSpace(8).leCenterAlign;
     self.leSplit=[UIView new].leWidth(contentW+LESideSpace*2).leHeight(LESplitlineH).leBgColor(LEColorSplitline);
-    self.leSubtitle=[UILabel new].leTop(LESideSpace).leBottom(LESideSpace).leMaxWidth(contentW).leFont(LEFont(LEFontMS)).leLine(0).leLineSpace(6).leCenterAlign;
+    self.leSubtitle=[UILabel new].leTop(LESideSpace).leBottom(LESideSpace).leMaxWidth(contentW).leFont(LEFontMS).leLine(0).leLineSpace(6).leCenterAlign;
     UIView *btnGroup=[UIView new].leBottom(LESideSpace).leHorizontalStack();
     [curContentContainer lePushToStack:self.leTitle,self.leSplit,self.leSubtitle,btnGroup,nil];
     if(type==LEPopupTip){
-        self.leCenterButton=[UIButton new].leBtnFixedWidth(contentW).leBtnFixedHeight(LENavigationBarHeight-LESideSpace).leCorner(6).leBtnBGImgN([LEColorBlue leImage]).leBtnColorN(LEColorWhite).leFont(LEFont(LEFontML)).leTouchEvent(@selector(onCenter),self).leText(@"确定");
+        self.leCenterButton=[UIButton new].leBtnFixedWidth(contentW).leBtnFixedHeight(LENavigationBarHeight-LESideSpace).leCorner(6).leBtnBGImgN([LEColorBlue leImage]).leBtnColorN(LEColorWhite).leFont(LEFontML).leTouchEvent(@selector(onCenter),self).leText(@"确定");
         [btnGroup lePushToStack:self.leCenterButton,nil];
     }else{
-        self.leLeftButton=[UIButton new].leBtnFixedWidth(contentW/2-LESideSpace).leRight(LESideSpace).leBtnFixedHeight(LENavigationBarHeight-LESideSpace).leCorner(6).leBtnBGImgN([LEColorText9 leImage]).leBtnColorN(LEColorWhite).leFont(LEFont(LEFontML)).leTouchEvent(@selector(onLeft),self).leText(@"取消");
-        self.leRightButton=[UIButton new].leBtnFixedWidth(contentW/2-LESideSpace).leLeft(LESideSpace).leBtnFixedHeight(LENavigationBarHeight-LESideSpace).leCorner(6).leBtnBGImgN([LEColorBlue leImage]).leBtnColorN(LEColorWhite).leFont(LEFont(LEFontML)).leTouchEvent(@selector(onRight),self).leText(@"确定");
+        self.leLeftButton=[UIButton new].leBtnFixedWidth(contentW/2-LESideSpace).leRight(LESideSpace).leBtnFixedHeight(LENavigationBarHeight-LESideSpace).leCorner(6).leBtnBGImgN([LEColorText9 leImage]).leBtnColorN(LEColorWhite).leFont(LEFontML).leTouchEvent(@selector(onLeft),self).leText(@"取消");
+        self.leRightButton=[UIButton new].leBtnFixedWidth(contentW/2-LESideSpace).leLeft(LESideSpace).leBtnFixedHeight(LENavigationBarHeight-LESideSpace).leCorner(6).leBtnBGImgN([LEColorBlue leImage]).leBtnColorN(LEColorWhite).leFont(LEFontML).leTouchEvent(@selector(onRight),self).leText(@"确定");
         [btnGroup lePushToStack:self.leLeftButton,self.leRightButton, nil];
     }
     return self;

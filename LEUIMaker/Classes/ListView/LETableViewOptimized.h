@@ -7,7 +7,7 @@
 //
 
 #import "LETableView.h"
-
+/** not suggested to use 不建议使用 */
 @interface LETableViewCellOptimized : UIView
 @property (nonatomic) id leData; 
 @property (nonatomic) NSIndexPath *leIndexPath;

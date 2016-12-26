@@ -28,14 +28,26 @@
     [[LEEmoji sharedInstance] leInitEmojiWithDeleteIcon:[UIImage imageNamed:LEEmojiDeleteIcon] KeyboardIcon:[UIImage imageNamed:LEEmojiSwitchToKeyboard] EmojiIcon:[UIImage imageNamed:LEEmojiSwitchToEmoji]];
     [[LEEmoji sharedInstance] leSetCategoryIcons:LEEmojiIcons Emojis:LEEmojiData];
     
-//    UIImage *img2x=[UIImage imageNamed:@"LEMultiImagePickerCheck@2x"];
-//    UIImage *img3x=[UIImage imageNamed:@"LEMultiImagePickerCheck@3x"];
+//    UIImage *img2x=[UIImage imageNamed:@"LE_qrcode_scan_bg@2x"];
+//    UIImage *img3x=[UIImage imageNamed:@"LE_qrcode_scan_bg@3x"];
+////    UIImage *img2x=[UIImage imageNamed:@"LE_qrcode_scan_line@2x"];
+////    UIImage *img3x=[UIImage imageNamed:@"LE_qrcode_scan_line@3x"];
 //    NSData *data=UIImagePNGRepresentation(img2x);
 //    NSString *imgStr=[data base64EncodedStringWithOptions:0];
 //    LELogObject(imgStr)
 //    data=UIImagePNGRepresentation(img3x);
 //    imgStr=[data base64EncodedStringWithOptions:0];
-//    LELogObject(imgStr)
+//    LELogObject(imgStr) 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     return YES;
 }
 
