@@ -107,7 +107,7 @@
         curPages=[NSMutableArray new];
         for (NSInteger i=0; i<pages.count; i++) {
             NSString *classname=[pages objectAtIndex:i];
-            LEBottomTabbarPage *page=[classname leGetInstanceFromClassName];
+            LEBottomTabbarPage *page=(LEBottomTabbarPage *)[classname leGetInstanceFromClassName];
             NSAssert([page isKindOfClass:[LEBottomTabbarPage class]],@"lePages中的类名需继承LEBottomTabbarPage");
             page=[page init];
             page.leAddTo(value).leMargins(UIEdgeInsetsMake(0, 0, LEBottomTabbarHeight, 0));

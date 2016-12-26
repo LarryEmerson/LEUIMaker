@@ -103,7 +103,7 @@
         self.allowsSelection=YES;
         self.delegate=self;
         self.dataSource=self;
-        LECollectionItem *item=[cellClassname leGetInstanceFromClassName];
+        LECollectionItem *item=(LECollectionItem *)[cellClassname leGetInstanceFromClassName];
         NSAssert([item isKindOfClass:[LECollectionItem class]],([NSString stringWithFormat:@"请检查自定义(%@)是否继承于LECollectionCell",cellClassname]));
         item=nil;
         [self registerClass:NSClassFromString(cellClassname) forCellWithReuseIdentifier:LECollectionIdentifierItem];
@@ -128,7 +128,7 @@
 }
 -(__kindof LECollectionView *(^)(NSString *sectionClassname)) leSectionClassname{
     return ^id(NSString *value){
-        LECollectionSection *sec=[value leGetInstanceFromClassName];
+        LECollectionSection *sec=(LECollectionSection *)[value leGetInstanceFromClassName];
         NSAssert([sec isKindOfClass:[LECollectionSection class]],([NSString stringWithFormat:@"请检查自定义(%@)是否继承于LECollectionSection",value]));
         sec=nil;
         [self registerClass:NSClassFromString(value) forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:LECollectionIdentifierSection];

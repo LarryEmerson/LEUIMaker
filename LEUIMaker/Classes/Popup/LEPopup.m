@@ -130,7 +130,9 @@
         [self setAlpha:0];
     } completion:^(BOOL done){
         if(sel&&[self respondsToSelector:sel]){
-            [self performSelector:sel];
+            LESuppressPerformSelectorLeakWarning(
+                                                 [self performSelector:sel];
+                                                 );
         }
         [self removeFromSuperview];
     }];

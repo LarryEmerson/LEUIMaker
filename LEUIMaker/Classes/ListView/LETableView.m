@@ -416,7 +416,9 @@
     }
     return self.leItemsArray?self.leItemsArray.count:0;
 }
-
+-(NSString *) leCellClassnameWithIndex:(NSIndexPath *) index{
+    return [self getCellClassnameWithIndex:index];
+}
 -(NSString *) getCellClassnameWithIndex:(NSIndexPath *) index{
     if(curDataSource&&[curDataSource respondsToSelector:@selector(leCellClassnameWithIndex:)]){
         return [curDataSource leCellClassnameWithIndex:index];
@@ -438,9 +440,8 @@
         if([self checkEmptyCellCondition:section]){
             return 1;
         }
-    }else{
-        return rows;
     }
+    return rows;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     NSInteger rows=[self getNumberOfRowsInSection:indexPath.section];

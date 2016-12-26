@@ -122,7 +122,7 @@
 -(void) leExtraInits{
     NSString *className=NSStringFromClass(self.class);
     className=[className stringByAppendingString:@"Page"];
-    LEView *view=[className leGetInstanceFromClassName];
+    LEView *view=(LEView *)[className leGetInstanceFromClassName];
     if(view&&([view isKindOfClass:[LEView class]]||[view isMemberOfClass:[LEView class]])){
         self.view=((LEView *)[view init]).leInit(self);
     }else{
@@ -332,8 +332,7 @@
 -(void) onLeft{
     if(curDelegate&&[curDelegate respondsToSelector:@selector(leNavigationLeftButtonTapped)]){
         [curDelegate leNavigationLeftButtonTapped];
-    }else{
-        UIViewController *vc=nil;
+    }else{ 
         if([self.superview isKindOfClass:[LEView class]]){
             [((LEView *)self.superview).leViewController lePop];
         }else{

@@ -46,6 +46,7 @@
     [self leShowHud:text WithEnterTime:time AndPauseTime:pauseTime ReleaseWhenFinished:NO];
 }
 -(void) leRelease{
+    [super leRelease];
     [extraCheck invalidate];
     extraCheck=nil;
     [transition setDelegate:nil];

@@ -34,9 +34,9 @@
     return curTitlesCache;
 }
 -(__kindof LESegment *(^)(UIView *superView, NSArray *titles, NSArray *pages)) leInit{
-    return ^id(UIView *superView, NSArray *titles, NSArray *pages){
+    return ^id(UIView *superView, NSArray *t, NSArray *p){
         self.leAddTo(superView).leMargins(UIEdgeInsetsZero).leBgColor(LEColorWhite) ;
-        lastTitles=titles;
+        lastTitles=t;
         if(!curSegmentContainer){
             normalColor=LEColorBlack;
             highlightedColor=LEColorBlue;
@@ -56,8 +56,8 @@
             curTitlesWidthSum=[NSMutableArray new];
             curPages=[NSMutableArray new];
             self.leBarHeight(LENavigationBarHeight);
-            [self leOnSetTitles:titles];
-            [self leOnSetPages:pages];
+            [self leOnSetTitles:t];
+            [self leOnSetPages:p];
         }
         return self;
     };
@@ -133,18 +133,18 @@
     };
 }
 
--(void) leOnSetTitles:(NSArray *) titles{
+-(void) leOnSetTitles:(NSArray *) t{
     [curTitlesWidth removeAllObjects];
     [curTitlesWidthSum removeAllObjects];
     UIButton *last=nil;
     float maxWidth;
-    for (int i=0; i<titles.count; i++) {
+    for (int i=0; i<t.count; i++) {
         UIButton *btn=nil;
         if(i<curTitlesCache.count){
             btn=[curTitlesCache objectAtIndex:i];
             [btn setHidden:NO];
             if(last){
-                [btn setTitle:[titles objectAtIndex:i] forState:UIControlStateNormal];
+                [btn setTitle:[t objectAtIndex:i] forState:UIControlStateNormal];
                 [btn setTitleColor:normalColor forState:UIControlStateNormal];
                 [btn setTitleColor:highlightedColor forState:UIControlStateHighlighted];
                 float sum=0;
@@ -154,7 +154,7 @@
                 [curTitlesWidthSum addObject:[NSNumber numberWithFloat:sum+btn.bounds.size.width/2+last.bounds.size.width/2]];
                 [curTitlesWidth addObject:@(btn.bounds.size.width/2+last.bounds.size.width/2)];
             }else{
-                [btn setTitle:[titles objectAtIndex:i] forState:UIControlStateNormal];
+                [btn setTitle:[t objectAtIndex:i] forState:UIControlStateNormal];
                 [btn setTitleColor:highlightedColor forState:UIControlStateNormal];
                 [btn setTitleColor:normalColor forState:UIControlStateHighlighted];
                 curIndicator.leLeft(btn.bounds.size.width/2-curIndicator.bounds.size.width/2);
@@ -163,7 +163,7 @@
             last=btn;
         }else{
             if(last){
-                btn=[UIButton new].leAddTo(curSegmentContainer).leAnchor(LEOutsideRightCenter).leRelativeTo(last).leFont(LEFontMS).leBtnColorN(normalColor).leBtnColorH(highlightedColor).leTouchEvent(@selector(onTitleTapped:),self).leBtnHInsect(margin).leText([titles objectAtIndex:i]);
+                btn=[UIButton new].leAddTo(curSegmentContainer).leAnchor(LEOutsideRightCenter).leRelativeTo(last).leFont(LEFontMS).leBtnColorN(normalColor).leBtnColorH(highlightedColor).leTouchEvent(@selector(onTitleTapped:),self).leBtnHInsect(margin).leText([t objectAtIndex:i]);
                 float sum=0;
                 if(curTitlesWidthSum.count>0){
                     sum=[[curTitlesWidthSum objectAtIndex:i-1] floatValue];
@@ -171,7 +171,7 @@
                 [curTitlesWidthSum addObject:[NSNumber numberWithFloat:sum+btn.bounds.size.width/2+last.bounds.size.width/2]];
                 [curTitlesWidth addObject:@(btn.bounds.size.width/2+last.bounds.size.width/2)];
             }else{
-                btn=[UIButton new].leAddTo(curSegmentContainer).leAnchor(LEInsideLeftCenter).leFont(LEFontMS).leBtnColorN(normalColor).leBtnColorH(highlightedColor).leTouchEvent(@selector(onTitleTapped:),self).leBtnHInsect(margin).leText([titles objectAtIndex:i]);
+                btn=[UIButton new].leAddTo(curSegmentContainer).leAnchor(LEInsideLeftCenter).leFont(LEFontMS).leBtnColorN(normalColor).leBtnColorH(highlightedColor).leTouchEvent(@selector(onTitleTapped:),self).leBtnHInsect(margin).leText([t objectAtIndex:i]);
                 curIndicator.leLeft(btn.bounds.size.width/2-curIndicator.bounds.size.width/2);
                 [curTitlesWidthSum addObject:[NSNumber numberWithFloat:btn.bounds.size.width/2]];
             }
@@ -180,21 +180,21 @@
         }
         maxWidth=MAX(maxWidth, btn.bounds.size.width);
     }
-    for (NSInteger i=titles.count; i<curTitlesCache.count; i++) {
+    for (NSInteger i=t.count; i<curTitlesCache.count; i++) {
         [[curTitlesCache objectAtIndex:i] setHidden:YES];
     }
     //EqualWidth
     if(equalWidth){
         curIndicator.leSize(CGSizeMake(maxWidth-margin, curIndicator.bounds.size.height));
         last=nil;
-        for (int i=0; i<titles.count; i++) {
+        for (int i=0; i<t.count; i++) {
             UIButton *btn=[curTitlesCache objectAtIndex:i];
             btn.leSize(CGSizeMake(maxWidth, btn.bounds.size.height));
             last=btn;
         }
         float widthSum=last.frame.origin.x+last.frame.size.width;
         float gap=0;
-        if(widthSum<LESCREEN_WIDTH&&titles.count>1){
+        if(widthSum<LESCREEN_WIDTH&&t.count>1){
             gap=(LESCREEN_WIDTH-widthSum)/2.0;
         }
         last=nil;
@@ -220,15 +220,15 @@
             last=btn;
         }
         [curTitlesWidth addObject:@(gap)];
-        segmentSpeed=(widthSum-LESCREEN_WIDTH)*1.0/(LESCREEN_WIDTH*(titles.count-1));
+        segmentSpeed=(widthSum-LESCREEN_WIDTH)*1.0/(LESCREEN_WIDTH*(t.count-1));
         [curSegmentContainer setContentSize:CGSizeMake(widthSum+gap*2.0, curSegmentContainer.bounds.size.height)];
     }else{
         //
         float finalWidth=last.frame.origin.x+last.frame.size.width;
-        if(finalWidth<LESCREEN_WIDTH&&titles.count>1){
+        if(finalWidth<LESCREEN_WIDTH&&t.count>1){
             last=nil;
             UIButton *btn=nil;
-            int size=LESCREEN_WIDTH*1.0/titles.count;
+            int size=LESCREEN_WIDTH*1.0/t.count;
             [curTitlesWidth removeAllObjects];
             [curTitlesWidthSum removeAllObjects];
             for (int i=0; i<curTitlesCache.count; i++) {
@@ -250,7 +250,7 @@
             finalWidth=LESCREEN_WIDTH;
         }
         [curTitlesWidth addObject:@(0)];
-        segmentSpeed=(finalWidth-LESCREEN_WIDTH)*1.0/(LESCREEN_WIDTH*(titles.count-1));
+        segmentSpeed=(finalWidth-LESCREEN_WIDTH)*1.0/(LESCREEN_WIDTH*(t.count-1));
         [curSegmentContainer setContentSize:CGSizeMake(finalWidth, curSegmentContainer.bounds.size.height)];
     }
 }
@@ -318,7 +318,7 @@
     for (int i=0; i<pages.count; i++) {
         NSString *classname=[pages objectAtIndex:i];
         NSAssert([classname isKindOfClass:[NSString class]], @"leOnSetPages传参为page的类名，请检查");
-        UIView *view=[classname leGetInstanceFromClassName];
+        UIView *view=(UIView *)[classname leGetInstanceFromClassName];
         NSAssert([view isKindOfClass:[UIView class]],@"leOnSetPages传参为view的类名");
         view=[view init];
         view.leSize(curPageContainer.bounds.size);

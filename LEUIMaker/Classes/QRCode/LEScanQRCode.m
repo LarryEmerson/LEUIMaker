@@ -93,11 +93,11 @@
     UIColor *bgColor=[UIColor colorWithWhite:0.000 alpha:0.500];
     
     UIView *viewTop     =[UIView new].leAddTo(curView.leSubViewContainer).leAnchor(LEI_TC).leEqualSuperViewWidth(1).leHeight(scanSpaceH).leBgColor(bgColor);
-    UIView *viewLeft    =[UIView new].leAddTo(curView.leSubViewContainer).leAnchor(LEO_BL).leRelativeTo(viewTop).leWidth(scanSpaceW).leHeight(defaultScanSize).leBgColor(bgColor);
-    UIView *viewRight   =[UIView new].leAddTo(curView.leSubViewContainer).leAnchor(LEO_BR).leRelativeTo(viewTop).leWidth(scanSpaceW).leHeight(defaultScanSize).leBgColor(bgColor);
+    [UIView new].leAddTo(curView.leSubViewContainer).leAnchor(LEO_BL).leRelativeTo(viewTop).leWidth(scanSpaceW).leHeight(defaultScanSize).leBgColor(bgColor);
+    [UIView new].leAddTo(curView.leSubViewContainer).leAnchor(LEO_BR).leRelativeTo(viewTop).leWidth(scanSpaceW).leHeight(defaultScanSize).leBgColor(bgColor);
     UIView *viewBottom  =[UIView new].leAddTo(curView.leSubViewContainer).leAnchor(LEI_BC).leEqualSuperViewWidth(1).leHeight(curView.leSubContainerH-defaultScanSize-scanSpaceH).leBgColor(bgColor);
     
-    UIImageView *viewScanRect=[UIImageView new].leAddTo(curView.leSubViewContainer).leAnchor(LEI_TC).leTop(scanSpaceH-1).leBgColor(LEColorClear).leImage([[LEUICommon sharedInstance].leQRCodeScanRect leStreched]).leWidth(defaultScanSize+3).leHeight(defaultScanSize+3);
+    [UIImageView new].leAddTo(curView.leSubViewContainer).leAnchor(LEI_TC).leTop(scanSpaceH-1).leBgColor(LEColorClear).leImage([[LEUICommon sharedInstance].leQRCodeScanRect leStreched]).leWidth(defaultScanSize+3).leHeight(defaultScanSize+3);
     scanLine=[UIImageView new].leAddTo(curView.leSubViewContainer).leAnchor(LEI_TC).leTop(scanSpaceH).leImage([LEUICommon sharedInstance].leQRCodeScanLine).leWidth(defaultScanSize-8);
     
     curHelper=[UILabel new].leAddTo(viewBottom).leAnchor(LEI_TC).leTop(LENavigationBarHeight).leMaxWidth(LESCREEN_WIDTH-LENavigationBarHeight).leFont(LEFontML).leColor(LEColorWhite).leLine(0).leAlignment(NSTextAlignmentCenter).leText(@"将扫码框对准二维码，即可自动完成扫描");
