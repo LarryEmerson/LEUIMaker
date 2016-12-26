@@ -30,7 +30,7 @@
     UIImage *indicator;
     NSArray *lastTitles;
 }
--(NSArray *) getTitleCache{
+-(NSArray *) leTitleCache{
     return curTitlesCache;
 }
 -(__kindof LESegment *(^)(UIView *superView, NSArray *titles, NSArray *pages)) leInit{
@@ -314,9 +314,9 @@
         [btn setTitleColor:i==curSelectedIndex?highlightedColor:normalColor forState:UIControlStateNormal];
     }
 }
--(void) leOnSetPages:(NSArray *) pages{ 
-    for (int i=0; i<pages.count; i++) {
-        NSString *classname=[pages objectAtIndex:i];
+-(void) leOnSetPages:(NSArray *) p{
+    for (int i=0; i<p.count; i++) {
+        NSString *classname=[p objectAtIndex:i];
         NSAssert([classname isKindOfClass:[NSString class]], @"leOnSetPages传参为page的类名，请检查");
         UIView *view=(UIView *)[classname leGetInstanceFromClassName];
         NSAssert([view isKindOfClass:[UIView class]],@"leOnSetPages传参为view的类名");

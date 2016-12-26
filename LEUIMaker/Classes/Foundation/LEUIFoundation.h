@@ -23,6 +23,8 @@
 #define LESCREEN_MAX_LENGTH (MAX(LESCREEN_WIDTH, LESCREEN_HEIGHT))
 #define LESCREEN_MIN_LENGTH (MIN(LESCREEN_WIDTH, LESCREEN_HEIGHT))
 
+/** 分割线高度 */
+#define LESplitlineH (1.0/LESCREEN_SCALE)
 
 #pragma mark Font
 /** 根据字号获取正常字体 */

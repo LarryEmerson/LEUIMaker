@@ -119,8 +119,7 @@
 #define LESectionHM 12.0
 /** 列表Section 8 */
 #define LESectionHS 8.0
-/** 分割线高度 */
-#define LESplitlineH (1.0/LESCREEN_SCALE)
+
 /** 列表回调 info的key值，index */
 #define LEKeyIndex  @"index"
 /** 列表回调 info的key值，info */

@@ -1197,25 +1197,25 @@ typedef NS_ENUM(NSInteger, LEViewType) {
 #pragma mark Split line
 -(__kindof UIView *(^)(UIColor *color, CGFloat offset, CGFloat width)) leAddTopSplitline{
     return ^id(UIColor *color, CGFloat offset, CGFloat width){
-        [UIView new].leAddTo(self).leAnchor(LEInsideTopCenter).leBgColor(color).leTop(offset).leWidth(width).leHeight(1.0/LESCREEN_SCALE);
+        [UIView new].leAddTo(self).leAnchor(LEInsideTopCenter).leBgColor(color).leTop(offset).leWidth(width).leHeight(LESplitlineH);
         return self;
     };
 }
 -(__kindof UIView *(^)(UIColor *color, CGFloat offset, CGFloat width)) leAddBottomSplitline{
     return ^id(UIColor *color, CGFloat offset, CGFloat width){
-        [UIView new].leAddTo(self).leAnchor(LEInsideBottomCenter).leBgColor(color).leBottom(offset).leWidth(width).leHeight(1.0/LESCREEN_SCALE);
+        [UIView new].leAddTo(self).leAnchor(LEInsideBottomCenter).leBgColor(color).leBottom(offset).leWidth(width).leHeight(LESplitlineH);
         return self;
     };
 }
 -(__kindof UIView *(^)(UIColor *color, CGFloat offset, CGFloat height)) leAddLeftSplitline{
     return ^id(UIColor *color, CGFloat offset, CGFloat height){
-        [UIView new].leAddTo(self).leAnchor(LEInsideLeftCenter).leBgColor(color).leLeft(offset).leHeight(height).leWidth(1.0/LESCREEN_SCALE);
+        [UIView new].leAddTo(self).leAnchor(LEInsideLeftCenter).leBgColor(color).leLeft(offset).leHeight(height).leWidth(LESplitlineH);
         return self;
     };
 }
 -(__kindof UIView *(^)(UIColor *color, CGFloat offset, CGFloat height)) leAddRightSplitline{
     return ^id(UIColor *color, CGFloat offset, CGFloat height){
-        [UIView new].leAddTo(self).leAnchor(LEInsideRightCenter).leBgColor(color).leRight(offset).leHeight(height).leWidth(1.0/LESCREEN_SCALE);
+        [UIView new].leAddTo(self).leAnchor(LEInsideRightCenter).leBgColor(color).leRight(offset).leHeight(height).leWidth(LESplitlineH);
         return self;
     };
 }

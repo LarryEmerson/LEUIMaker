@@ -49,7 +49,7 @@
     UILabel *labelCount;
     NSMutableArray *curSelections;
 }
--(id) initWithCollection:(PHCollection *) collection Remain:(NSInteger) remain Max:(NSInteger) max Assets:(NSArray<PHAsset *> *)assets Delegate:(id<LEImagePickerDelegate>) delegate{
+-(id) initWithCollection:(PHAssetCollection *) collection Remain:(NSInteger) remain Max:(NSInteger) max Assets:(NSArray<PHAsset *> *)assets Delegate:(id<LEImagePickerDelegate>) delegate{
     self=[super init];
     curDelegate=delegate;
     curRemainCount=remain;
@@ -176,7 +176,7 @@
         curDelegate=delegate;
         LEView *view=[[LEView alloc] initWithViewController:self];
         [LENavigation new].leSuperView(view).leDelegate(self).leTitle(@"相册");
-        tableView=[LETableView new].leSuperView(view.leSubViewContainer).leDelegate(self).leDataSource(self).leCellClassname(@"LEAlbumCell");
+        tableView=[LETableView new].leSuperView(view.leSubViewContainer).leDelegate(self).leCellClassname(@"LEAlbumCell");
         if([LEImagePickerManager sharedInstance].leAlbumAuthorityNotDetermined){
             LEWeakSelf(self)
             [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
