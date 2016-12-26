@@ -97,8 +97,8 @@
 }
 -(__kindof LECollectionView *(^)(UIView *superView, UICollectionViewLayout *layout, NSString *cellClassname)) leInit{
     return ^id(UIView *superView, UICollectionViewLayout *layout, NSString *cellClassname){
-        [self initWithFrame:superView.bounds collectionViewLayout:layout];
-        self.leAddTo(superView).leMargins(UIEdgeInsetsZero);
+        LECollectionView *sollectionView=[self initWithFrame:superView.bounds collectionViewLayout:layout];
+        sollectionView.leAddTo(superView).leMargins(UIEdgeInsetsZero);
         [superView addSubview:self];
         self.allowsSelection=YES;
         self.delegate=self;
