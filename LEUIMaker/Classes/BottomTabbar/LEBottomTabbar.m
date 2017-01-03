@@ -104,7 +104,7 @@
         NSAssert(normalIcons.count==highlightedIcons.count&&highlightedIcons.count==titles.count&&titles.count==pages.count,@"leNormalIccons、leHighlightedIcons、leTitles、lePages传入数组长度不一致");
         lastIndex=-1;
         self.leAddTo(value).leAnchor(LEInsideBottomCenter).leEqualSuperViewWidth(1).leHeight(LEBottomTabbarHeight).leEnableTouch(YES).leBgColor(LEColorWhite).leHorizontalStack();
-        [UIView new].leAddTo(self).leAnchor(LEInsideTopCenter).leBgColor(LEColorSplitline).leEqualSuperViewWidth(1).leHeight(LESplitlineH); 
+        [UIView new].leAddTo(value).leRelativeTo(self).leAnchor(LEO_TC).leBgColor(LEColorSplitline).leEqualSuperViewWidth(1).leHeight(LESplitlineH);
         curPages=[NSMutableArray new];
         for (NSInteger i=0; i<pages.count; i++) {
             NSString *classname=[pages objectAtIndex:i];

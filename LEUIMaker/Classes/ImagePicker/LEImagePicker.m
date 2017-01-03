@@ -17,22 +17,24 @@
     UIView *checkStatus;
 }
 -(void) leExtraInits{
-    curIcon=[UIImageView new].leAddTo(self).leMargins(UIEdgeInsetsZero).leMaxWidth(self.bounds.size.width).leMaxHeight(self.bounds.size.height);
+    curIcon=[UIImageView new].leAddTo(self).leMargins(UIEdgeInsetsZero);
     curIcon.contentMode=UIViewContentModeScaleAspectFill;
     curIcon.clipsToBounds=YES;
     checkStatus=[UIView new].leAddTo(curIcon).leMargins(UIEdgeInsetsZero).leBgColor([UIColor colorWithWhite:0.8 alpha:0.5]);
     [UIImageView new].leAddTo(checkStatus).leAnchor(LEI_TR).leTop(5).leRight(5).leImage([LEUICommon sharedInstance].leMultiImagePickerCheckbox);
     checkStatus.hidden=YES;
-}
+} 
 -(void) onSetSelection:(BOOL) value{
     checkStatus.hidden=!value;
 }
 -(void) leSetData:(id)data{
+    [curIcon leUpdateLayout];
+    [checkStatus leUpdateLayout];
     NSMutableDictionary *dic=data;
     BOOL check=[[dic objectForKey:LEImagePickerCheckbox] boolValue];
     PHAsset *asset=[dic objectForKey:LEImagePickerCellAsset];
-    [[LEImagePickerManager sharedInstance] leGetImageByAsset:asset makeSize:CGSizeMake(curIcon.bounds.size.width*LESCREEN_SCALE, curIcon.bounds.size.height*LESCREEN_SCALE) makeResizeMode:PHImageRequestOptionsResizeModeFast completion:^(UIImage * value) {
-        curIcon.leImage(value);
+    [[LEImagePickerManager sharedInstance] leGetImageByAsset:asset makeSize:CGSizeMake(self.bounds.size.width*LESCREEN_SCALE, self.bounds.size.height*LESCREEN_SCALE) makeResizeMode:PHImageRequestOptionsResizeModeNone completion:^(UIImage * value) {
+        curIcon.leImageWithSize(value,curIcon.bounds.size);
     }];
     checkStatus.hidden=!check;
 }
@@ -58,7 +60,7 @@
     LEView *view=[[LEView alloc] initWithViewController:self];
     [LENavigation new].leSuperView(view).leDelegate(self).leTitle(collection.localizedTitle).leRightItemText(@"完成");
     view.leSubViewContainer.leBgColor(LEColorBG5);
-    float cellSize=(LESCREEN_WIDTH-LESideSpace*5)*0.25; 
+    float cellSize=(LESCREEN_MIN_LENGTH-LESideSpace*5)*0.25;
     UICollectionViewFlowLayout *layout=[[UICollectionViewFlowLayout alloc] init];
     layout.itemSize=CGSizeMake(cellSize,cellSize);
     layout.scrollDirection=UICollectionViewScrollDirectionVertical;
@@ -86,11 +88,16 @@
     }
     [collectionView leOnRefreshedWithData:curArray];
     if(hasMaxCount){
-        UIView *btm=[UIView new].leAddTo(view.leSubViewContainer).leAnchor(LEI_BC).leSize(CGSizeMake(LESCREEN_WIDTH, LEBottomTabbarHeight)).leBgColor(LEColorWhite).leAddTopSplitline(LEColorSplitline,0,LESCREEN_WIDTH);
-        labelCount=[UILabel new].leAddTo(btm).leAnchor(LEI_C).leFont(LEBoldFontLL).leColor(LEColorBlack).leText([NSString stringWithFormat:@"%zd/%zd",curMaxCount-curRemainCount,curMaxCount]);
+        UIView *btm=[UIView new].leAddTo(view.leSubViewContainer).leAnchor(LEI_BC).leEqualSuperViewWidth(1).leHeight(LEBottomTabbarHeight).leBgColor(LEColorWhite);
+        [UIView new].leAddTo(btm).leAnchor(LEI_TC).leBgColor(LEColorSplitline).leEqualSuperViewWidth(1).leHeight(LESplitlineH);
+        labelCount=[UILabel new].leAddTo(btm).leAnchor(LEI_C).leFont(LEBoldFontLL).leColor(LEColorBlack).leAlignment(NSTextAlignmentCenter).leText([NSString stringWithFormat:@"%zd/%zd",curMaxCount-curRemainCount,curMaxCount]);
     }
     
     return self;
+}
+-(void) leDidRotateFrom:(UIInterfaceOrientation)from{
+    [super leDidRotateFrom:from]; 
+    [collectionView.collectionViewLayout invalidateLayout];
 }
 -(void) leNavigationRightButtonTapped{
     if(curDelegate&&[curDelegate respondsToSelector:@selector(leOnImageAssetPickedWith:)]){
@@ -120,6 +127,18 @@
         }
     }
 }
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
+    return YES;
+}
+- (BOOL)shouldAutorotate{
+    return YES;
+}
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskAll;
+}
+-(void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    [self leDidRotateFrom:fromInterfaceOrientation];
+}
 @end
 
 @interface LEAlbumCell : LETableViewCell
@@ -134,7 +153,8 @@
 -(void) leExtraInits{
     cellH=80;
     UIView *container=[UIView new].leAddTo(self).leAnchor(LEI_TL).leEqualSuperViewWidth(1).leHeight(cellH);
-    curIcon=[UIImageView new].leAddTo(container).leAnchor(LEI_LC).leLeft(LESideSpace20).leWidth(cellH-LESideSpace20).leHeight(cellH-LESideSpace20).leMaxWidth(cellH-LESideSpace20).leMaxHeight(cellH-LESideSpace20);
+    curIcon=[UIImageView new].leAddTo(container).leAnchor(LEI_LC).leLeft(LESideSpace20)
+    .leWidth(cellH-LESideSpace20).leHeight(cellH-LESideSpace20);
     curIcon.contentMode=UIViewContentModeScaleAspectFill;
     curIcon.clipsToBounds=YES;
     curTitle=[UILabel new].leAddTo(self).leAnchor(LEO_RC).leRelativeTo(curIcon).leLeft(LESideSpace).leFont(LEBoldFontLL).leLine(1);
@@ -143,17 +163,19 @@
 }
 -(void) leSetData:(id)data  {
     if([data isKindOfClass:[PHAssetCollection class]]){
-        PHAssetCollection *collection=data;
-        PHFetchResult *result=[[LEImagePickerManager sharedInstance] leFetchAssetsInAssetCollection:collection ascending:NO];
-        curTitle.leText(collection.localizedTitle);
-        curSubtitle.leText([NSString stringWithFormat:@"(%zd)", result.count]);
-        [[LEImagePickerManager sharedInstance] leGetImageByAsset:result.firstObject makeSize:CGSizeMake(curIcon.bounds.size.width*LESCREEN_SCALE, curIcon.bounds.size.height*LESCREEN_SCALE) makeResizeMode:PHImageRequestOptionsResizeModeFast completion:^(UIImage * value) {
-            curIcon.leImage(value);
-        }];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            PHAssetCollection *collection=data;
+            PHFetchResult *result=[[LEImagePickerManager sharedInstance] leFetchAssetsInAssetCollection:collection ascending:NO];
+            curTitle.leText(collection.localizedTitle);
+            curSubtitle.leText([NSString stringWithFormat:@"(%zd)", result.count]);
+            [[LEImagePickerManager sharedInstance] leGetImageByAsset:result.firstObject makeSize:CGSizeMake(curIcon.bounds.size.width*LESCREEN_SCALE, curIcon.bounds.size.height*LESCREEN_SCALE) makeResizeMode:PHImageRequestOptionsResizeModeNone completion:^(UIImage * value) {
+                curIcon.leImageWithSize(value,curIcon.bounds.size);
+            }];
+        });
     }
 }
 @end
-@interface LEImagePicker ()<LENavigationDelegate,LETableViewDelegate>
+@interface LEImagePicker ()<LENavigationDelegate,LETableViewDelegate,LETableViewDataSource>
 @end
 @implementation LEImagePicker {
     __weak UIViewController *curVC;
@@ -167,6 +189,18 @@
 -(void) dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:LEImagePickerPopup object:nil];
 } 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
+    return YES;
+}
+- (BOOL)shouldAutorotate{
+    return YES;
+}
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskAll;
+}
+-(void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    [self leDidRotateFrom:fromInterfaceOrientation];
+}
 -(__kindof LEImagePicker *(^)(UIViewController *vc, id<LEImagePickerDelegate> delegate)) leInit{
     return ^id(UIViewController *vc, id<LEImagePickerDelegate> delegate){
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(lePop) name:LEImagePickerPopup object:nil];
@@ -176,7 +210,7 @@
         curDelegate=delegate;
         LEView *view=[[LEView alloc] initWithViewController:self];
         [LENavigation new].leSuperView(view).leDelegate(self).leTitle(@"相册");
-        tableView=[LETableView new].leSuperView(view.leSubViewContainer).leDelegate(self).leCellClassname(@"LEAlbumCell");
+        tableView=[LETableView new].leSuperView(view.leSubViewContainer).leDelegate(self).leDataSource(self).leCellClassname(@"LEAlbumCell");
         if([LEImagePickerManager sharedInstance].leAlbumAuthorityNotDetermined){
             LEWeakSelf(self)
             [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
@@ -189,6 +223,9 @@
         }
         return self;
     };
+}
+-(BOOL) leAllowCellConfigrationWithDatasourceForHeightCalculation{
+    return NO;
 }
 -(void) checkAuthority{
     if([LEImagePickerManager sharedInstance].leAlbumAuthority){
@@ -373,16 +410,13 @@ LESingleton_implementation(LEImagePickerManager)
 
 -(void) leGetImageByAsset:(PHAsset *)asset makeSize:(CGSize)size makeResizeMode:(PHImageRequestOptionsResizeMode)resizeMode completion:(void (^)(UIImage *))completion{
     PHImageRequestOptions *option = [[PHImageRequestOptions alloc] init];
-    /**
-     resizeMode：对请求的图像怎样缩放。有三种选择：None，不缩放；Fast，尽快地提供接近或稍微大于要求的尺寸；Exact，精准提供要求的尺寸。
-     deliveryMode：图像质量。有三种值：Opportunistic，在速度与质量中均衡；HighQualityFormat，不管花费多长时间，提供高质量图像；FastFormat，以最快速度提供好的质量。
-     这个属性只有在 synchronous 为 true 时有效。
-     */
-    option.resizeMode = resizeMode;//控制照片尺寸
-    //option.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;//控制照片质量
-    //option.synchronous = YES;
+    option.resizeMode = resizeMode;
+    //synchronous 为 true 时deliveryMode有效
+    option.synchronous = YES;
+    //控制照片质量
+    option.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;
     option.networkAccessAllowed = YES;
-    //param：targetSize 即你想要的图片尺寸，若想要原尺寸则可输入PHImageManagerMaximumSize
+    //targetSize原尺寸则可输入PHImageManagerMaximumSize
     [[PHCachingImageManager defaultManager] requestImageForAsset:asset targetSize:size contentMode:PHImageContentModeAspectFit options:option resultHandler:^(UIImage * _Nullable image, NSDictionary * _Nullable info) {
         completion(image);
     }];

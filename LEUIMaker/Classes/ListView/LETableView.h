@@ -14,9 +14,9 @@
 -(void) leOnCellEventWithInfo:(NSDictionary *) info;
 @end
 @protocol LETableViewDataSource <NSObject>
+@optional
 /** 列表下拉后触发，列表需支持下拉组件或者下拉功能已开启 */
 -(void) leOnRefreshData;
-@optional
 /** 列表上拉后触发，列表需支持上拉组件或者上拉功能已开启 */
 -(void) leOnLoadMore;
 
@@ -32,6 +32,9 @@
 -(id)           leDataForIndex:(NSIndexPath *) index;
 /** 自定义每个cell的类名称 */
 -(NSString *)   leCellClassnameWithIndex:(NSIndexPath *) index;
+
+/** 高度固定的Cell，建议自定义为NO。返回值决定列表在获取Cell高度时是否根据数据源动态计算高度（默认为允许，允许时会牺牲流畅度）。 */
+-(BOOL) leAllowCellConfigrationWithDatasourceForHeightCalculation;
 @end
 
 @interface LETableViewSection : UIView

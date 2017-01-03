@@ -158,8 +158,9 @@
         [leRightButton setClipsToBounds:YES];
         //
         self.leTitleViewContainer=[UIView new].leAddTo(self).leRelativeTo(leBackButton).leAnchor(LEOutsideRightCenter).leWidth(LESCREEN_WIDTH-LENavigationBarHeight*2).leHeight(LENavigationBarHeight);
-        leNavigationTitle=[UILabel new].leAddTo(self).leAnchor(LEInsideCenter).leFont([LEUICommon sharedInstance].leNaviTitleFont).leLine(1).leColor(LEColorBlack).leAlignment(NSTextAlignmentCenter);
+        leNavigationTitle=[UILabel new].leAddTo(self.leTitleViewContainer).leAnchor(LEInsideCenter).leFont([LEUICommon sharedInstance].leNaviTitleFont).leLine(1).leColor(LEColorBlack).leAlignment(NSTextAlignmentCenter);
         self.leOffset(LESCREEN_HEIGHT>LESCREEN_WIDTH?LEStatusBarHeight:0).leLeftItemImg([LEUICommon sharedInstance].leNaviBackImage);
+        self.leSplit(YES,LEColorSplitline);
         return self;
     };
 
@@ -258,7 +259,7 @@
     [leRightButton setClipsToBounds:YES];
     //
     self.leTitleViewContainer=[UIView new].leAddTo(self).leRelativeTo(leBackButton).leAnchor(LEOutsideRightCenter).leWidth(LESCREEN_WIDTH-LENavigationBarHeight*2).leHeight(LENavigationBarHeight);
-    leNavigationTitle=[UILabel new].leAddTo(self).leAnchor(LEInsideCenter).leFont([LEUICommon sharedInstance].leNaviTitleFont).leLine(1).leColor(color).leAlignment(NSTextAlignmentCenter);
+    leNavigationTitle=[UILabel new].leAddTo(self.leTitleViewContainer).leAnchor(LEI_C).leFont([LEUICommon sharedInstance].leNaviTitleFont).leLine(1).leColor(color).leAlignment(NSTextAlignmentCenter);
     //
     [self leSetLeftNavigationItemWith:nil Image:left Color:nil];
     [self leEnableBottomSplit:YES Color:LEColorSplitline];
@@ -268,21 +269,13 @@
     [self onCheckTitleViewWith:leNavigationTitle.text];
 }
 -(void) onCheckTitleViewWith:(NSString *) title{
-    [UIView animateWithDuration:0.2 animations:^{
-        leNavigationTitle=leNavigationTitle.leText(title);
-        float width=LESCREEN_WIDTH-leBackButton.bounds.size.width-leRightButton.bounds.size.width;
+    [UIView animateWithDuration:0.2 animations:^{ 
+        float width=LESCREEN_WIDTH-(leBackButton.titleLabel.hidden&&leBackButton.imageView.hidden?0:leBackButton.bounds.size.width)-(leRightButton.titleLabel.hidden&&leRightButton.imageView.hidden?0:leRightButton.bounds.size.width);
         self.leTitleViewContainer.leWidth(width).leHeight(LENavigationBarHeight);
         if(curDelegate&&[curDelegate respondsToSelector:@selector(leNavigationNotifyTitleViewContainerWidth:)]){
             [curDelegate leNavigationNotifyTitleViewContainerWidth:width];
         }
-        leNavigationTitle.leMargins(UIEdgeInsetsZero);
-        leNavigationTitle.leMaxWidth(width-LESideSpace*2).leText(leNavigationTitle.text);
-        float x1=self.leTitleViewContainer.frame.origin.x;
-        float x2=leNavigationTitle.frame.origin.x;
-        float w1=self.leTitleViewContainer.frame.size.width;
-        float w2=leNavigationTitle.frame.size.width;
-        float offset=(MAX(0, (x1-x2+LESideSpace))+MIN(0, (x1-x2+w1-w2-LESideSpace)))/1;
-        leNavigationTitle=leNavigationTitle.leLeft(offset>0?fabsf(offset):0).leRight(offset<0?offset:0);
+        leNavigationTitle.leMaxWidth(width-LESideSpace*2).leText(title);
     }];
 }
 -(void) leEnableBottomSplit:(BOOL) enable Color:(UIColor *) color{

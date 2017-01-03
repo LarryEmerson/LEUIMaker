@@ -70,7 +70,7 @@ LESingleton_implementation(LEUICommon)
 }
 -(UIColor *) leNaviBGColor{
     if(!_leNaviBGColor){
-        _leNaviBGColor=LEColorBG9;
+        _leNaviBGColor=LEColorBG;
     }
     return _leNaviBGColor;
 }

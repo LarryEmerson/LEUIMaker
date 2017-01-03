@@ -24,16 +24,15 @@
 }
 -(void) leSetData:(id)data{
     if([data isKindOfClass:[UIImage class]]){
-        curIcon.leImage(data);
+        [curIcon setImage:data];
     }else{
         PHAsset *asset=data;
-        [[LEImagePickerManager sharedInstance] leGetImageByAsset:asset makeSize:CGSizeMake(curIcon.bounds.size.width*LESCREEN_SCALE, curIcon.bounds.size.height*LESCREEN_SCALE) makeResizeMode:PHImageRequestOptionsResizeModeFast completion:^(UIImage * value) {
-            curIcon.leImage(value);
+        [[LEImagePickerManager sharedInstance] leGetImageByAsset:asset makeSize:CGSizeMake(curIcon.bounds.size.width*LESCREEN_SCALE, curIcon.bounds.size.height*LESCREEN_SCALE) makeResizeMode:PHImageRequestOptionsResizeModeNone completion:^(UIImage * value) {
+            curIcon.leImageWithSize(value,curIcon.bounds.size);
         }];
     }
 }
 @end
-
 
 @interface TestImagePickerPage : LEView<LEImagePickerDelegate,LENavigationDelegate>
 @end
@@ -44,7 +43,7 @@
 }
 -(void) leExtraInits{
     curDataSource=[NSMutableArray new];
-    [LENavigation new].leSuperView(self).leTitle(@"最大照片数量随机生成").leRightItemText(@"有序添加").leDelegate(self);
+    [LENavigation new].leSuperView(self).leTitle(@"随机最大照片数量").leRightItemText(@"有序添加").leDelegate(self);
     float cellSize=(LESCREEN_WIDTH-LESideSpace*5)*0.25;
     UICollectionViewFlowLayout *layout=[UICollectionViewFlowLayout new];
     layout.itemSize=CGSizeMake(cellSize,cellSize);
@@ -88,4 +87,17 @@
     [LEHUD leShowHud:message];
 }
 @end
-@implementation TestImagePicker @end
+@implementation TestImagePicker
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
+    return YES;
+}
+- (BOOL)shouldAutorotate{
+    return YES;
+}
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
+    return UIInterfaceOrientationMaskAll;
+}
+-(void) didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
+    [self leDidRotateFrom:fromInterfaceOrientation];
+} 
+@end

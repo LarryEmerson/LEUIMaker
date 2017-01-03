@@ -779,6 +779,16 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     }
     return self;
 }
+-(__kindof UIView *(^)(UIImage *img, CGSize)) leImageWithSize{
+    return ^id(UIImage *img, CGSize size){
+        if([self isKindOfClass:[UIImageView class]]){
+            UIImageView *view=(UIImageView *)self;
+            view=view.leWidth(size.width).leHeight(size.height);
+            [view setImage:img];
+        }
+        return self;
+    };
+}
 -(__kindof UIView *(^)(UIImage *)) leImage{
     return ^id(UIImage *value){
         if([self isKindOfClass:[UIButton class]]){
@@ -786,7 +796,6 @@ typedef NS_ENUM(NSInteger, LEViewType) {
             view=view.leBtnImg(value,UIControlStateNormal);
         }else if([self isKindOfClass:[UIImageView class]]){
             UIImageView *view=(UIImageView *)self;
-            [view setImage:value];
             float w=value.size.width;
             float h=value.size.height;
             if(self.leViewAdditions.maxWidth>0){
@@ -796,6 +805,7 @@ typedef NS_ENUM(NSInteger, LEViewType) {
                 h=MIN(self.leViewAdditions.maxHeight, h);
             }
             view=view.leWidth(w).leHeight(h);
+            [view setImage:value];
         }
         return self;
     };
@@ -807,6 +817,7 @@ typedef NS_ENUM(NSInteger, LEViewType) {
             label.leViewAdditions.uiText=value;
             [label setText:value];
             CGSize size=CGSizeZero;
+            BOOL sizeSet=NO;
             if(value.length>0){
                 size=[label leSizeWithMaxSize:CGSizeMake(label.leViewAdditions.maxWidth==0?INT_MAX:label.leViewAdditions.maxWidth, label.leViewAdditions.maxHeight==0?INT_MAX:label.leViewAdditions.maxHeight)];
                 if(self.leViewAdditions.lineSpace>0){
@@ -829,26 +840,30 @@ typedef NS_ENUM(NSInteger, LEViewType) {
                         maxWidth=[UIScreen mainScreen].bounds.size.width;
                     }
                     CGRect rect = [attributedString leRectWithMaxSize:CGSizeMake(maxWidth, INT_MAX)];
-                    label=label.leWidth(rect.size.width).leHeight(rect.size.height);
                     //中文单行 size计算不准确的处理
                     if(rect.size.height<=label.font.lineHeight+self.leViewAdditions.lineSpace){
                         NSMutableAttributedString *attr=[[NSMutableAttributedString alloc] initWithAttributedString:attributedString];
                         [attr addAttribute:NSBaselineOffsetAttributeName value:[NSNumber numberWithInt: -self.leViewAdditions.lineSpace/4+1] range:NSMakeRange(0, label.text.length)];
                         [label setAttributedText:attr];
                         label=label.leWidth(rect.size.width).leHeight(label.font.lineHeight);
-                    } else if(rect.size.height==label.font.lineHeight+self.leViewAdditions.lineSpace){
+                        sizeSet=YES;
+                    }else if(rect.size.height==label.font.lineHeight+self.leViewAdditions.lineSpace){
                         [label setAttributedText:[[NSAttributedString alloc] initWithString:label.text]];
                         label=label.leWidth(rect.size.width).leHeight(label.font.lineHeight);
+                        sizeSet=YES;
                     }else if(label.numberOfLines!=0){
                         int height=(label.numberOfLines>1?label.numberOfLines-1:0)*self.leViewAdditions.lineSpace+label.numberOfLines*label.font.lineHeight;
                         if(self.bounds.size.height>height){
                             label=label.leWidth(rect.size.width).leHeight((label.numberOfLines>1?label.numberOfLines-1:0)*self.leViewAdditions.lineSpace+label.numberOfLines*label.font.lineHeight);
                             [label setLineBreakMode:NSLineBreakByTruncatingTail];
+                            sizeSet=YES;
                         }
-                    }  
+                    }
                 }
             }
-            label=label.leWidth(size.width).leHeight(size.height);
+            if(!sizeSet){
+                label=label.leWidth(size.width).leHeight(size.height);
+            }
         }else if([self isKindOfClass:[UIButton class]]){
             UIButton *view=(UIButton *)self;
             view.leViewAdditions.uiText=value;

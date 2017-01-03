@@ -251,6 +251,8 @@ typedef NS_ENUM(NSInteger, LEAnchors) {
 -(__kindof UIView *(^)(NSString *)) leText;
 /**（内容设置需放到末尾执行）设置UIImage、button的图片 */
 -(__kindof UIView *(^)(UIImage *)) leImage;
+/**（内容设置需放到末尾执行）设置UIImage的图片并限定图片显示大小 */
+-(__kindof UIView *(^)(UIImage *img, CGSize)) leImageWithSize;
 #pragma mark Split line
 /** 添加顶部分割线 颜色、偏移量、宽度 */
 -(__kindof UIView *(^)(UIColor *color, CGFloat offset, CGFloat width)) leAddTopSplitline;

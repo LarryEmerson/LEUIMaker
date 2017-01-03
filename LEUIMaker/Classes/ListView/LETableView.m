@@ -484,8 +484,14 @@
         LETableViewCell *cell=[(LETableViewCell *)[identifier leGetInstanceFromClassName] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         [tempCellsForHeightCalc setObject:cell forKey:key];
     }
-    cell.leIndexPath=indexPath;
-    [cell leSetData:[self getDataForIndex:indexPath]];
+    BOOL config=YES;
+    if(curDataSource&&[curDataSource respondsToSelector:@selector(leAllowCellConfigrationWithDatasourceForHeightCalculation)]){
+        config=[curDataSource leAllowCellConfigrationWithDatasourceForHeightCalculation];
+    }
+    if(config){
+        cell.leIndexPath=indexPath;
+        [cell leSetData:[self getDataForIndex:indexPath]];
+    }
     [cell layoutCellAfterConfig];
     return cell.bounds.size.height;
 }

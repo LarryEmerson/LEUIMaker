@@ -150,7 +150,7 @@
             [LEHUD leShowHud:[NSString stringWithFormat:@"%zd-测试加载更多",index.row+1]];
         }
     }
-}
+} 
 -(void) leOnScannedQRCodeWithResult:(NSString *)code{
     LELogObject(code)
 }
