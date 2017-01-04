@@ -138,12 +138,12 @@
     [UILabel new].leAddTo(view).leAnchor(LEO_3).leCenterAlign.leColor(yellow).leFont(fB14).leText(@"O3").leLine(0).leBgColor(LEColorMask2).leMargins(UIEdgeInsetsMake(4, 4, 4, 4));
     [UILabel new].leAddTo(view).leAnchor(LEO_4).leCenterAlign.leColor(yellow).leFont(fB14).leText(@"O4").leLine(0).leBgColor(LEColorMask2).leMargins(UIEdgeInsetsMake(4, 4, 4, 4));
 #pragma mark 多行文本的背景框
-    UIView *multiLineLabelBG=[UIView new].leAddTo(scrollView).leRelativeTo(view).leAnchor(LEOutsideBottomLeft).leTop(30).leWrapper().leBoard(2,LEColorRed).leBgColor(LEColorBlue);
+    UIView *multiLineLabelBG=[UIView new].leAddTo(scrollView).leRelativeTo(view).leAnchor(LEOutsideBottomLeft).leTop(30).leBoard(2,LEColorRed).leBgColor(LEColorBlue).leWrapper();
     multiLineLabel=[UILabel new].leAddTo(multiLineLabelBG).leAnchor(LEInsideCenter).leMargins(UIEdgeInsetsMake(20, 20, 20, 20)).leMaxWidth(300).leLine(0).leCenterAlign.leBgColor(LEColorWhite).leFont(LEFont(12)).leLineSpace(10).leText(@"蓝色矩形自动根据label大小进行拉伸");
 #pragma mark 下面主要是测试位移，缩放及最重要的入栈出栈的功能。下面首先是一个横向的栈（leHorizontalStack），用于放置按钮模块及尚未显示的竖向栈2个view
-    UIView *horizontalStack=[UIView new].leAddTo(scrollView).leRelativeTo(multiLineLabelBG).leAnchor(LEO_BL).leTop(40).leHorizontalStack().leBoard(1,LEColorBlue).leStackAlignmnet(LEBottomAlign);
+    UIView *horizontalStack=[UIView new].leAddTo(scrollView).leRelativeTo(multiLineLabelBG).leAnchor(LEO_BL).leTop(40).leBoard(1,LEColorBlue).leStackAlignmnet(LEBottomAlign).leHorizontalStack();
 #pragma mark 这是按钮组（leWrapper）
-    UIView *btnGroup=[UIView new].leWrapper().leBgColor(LEColorMask);
+    UIView *btnGroup=[UIView new].leBgColor(LEColorMask).leWrapper();
     btnGroup.tag=111;
 #pragma mark 上下左右四个按钮
     UIButton *btnL=[UIButton new].leAddTo(btnGroup).leAnchor(LEI_LC).leMargins(UIEdgeInsetsMake(4, 4, 4, 4)).leCorner(6).leText(@"L").leTouchEvent(@selector(onLeft),self).leBtnColor(red,UIControlStateNormal).leBtnBGImg([LEColorBlue leImage],UIControlStateNormal);
@@ -157,23 +157,9 @@
     pushButton=[UIButton new].leAddTo(btnGroup).leRelativeTo(btnScaleDown).leAnchor(LEO_2).leMargins(UIEdgeInsetsMake(4, 4, 4, 4)).leCorner(6).leLine(0).leBtnFixedWidth(80).leTouchEvent(@selector(onPush),self).leBtnColor(red,UIControlStateNormal).leBtnBGImg([LEColorBlue leImage],UIControlStateNormal).leBtnVerticalLayout(YES).leBtnImg_N([LEColorRed leImageWithSize:LESquareSize(35)]).leText(@"Testing Push To Stack ");
     popButton=[UIButton new].leAddTo(btnGroup).leRelativeTo(btnScaleDown).leAnchor(LEO_4).leMargins(UIEdgeInsetsMake(4, 4, 4, 4)).leCorner(6).leTouchEvent(@selector(onPop),self).leBtnColor(red,UIControlStateNormal).leBtnBGImg([LEColorBlue leImage],UIControlStateNormal).leBtnImg_N([LEColorRed leImageWithSize:LESquareSize(35)]).leText(@"Pop from Stack" );
 #pragma mark 下面是一个纵向的栈（leVerticalStack），点击按钮Push，Pop会实现入栈及出栈
-    verticalStack=[UIView new].leVerticalStack().leBoard(3,LEColorRed).leStackAlignmnet(LERightAlign);
+    verticalStack=[UIView new].leBoard(3,LEColorRed).leStackAlignmnet(LERightAlign).leVerticalStack();
 #pragma mark 横向入栈 按钮组+纵向栈
     [horizontalStack lePushToStack:btnGroup,verticalStack,nil];
-}
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
-    return YES;
-}
-- (BOOL)shouldAutorotate{
-    return YES;
-}
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
-    return UIInterfaceOrientationMaskAll;
-}
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation{
-    [UIView animateWithDuration:0.25 animations:^(void){
-        [scrollView leUpdateLayout];
-    }];
 }
 #pragma mark 入栈方法
 -(void) onPush{
@@ -247,8 +233,17 @@
         view.leWidth(size.width).leHeight(size.height);
     }];
 }
+-(void) dealloc{
+    for (UIView *v in self.subviews) {
+        [v leRelease];
+    }
+    [self leRelease];
+}
 @end
 @implementation TestLayoutFramework
+- (void) dealloc{
+    LELogFunc
+}
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation{
     return YES;
 }
