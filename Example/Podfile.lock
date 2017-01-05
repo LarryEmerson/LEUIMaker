@@ -1,5 +1,5 @@
 PODS:
-  - LEFoundation (0.1.4)
+  - LEFoundation (0.1.5)
   - LEUIMaker (0.1.3):
     - LEFoundation
 
@@ -11,7 +11,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  LEFoundation: 06eda26fda4edd6b0eb7a4006304b99e0dd9e316
+  LEFoundation: 346976259fa7449b4254cf96329ed9d4757011b1
   LEUIMaker: d17f9486e1147ab22947399b7b4bffaf181a2cc5
 
 PODFILE CHECKSUM: 2e974ed59d03f8829123d1edb6e72b2630407de0

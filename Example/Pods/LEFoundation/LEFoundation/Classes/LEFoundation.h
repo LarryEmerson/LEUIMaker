@@ -83,7 +83,10 @@ return _instace; \
 #define LELog(FORMAT, ...) fprintf(stderr,"=> (Line:%d) %s %s\n",__LINE__,__FUNCTION__,[[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
 
 
-
+@interface LEWeakReferenceWrapper : NSObject
++(id) leWrapNonretainedObject:(id)obj;
+-(id) leGet;
+@end
 
 @interface NSObject (LEFoundation)
 /** 格式化为字符串 */

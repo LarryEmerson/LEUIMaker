@@ -34,8 +34,6 @@ typedef NS_ENUM(NSInteger, LEViewType) {
 @property (nonatomic) LEStackAlignment stackAlignment;
 /** 当前实体的拥有者 */
 @property (nonatomic, weak) UIView *ownerView;
-/** 当前View的子View（addTo方式添加），用于遍历子View计算出当前frame */
-@property (nonatomic) NSMutableArray *children;
 /** 把当前View作为参照View的view列表，用于当前View变动后通知相关View重新排版 */
 @property (nonatomic) NSMutableArray *related;
 /** 当前View的父view */
@@ -308,49 +306,45 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     self.ownerView=owner;
     return self;
 }
--(NSMutableArray *) children{
-    if(!_children){
-        _children=[NSMutableArray new];
-    }
-    return _children;
-}
 -(NSMutableArray *) related{
     if(!_related){
         _related=[NSMutableArray new];
     }
     return _related;
 }
--(void) addChild:(UIView *) view{
-    if(![self.children containsObject:view.leViewAdditions]){
-        [self.children addObject:view.leViewAdditions];
-    }
-}
--(void) addRelated:(UIView *) view{ 
-    if(![self.related containsObject:view.leViewAdditions]){
-        [self.related addObject:view.leViewAdditions];
+-(void) addRelated:(UIView *) view{
+    LEWeakReferenceWrapper *obj=[LEWeakReferenceWrapper leWrapNonretainedObject:view.leViewAdditions];
+    if(![self.related containsObject:obj]){
+        [self.related addObject:obj];
     }
 }
 -(void) removeRelated:(UIView *) view{
     [self.related removeObject:view.leViewAdditions];
 }
--(void) removeChild:(UIView *) view{
-    if(self.children&&view.leViewAdditions){
-        [self.children removeObject:view.leViewAdditions];
+-(UIView *) popView{
+    NSArray *array=self.ownerView.subviews;
+    NSInteger counter=0;
+    UIView *v=nil;
+    UIView *last=self.ownerView;
+    for (NSInteger i=0; i<array.count; i++) {
+        if(v){
+            last=v;
+        }
+        UIView *tmp=[array objectAtIndex:i];
+        if(tmp.leViewAdditions.superView){
+            v=tmp;
+            counter++;
+        }
     }
-}
--(BOOL) popView{
-    if(self.children&&self.children.count>0){
-        UIView *view=[[self.children lastObject] ownerView];
-        [self.children removeLastObject];
-        [view leRelease];
-        view=nil;
-        if(self.children.count==0){
+    if(v){
+        [v leRelease];
+        v=nil;
+        if(counter-1==0){
             self.width=0;
             self.height=0;
         }
-        return YES;
     }
-    return NO;
+    return last;
 }
 //-(void) dealloc{
 //    NSLog(@"dealloc Additions");
@@ -365,18 +359,13 @@ typedef NS_ENUM(NSInteger, LEViewType) {
 }
 -(void) leRelease{
     if(self.leViewAdditions){
-        if(self.leViewAdditions.superView.leViewAdditions){
-            [self.leViewAdditions.superView.leViewAdditions removeChild:self];
-        }
         if(self.leViewAdditions.relativeView){
             [self.leViewAdditions.relativeView.leViewAdditions removeRelated:self];
-        }
-        if(self.leViewAdditions.children){
-            [self.leViewAdditions.children removeAllObjects];
         }
         if(self.leViewAdditions.related){
             [self.leViewAdditions.related removeAllObjects];
         }
+        
     }
     self.leViewAdditions=nil;
     [self removeFromSuperview];
@@ -384,11 +373,7 @@ typedef NS_ENUM(NSInteger, LEViewType) {
 -(__kindof UIView *(^)(UIView *)) leAddTo{
     return ^id(UIView *value){
         [value addSubview:self];
-        [value.leViewAdditions addChild:self];
         if(value.leViewAdditions.viewType==LEWrapperView||value.leViewAdditions.viewType==LEVerticalStack||value.leViewAdditions.viewType==LEHorizontalStack){//wrapper ,vs, hs
-            if(!self.leViewAdditions.related){
-                self.leViewAdditions.related=[NSMutableArray new];
-            }
             [self.leViewAdditions addRelated:value];
         }
         self.leViewAdditions.superView=value;
@@ -399,7 +384,7 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     return ^id(UIView *value){
         if(self.leViewAdditions.relativeView&&![self.leViewAdditions.relativeView isEqual:value]){
             [self.leViewAdditions.relativeView.leViewAdditions removeRelated:self];
-        }
+        } 
         [value.leViewAdditions addRelated:self];
         self.leViewAdditions.relativeView=value;
         return self;
@@ -574,8 +559,13 @@ typedef NS_ENUM(NSInteger, LEViewType) {
         va_end(params);
     }
     UIView *last=self;
-    if(self.leViewAdditions.children&&self.leViewAdditions.children.count>0){
-        last=[[self.leViewAdditions.children lastObject] ownerView];
+    NSArray *sbvs=self.subviews;
+    for (NSInteger i=sbvs.count-1; i>=0;i--) {
+        UIView *v=[self.subviews objectAtIndex:i];
+        if(v.leViewAdditions.superView){
+            last=v;
+            break;
+        }
     }
     LEAnchors anchor1=self.leViewAdditions.viewType==LEVerticalStack?LEInsideTopCenter:LEInsideLeftCenter;
     LEAnchors anchor2=self.leViewAdditions.viewType==LEVerticalStack?LEOutsideBottomCenter:LEOutsideRightCenter;
@@ -605,13 +595,7 @@ typedef NS_ENUM(NSInteger, LEViewType) {
     }
 }
 -(void) lePopFromStack{
-    if([self.leViewAdditions popView]){
-        if(self.leViewAdditions.children.count>0){
-            [[[self.leViewAdditions.children lastObject] ownerView] leAutoLayout];
-        }else{
-            [self leAutoLayout];
-        }
-    }
+    [[self.leViewAdditions popView] leAutoLayout];
 }
 -(__kindof UIView *(^)(CGFloat)) leEqualSuperViewWidth{
     return ^id(CGFloat value){
@@ -916,13 +900,6 @@ typedef NS_ENUM(NSInteger, LEViewType) {
                 }
             }
             view=view.leWidth(w).leHeight(h);
-            if(self.leViewAdditions.isButtonVerticalLayout){
-                if(!view.imageView.hidden&&value&&value.length>0){
-//                    view.titleEdgeInsets = UIEdgeInsetsMake(0, -view.imageView.image.size.width, -view.imageView.image.size.height-insetH, 0);
-//                    view.imageEdgeInsets=UIEdgeInsetsMake(-textSize.height*0.5-insetH, (textSize.width-view.imageView.image.size.width+insetW)*0.5, 0, 0);
-//                    [view setNeedsLayout];
-                }
-            }
         }else if([self isKindOfClass:[UITextField class]]){
             UITextField *view=(UITextField *)self;
             [view setText:value];
@@ -992,7 +969,6 @@ typedef NS_ENUM(NSInteger, LEViewType) {
         if([self isKindOfClass:[UIButton class]]){
             UIButton *view=(UIButton *)self;
             [view setImage:img forState:state];
-//            view=view.leText(view.titleLabel.text);
             view=view.leText(view.leViewAdditions.uiText);
         }
         return self;
@@ -1021,7 +997,6 @@ typedef NS_ENUM(NSInteger, LEViewType) {
         if([self isKindOfClass:[UIButton class]]){
             UIButton *view=(UIButton *)self;
             [view setImage:value forState:UIControlStateNormal];
-//            view=view.leText(view.titleLabel.text);
             view=view.leText(view.leViewAdditions.uiText);
         }
         return self;
@@ -1032,7 +1007,6 @@ typedef NS_ENUM(NSInteger, LEViewType) {
         if([self isKindOfClass:[UIButton class]]){
             UIButton *view=(UIButton *)self;
             [view setImage:value forState:UIControlStateHighlighted];
-//            view=view.leText(view.titleLabel.text);
             view=view.leText(view.leViewAdditions.uiText);
         }
         return self;
@@ -1116,23 +1090,27 @@ typedef NS_ENUM(NSInteger, LEViewType) {
 }
 #pragma mark Auto
 -(void) leAutoLayout{
- 
     CGRect frame=[self.leViewAdditions leGetFrame];
     if(!CGRectEqualToRect(frame, self.frame)){
         [self setFrame:frame];
-        if(self.leViewAdditions.children.count>0){
-            for (NSInteger i=self.leViewAdditions.children.count-1; i>=0; i--) {
-                UIView *view=[[self.leViewAdditions.children objectAtIndex:i] ownerView];
-                if(view){
-                    [view leAutoLayout];
-                }else{
-                    [self.leViewAdditions.children removeObjectAtIndex:i];
+        LEViewType type=self.leViewAdditions.viewType;
+        if(type==LEWrapperView||type==LEVerticalStack||type==LEHorizontalStack){
+            for (UIView *v in self.subviews) {
+                if(v.leViewAdditions.superView){
+                    [v setFrame:[v.leViewAdditions leGetFrame]];
                 }
-            } 
+            }
+        }else{
+            for (UIView *v in self.subviews) {
+                if(v.leViewAdditions.superView){
+                    [v leAutoLayout];
+                }
+            }
         }
         if(self.leViewAdditions.related.count>0){
             for (NSInteger i=self.leViewAdditions.related.count-1; i>=0; i--) {
-                UIView *view=[[self.leViewAdditions.related objectAtIndex:i] ownerView];
+//                UIView *view=[[self.leViewAdditions.related objectAtIndex:i] ownerView];
+                UIView *view=[[[self.leViewAdditions.related objectAtIndex:i] leGet] ownerView];
                 if(view){
                     [view leAutoLayout];
                 }else{
@@ -1148,26 +1126,28 @@ typedef NS_ENUM(NSInteger, LEViewType) {
         UIView *vl=nil;
         UIView *vb=nil;
         UIView *vr=nil;
-        for (LEViewAdditions *va in stack.leViewAdditions.children) {
-            UIView *view=va.ownerView;
-            if(view&&!view.hidden){
-                if(!vt){
-                    vt=view;
-                    vl=view;
-                    vb=view;
-                    vr=view;
-                }else {
-                    if((view.frame.origin.y-view.leViewAdditions.topMargin)<(vt.frame.origin.y-vt.leViewAdditions.topMargin)){
+        for (NSInteger i=0; i<stack.subviews.count; i++) {
+            UIView *view=[stack.subviews objectAtIndex:i];
+            if(view.leViewAdditions.superView){
+                if(view&&!view.hidden){
+                    if(!vt){
                         vt=view;
-                    }
-                    if((view.frame.origin.x-view.leViewAdditions.leftMargin)<(vl.frame.origin.x-vl.leViewAdditions.leftMargin)){
                         vl=view;
-                    }
-                    if((view.frame.origin.y+view.frame.size.height+view.leViewAdditions.bottomMargin)>(vb.frame.origin.y+vb.frame.size.height+vb.leViewAdditions.bottomMargin)){
                         vb=view;
-                    }
-                    if((view.frame.origin.x+view.frame.size.width+view.leViewAdditions.rightMargin)>(vr.frame.origin.x+vr.frame.size.width+vr.leViewAdditions.rightMargin)){
                         vr=view;
+                    }else {
+                        if((view.frame.origin.y-view.leViewAdditions.topMargin)<(vt.frame.origin.y-vt.leViewAdditions.topMargin)){
+                            vt=view;
+                        }
+                        if((view.frame.origin.x-view.leViewAdditions.leftMargin)<(vl.frame.origin.x-vl.leViewAdditions.leftMargin)){
+                            vl=view;
+                        }
+                        if((view.frame.origin.y+view.frame.size.height+view.leViewAdditions.bottomMargin)>(vb.frame.origin.y+vb.frame.size.height+vb.leViewAdditions.bottomMargin)){
+                            vb=view;
+                        }
+                        if((view.frame.origin.x+view.frame.size.width+view.leViewAdditions.rightMargin)>(vr.frame.origin.x+vr.frame.size.width+vr.leViewAdditions.rightMargin)){
+                            vr=view;
+                        }
                     }
                 }
             }
@@ -1186,12 +1166,8 @@ typedef NS_ENUM(NSInteger, LEViewType) {
         }else if((type==LEAutoResizeContentView)&&[stack isKindOfClass:[UIScrollView class]]){
             [(UIScrollView *)stack setContentSize:CGSizeMake(MAX(stack.bounds.size.width, sumW), MAX(stack.bounds.size.height, sumH))];
         }else if(type==LEAutoCalcHeight){
-//            NSLog(@"sumh=%f  %@",sumH,self.class);
             stack.leViewAdditions.width=stack.bounds.size.width;
             stack.leHeight(sumH);
-//            CGRect rect=stack.frame;
-//            rect.size.height=sumH;
-//            stack.frame=rect;
         }
     }
 }

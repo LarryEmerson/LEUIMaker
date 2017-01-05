@@ -9,6 +9,27 @@
 #import "LEFoundation.h"
 #import <CommonCrypto/CommonDigest.h>
 
+@implementation LEWeakReferenceWrapper {
+    __weak id weakReference;
+}
++(id) leWrapNonretainedObject:(id)obj {
+    return [[LEWeakReferenceWrapper alloc] initWithNonretainedObject:obj];
+}
+-(id) init {
+    return [self initWithNonretainedObject:nil];
+}
+-(id) initWithNonretainedObject:(id)obj {
+    self = [super init];
+    if (self) {
+        weakReference = obj;
+    }
+    return self;
+}
+-(id) leGet {
+    return weakReference;
+}
+@end
+
 @implementation NSObject (LEFoundation)
 -(NSString *) leStringValue{
     return [NSString stringWithFormat:@"%@",self];
