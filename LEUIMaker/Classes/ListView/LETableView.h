@@ -82,11 +82,13 @@
 @interface LETableView : UITableView
 /** 当前tableview中的数据 */
 @property (nonatomic, readonly) NSMutableArray *leItemsArray;
-@property (nonatomic, readonly) LEEmptyTableViewCell *leEmptyCell;
-@property (nonatomic)           NSInteger leCellCountAppended;
+@property (nonatomic) LEEmptyTableViewCell *leEmptyCell;
+@property (nonatomic) NSInteger leCellCountAppended;
 -(id<LETableViewDelegate>) leGetDelegate;
 /** 注册cell的classname，多个时默认每个cell对应一个分组，如需自定义分组情况，请重写leCellClassnameWithSection */
 -(void) leRegisterCellWith:(NSString *)classname,...;
+/** 获取emptycell类名 */
+-(NSString *) leGetEmptyCellClassname;
 /** 返回index对应的cell的classname */
 -(NSString *) leCellClassnameWithIndex:(NSIndexPath *) index;
 /** 获取点击事件状态 */
@@ -119,6 +121,8 @@
 /** 设定停止上拉刷新 */
 -(__kindof LETableView *(^)(NSMutableArray *)) leLoadMoreWithData;
 
+-(void) leOnDelegateSet:(id<LETableViewDelegate>) delegate;
+-(void) leOnDataSourceSet:(id<LETableViewDataSource>) dataSource;
 #define mark 不建议使用以下方法
 #pragma mark Refresh
 -(void) leSetTopRefresh:(BOOL) enable;

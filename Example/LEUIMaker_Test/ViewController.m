@@ -82,9 +82,12 @@
     navigationTitles=@[@"点我",@"点我-测试",@"点我-测试导航栏",@"点我-测试导航栏标题文字",@"点我-测试导航栏标题文字的宽度",@"点我-测试导航栏标题文字的宽度变动"];
     demoClassnames=@[
 //                     @{@"classname":@"TestWKWebview", @"text":@"测试TestWKWebview"},
+                     
+                     @{@"classname":@"TestConfigurableList", @"text":@"测试ConfigurableList"},
+                     @{@"classname":@"TestImageFramework", @"text":@"测试ImageFramework"},
                      @{@"classname":@"TestShowQRCode", @"text":@"测试ShowQRCode"},
                      @{@"classname":@"TestScanQRCode", @"text":@"测试ScanQRCode"},
-                     @{@"classname":@"TestImagePicker", @"text":@"测试TestImagePicker"},
+                     @{@"classname":@"TestImagePicker", @"text":@"测试ImagePicker"},
                      @{@"classname":@"TestCollectionView", @"text":@"测试Collection封装模块的使用"},
                      @{@"classname":@"TestBottomTabbar", @"text":@"测试BottomTabbar封装模块的使用"},
                      @{@"classname":@"TestSegment", @"text":@"测试Segment封装模块的使用"},

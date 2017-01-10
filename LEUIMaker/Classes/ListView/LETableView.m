@@ -98,8 +98,8 @@
 }
 -(id) initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self=[super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    self.contentView.leAddTo(self).leMargins(UIEdgeInsetsZero);
     self.leWidth(LESCREEN_WIDTH).leHeight(LECellH).leBgColor(LEColorWhite);
+    self.contentView.leAddTo(self).leAnchor(LEI_C).leEqualSuperViewWidth(1).leHeight(0).leBgColor(LEColorClear);
     self.leArrow=[UIView new].leAddTo(self).leAnchor(LEInsideRightCenter).leRight(LESideSpace).leHorizontalStack();
     curArrow=[UIImageView new].leImage([LEUICommon sharedInstance].leListRightArrow);
     [curArrow setHidden:YES];
@@ -161,7 +161,10 @@
         return self;
     };
 }
--(void) leSetData:(id) data{}
+-(void) leSetData:(id) data{
+    // deal with data
+    [self layoutCellAfterConfig];
+}
 -(void) layoutCellAfterConfig{
     self.leWidth(LESCREEN_WIDTH).leHeight([self leGetCellHeightWithBottomView:bottomView]);
 }
@@ -174,7 +177,6 @@
 
 @interface LETableView()<UITableViewDelegate,UITableViewDataSource>
 @property (nonatomic, readwrite) NSMutableArray *leItemsArray;
-@property (nonatomic, readwrite) LEEmptyTableViewCell *leEmptyCell;
 @end
 @implementation LETableView{
     __weak id<LETableViewDataSource> curDataSource;
@@ -226,7 +228,9 @@
         obj=nil;
     }
 }
-
+-(NSString *) leGetEmptyCellClassname{
+    return curEmptyCellClassname;
+}
 -(BOOL) leGetTouchEnabled{
     return curTouchEnabled;
 }
@@ -249,15 +253,19 @@
 -(__kindof LETableView *(^)(id<LETableViewDataSource>)) leDataSource{
     return ^id(id<LETableViewDataSource> value){
         curDataSource=value;
+        [self leOnDataSourceSet:value];
         return self;
     };
 }
 -(__kindof LETableView *(^)(id<LETableViewDelegate>)) leDelegate{
     return ^id(id<LETableViewDelegate> value){
         curDelegate=value;
+        [self leOnDelegateSet:value];
         return self;
     };
 }
+-(void) leOnDelegateSet:(id<LETableViewDelegate>) delegate{}
+-(void) leOnDataSourceSet:(id<LETableViewDataSource>) dataSource{}
 -(__kindof LETableView *(^)(NSString *)) leCellClassname{
     return ^id(NSString *value){
         if(!curCellClassnames){

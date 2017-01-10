@@ -20,3 +20,5 @@
 #import "LEDate.h"
 #import "LEShowQRCode.h"
 #import "LEScanQRCode.h"
+#import "LEImageFrameworks.h"
+#import "LEConfigurableList.h"

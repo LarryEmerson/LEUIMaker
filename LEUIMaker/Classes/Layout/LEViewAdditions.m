@@ -473,6 +473,9 @@ typedef NS_ENUM(NSInteger, LEViewType) {
         if([self isKindOfClass:[UIButton class]]){
             UIButton *view=(UIButton *)self;
             [view addTarget:target action:sel forControlEvents:UIControlEventTouchUpInside];
+        }else if([self isKindOfClass:[UISwitch class]]){
+            UISwitch *view=(UISwitch *)self;
+            [view addTarget:target action:sel forControlEvents:UIControlEventTouchUpInside];
         }else{
             if([target respondsToSelector:@selector(setUserInteractionEnabled:)]){
                 [target setUserInteractionEnabled:YES];
@@ -803,6 +806,7 @@ typedef NS_ENUM(NSInteger, LEViewType) {
             CGSize size=CGSizeZero;
             BOOL sizeSet=NO;
             if(value.length>0){
+                
                 size=[label leSizeWithMaxSize:CGSizeMake(label.leViewAdditions.maxWidth==0?INT_MAX:label.leViewAdditions.maxWidth, label.leViewAdditions.maxHeight==0?INT_MAX:label.leViewAdditions.maxHeight)];
                 if(self.leViewAdditions.lineSpace>0){
                     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:label.text];
@@ -821,7 +825,7 @@ typedef NS_ENUM(NSInteger, LEViewType) {
                     //
                     int maxWidth=self.leViewAdditions.maxWidth;
                     if(maxWidth==0){
-                        maxWidth=[UIScreen mainScreen].bounds.size.width;
+                        maxWidth=INT_MAX;
                     }
                     CGRect rect = [attributedString leRectWithMaxSize:CGSizeMake(maxWidth, INT_MAX)];
                     //中文单行 size计算不准确的处理
@@ -835,18 +839,18 @@ typedef NS_ENUM(NSInteger, LEViewType) {
                         [label setAttributedText:[[NSAttributedString alloc] initWithString:label.text]];
                         label=label.leWidth(rect.size.width).leHeight(label.font.lineHeight);
                         sizeSet=YES;
-                    }else if(label.numberOfLines!=0){
-                        int height=(label.numberOfLines>1?label.numberOfLines-1:0)*self.leViewAdditions.lineSpace+label.numberOfLines*label.font.lineHeight;
-                        if(self.bounds.size.height>height){
-                            label=label.leWidth(rect.size.width).leHeight((label.numberOfLines>1?label.numberOfLines-1:0)*self.leViewAdditions.lineSpace+label.numberOfLines*label.font.lineHeight);
-                            [label setLineBreakMode:NSLineBreakByTruncatingTail];
-                            sizeSet=YES;
-                        }
+                    }else{
+                        label.leWidth(rect.size.width);
                     }
                 }
             }
             if(!sizeSet){
                 label=label.leWidth(size.width).leHeight(size.height);
+            }
+            if(label.numberOfLines!=0){
+                float height=(label.numberOfLines>1?label.numberOfLines-1:0)*self.leViewAdditions.lineSpace+label.numberOfLines*label.font.lineHeight;
+                label.leHeight(height);
+                [label setLineBreakMode:NSLineBreakByTruncatingTail];
             }
         }else if([self isKindOfClass:[UIButton class]]){
             UIButton *view=(UIButton *)self;
