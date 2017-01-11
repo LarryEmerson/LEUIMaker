@@ -64,7 +64,7 @@
 @end
 
 
-@interface ViewControllerPage : LEView<LENavigationDelegate,LETableViewDataSource,LETableViewDelegate,LEScanQRCodeDelegate>
+@interface ViewControllerPage : LEView<LENavigationDelegate,LETableViewDataSource,LETableViewDelegate,LEScanQRCodeDelegate,LEImageCropperDelegate>
 @end
 @implementation ViewControllerPage{
     LENavigation *navigationView;
@@ -83,6 +83,7 @@
     demoClassnames=@[
 //                     @{@"classname":@"TestWKWebview", @"text":@"测试TestWKWebview"},
                      
+                     @{@"classname":@"LEImageCropper", @"text":@"测试LEImageCropper"},
                      @{@"classname":@"TestConfigurableList", @"text":@"测试ConfigurableList"},
                      @{@"classname":@"TestImageFramework", @"text":@"测试ImageFramework"},
                      @{@"classname":@"TestShowQRCode", @"text":@"测试ShowQRCode"},
@@ -146,6 +147,13 @@
                 [self.leViewController lePush:[LEShowQRCode new].leinit(@"二维码显示界面",@"LarryEmerson")];
             }else if([classname isEqualToString:@"TestScanQRCode"]){
                 [self.leViewController lePush:[LEScanQRCode new].leDelegate(self)];
+            }else if([classname isEqualToString:@"LEImageCropper"]){
+                UIImage *img;
+                UIGraphicsBeginImageContextWithOptions(self.leSubViewContainer.bounds.size, YES, 0.0);
+                [self.leSubViewContainer drawViewHierarchyInRect:self.leSubViewContainer.bounds afterScreenUpdates:NO];
+                img = UIGraphicsGetImageFromCurrentImageContext();
+                UIGraphicsEndImageContext();
+                [self.leViewController lePush:[[LEImageCropper alloc] initWithImage:img Aspect:rand()%2==0?1:0.5 Radius:rand()%2==0?LESCREEN_WIDTH:0 Delegate:self]];
             }else if(classname){
                 [self.leViewController lePush:(LEViewController *)[[classname leGetInstanceFromClassName] init]];
             }
@@ -156,6 +164,13 @@
 } 
 -(void) leOnScannedQRCodeWithResult:(NSString *)code{
     LELogObject(code)
+}
+- (void)leOnDoneCroppedWithImage:(UIImage *)image{
+    LELogObject(image)
+    UIImageWriteToSavedPhotosAlbum(image, self, nil, NULL);
+}
+- (void)leOnCancelImageCropper{
+    LELogFunc
 }
 @end
 
