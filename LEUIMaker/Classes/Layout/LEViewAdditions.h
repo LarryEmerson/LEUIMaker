@@ -190,6 +190,8 @@ typedef NS_ENUM(NSInteger, LEAnchors) {
 -(__kindof UIView *(^)(CGFloat)) leMaxWidth;
 /** 设置最大高度，适用于Label、Button、UIImageView, 按钮的固定宽度使用leBtnFixedHeight */
 -(__kindof UIView *(^)(CGFloat)) leMaxHeight;
+/** 设置最大宽度相对于屏幕宽的差值，适用于Label、Button、UIImageView, 按钮的固定宽度使用leBtnFixedWidth */
+-(__kindof UIView *(^)(CGFloat)) leMarginForMaxWidth;
 /** 设置label、textfield、button的文字颜色 */
 -(__kindof UIView *(^)(UIColor *)) leColor;
 /** 设置label、textfield的文字对其方式 */

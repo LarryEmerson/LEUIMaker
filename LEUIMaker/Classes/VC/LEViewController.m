@@ -158,7 +158,7 @@
         [leRightButton setClipsToBounds:YES];
         //
         self.leTitleViewContainer=[UIView new].leAddTo(self).leRelativeTo(leBackButton).leAnchor(LEOutsideRightCenter).leWidth(LESCREEN_WIDTH-LENavigationBarHeight*2).leHeight(LENavigationBarHeight);
-        leNavigationTitle=[UILabel new].leAddTo(self.leTitleViewContainer).leAnchor(LEInsideCenter).leFont([LEUICommon sharedInstance].leNaviTitleFont).leLine(1).leColor(LEColorBlack).leAlignment(NSTextAlignmentCenter);
+        leNavigationTitle=[UILabel new].leAddTo(self).leAnchor(LEInsideCenter).leFont([LEUICommon sharedInstance].leNaviTitleFont).leLine(1).leColor(LEColorBlack).leAlignment(NSTextAlignmentCenter);
         self.leOffset(LESCREEN_HEIGHT>LESCREEN_WIDTH?LEStatusBarHeight:0).leLeftItemImg([LEUICommon sharedInstance].leNaviBackImage);
         self.leSplit(YES,LEColorSplitline);
         return self;
@@ -259,7 +259,7 @@
     [leRightButton setClipsToBounds:YES];
     //
     self.leTitleViewContainer=[UIView new].leAddTo(self).leRelativeTo(leBackButton).leAnchor(LEOutsideRightCenter).leWidth(LESCREEN_WIDTH-LENavigationBarHeight*2).leHeight(LENavigationBarHeight);
-    leNavigationTitle=[UILabel new].leAddTo(self.leTitleViewContainer).leAnchor(LEI_C).leFont([LEUICommon sharedInstance].leNaviTitleFont).leLine(1).leColor(color).leAlignment(NSTextAlignmentCenter);
+    leNavigationTitle=[UILabel new].leAddTo(self).leAnchor(LEI_C).leFont([LEUICommon sharedInstance].leNaviTitleFont).leLine(1).leColor(color).leAlignment(NSTextAlignmentCenter);
     //
     [self leSetLeftNavigationItemWith:nil Image:left Color:nil];
     [self leEnableBottomSplit:YES Color:LEColorSplitline];
@@ -275,7 +275,12 @@
         if(curDelegate&&[curDelegate respondsToSelector:@selector(leNavigationNotifyTitleViewContainerWidth:)]){
             [curDelegate leNavigationNotifyTitleViewContainerWidth:width];
         }
-        leNavigationTitle.leMaxWidth(width-LESideSpace*2).leText(title);
+        leNavigationTitle.leLeft(0).leRight(0).leMaxWidth(width-LESideSpace*2).leText(title);
+        float x1=self.leTitleViewContainer.frame.origin.x;
+        float x2=leNavigationTitle.frame.origin.x;
+        float w1=self.leTitleViewContainer.frame.size.width;
+        float w2=leNavigationTitle.frame.size.width;
+        leNavigationTitle.leLeft(MAX(0, (x1-x2+LESideSpace))).leRight(MIN(0, (x1-x2+w1-w2-LESideSpace)));
     }];
 }
 -(void) leEnableBottomSplit:(BOOL) enable Color:(UIColor *) color{

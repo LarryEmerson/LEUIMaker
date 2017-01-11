@@ -54,7 +54,7 @@
     arrow=[UIImageView new].leAddTo(self.curContainer).leAnchor(LEI_RC).leRight(LESideSpace).leSize(LESquareSize(LEAvatarSize));
     [arrow setContentMode:UIViewContentModeCenter];
     arrow.leImage([LEUICommon sharedInstance].leListRightArrow);
-    label.leMaxWidth(LESCREEN_WIDTH-LESideSpace-LEAvatarSize).leFont(LEFontML).leLine(1);
+    label.leMarginForMaxWidth(LESideSpace+LEAvatarSize).leFont(LEFontML).leLine(1);
 }
 -(void) leSetData:(id) data{
     id value=[data objectForKey:LEConfigurableCellKey_Color];
@@ -71,10 +71,6 @@
     }
     [super leSetData:data];
 }
--(void) leDidRotateFrom:(UIInterfaceOrientation)from{
-    [super leDidRotateFrom:from];
-    [label.leMaxWidth(LESCREEN_WIDTH-LESideSpace-LEAvatarSize) leUpdateLayout];
-}
 @end
 @interface LEItem_L_Title_R_Switch : LEConfigurableCell
 @end
@@ -86,11 +82,7 @@
     [super leExtraInits];
     curSwitch=[UISwitch new];
     curSwitch.leAddTo(self.curContainer).leAnchor(LEI_RC).leRight(LESideSpace).leSize(curSwitch.bounds.size).leTouchEvent(@selector(onTapped),self);
-    label=[UILabel new].leAddTo(self.curContainer).leAnchor(LEI_LC).leLeft(LESideSpace).leFont(LEFontML).leLine(1).leMaxWidth(LESCREEN_WIDTH-LESideSpace*3-curSwitch.bounds.size.width);
-}
--(void) leDidRotateFrom:(UIInterfaceOrientation)from{
-    [super leDidRotateFrom:from];
-    [label.leMaxWidth(LESCREEN_WIDTH-LESideSpace*3-curSwitch.bounds.size.width) leUpdateLayout];
+    label=[UILabel new].leAddTo(self.curContainer).leAnchor(LEI_LC).leLeft(LESideSpace).leFont(LEFontML).leLine(1).leMarginForMaxWidth(LESideSpace*3+curSwitch.bounds.size.width);
 }
 -(void) leSetData:(id) data{
     id value=[data objectForKey:LEConfigurableCellKey_Color];
@@ -109,7 +101,6 @@
     if(value&&[value isKindOfClass:[NSNumber class]]){
         [curSwitch setOn:[value boolValue]];
     }
-    [label.leMaxWidth(LESCREEN_WIDTH-LESideSpace*3-curSwitch.bounds.size.width) leUpdateLayout];
     [super leSetData:data];
     self.leTouchEnabled(NO);
 }
@@ -124,12 +115,8 @@
 -(void)leExtraInits{
     [super leExtraInits];
     UIView *anchor=[UIView new].leAddTo(self.curContainer).leSize(CGSizeMake(1, LECellH));
-    label=[UILabel new].leAddTo(self.curContainer).leRelativeTo(anchor).leAnchor(LEO_RC).leLeft(LESideSpace-1).leFont(LEFontML).leLine(1).leColor(LEColorBlack);
-    labelSub=[UILabel new].leAddTo(self.curContainer).leAnchor(LEI_TR).leTop((LECellH-LEFontSizeSL)*0.5).leRight(LESideSpace).leFont(LEFontSL).leColor(LEColorText3).leAlignment(NSTextAlignmentRight).leLine(0).leMaxWidth((LESCREEN_WIDTH-LESideSpace*3-6*LEFontSizeML));
-}
--(void) leDidRotateFrom:(UIInterfaceOrientation)from{
-    [super leDidRotateFrom:from];
-    [label leUpdateLayout];
+    label=[UILabel new].leAddTo(self.curContainer).leRelativeTo(anchor).leAnchor(LEO_RC).leLeft(LESideSpace-1).leFont(LEFontML).leLine(1).leColor(LEColorBlack).leMarginForMaxWidth(LESideSpace*2);
+    labelSub=[UILabel new].leAddTo(self.curContainer).leAnchor(LEI_TR).leTop((LECellH-LEFontSizeSL)*0.5).leRight(LESideSpace).leFont(LEFontSL).leColor(LEColorText3).leAlignment(NSTextAlignmentRight).leLine(0);
 }
 -(void) leSetData:(id) data{
     int fontsize=LEFontSizeML;
@@ -171,7 +158,7 @@
     }
     value=[data objectForKey:LEConfigurableCellKey_Subtitle];
     if(value&&[value isKindOfClass:[NSString class]]){
-        labelSub.leMaxWidth(LESCREEN_WIDTH-LESideSpace*2-edge-(MAX(6*fontsize, label.bounds.size.width))).leText(value);
+        labelSub.leMaxWidth(LESCREEN_WIDTH-LESideSpace*2-label.bounds.size.width-edge).leText(value);
     }
     self.curContainer.leHeight(MAX((LECellH-subfontsize)*0.5+(int)labelSub.bounds.size.height+LESideSpace, LECellH));
     [super leSetData:data];
@@ -185,17 +172,11 @@
 }
 -(void) leExtraInits{
     [super leExtraInits];
-    label=[UILabel new].leAddTo(self.curContainer).leAnchor(LEI_LC).leLeft(LESideSpace);
-    [label.leFont(LEFontML).leLine(1) leUpdateLayout];
+    label=[UILabel new].leAddTo(self.curContainer).leAnchor(LEI_LC).leLeft(LESideSpace).leFont(LEFontML).leLine(1);
     UIImageView *arrow= [UIImageView new].leAddTo(self.curContainer).leAnchor(LEI_RC).leRight(LESideSpace).leSize(LESquareSize(LEAvatarSize));
     [arrow setContentMode:UIViewContentModeCenter];
     arrow.leImage([LEUICommon sharedInstance].leListRightArrow);
-    labelSub=[UILabel new].leAddTo(self.curContainer).leAnchor(LEI_RC).leRight(LEAvatarSize);
-    [labelSub.leFont(LEFontSL).leColor(LEColorText3).leLine(1).leAlignment(NSTextAlignmentRight) leUpdateLayout];
-}
--(void) leDidRotateFrom:(UIInterfaceOrientation)from{
-    [super leDidRotateFrom:from];
-    [label  leUpdateLayout];
+    labelSub=[UILabel new].leAddTo(self.curContainer).leAnchor(LEI_RC).leRight(LEAvatarSize).leFont(LEFontSL).leColor(LEColorText3).leLine(1).leAlignment(NSTextAlignmentRight);
 }
 -(void) leSetData:(id) data{
     int subfontsize=LEFontSizeSL;
@@ -213,7 +194,7 @@
     }
     value=[data objectForKey:LEConfigurableCellKey_SubTitleColor];
     if(value&&[value isKindOfClass:[UIColor class]]){
-        [labelSub.leColor(value) leUpdateLayout];
+        labelSub.leColor(value);
     }else{
         labelSub.leColor(LEColorText3);
     }
@@ -224,7 +205,7 @@
     }
     value=[data objectForKey:LEConfigurableCellKey_Subtitle];
     if(value&&[value isKindOfClass:[NSString class]]){
-        [labelSub.leMaxWidth(LESCREEN_WIDTH-LEAvatarSize-LESideSpace*2-label.bounds.size.width).leText(value) leUpdateLayout];
+        labelSub.leMaxWidth(LESCREEN_WIDTH-LESideSpace*2-LEAvatarSize-label.bounds.size.width).leText(value);
     }
     [super leSetData:data];
 }
@@ -240,7 +221,7 @@
 -(void) leExtraInits{
     [super leExtraInits];
     icon=[UIImageView new].leAddTo(self.curContainer).leAnchor(LEI_LC).leLeft(LESideSpace).leSize(LESquareSize(LEAvatarSize)).leCorner(LEAvatarSize/2);
-    label=[UILabel new].leAddTo(self.curContainer).leRelativeTo(icon).leAnchor(LEO_RC).leLeft(LESideSpace).leFont(LEFontML).leLine(1).leMaxWidth((LESCREEN_WIDTH-LESideSpace*3-LEAvatarSize*2));
+    label=[UILabel new].leAddTo(self.curContainer).leRelativeTo(icon).leAnchor(LEO_RC).leLeft(LESideSpace).leFont(LEFontML).leLine(1).leMarginForMaxWidth(LESideSpace*3+LEAvatarSize*2);
     arrow= [UIImageView new].leAddTo(self.curContainer).leAnchor(LEI_RC).leRight(LESideSpace).leSize(LESquareSize(LEAvatarSize)).leImage([LEUICommon sharedInstance].leListRightArrow);
     [arrow setContentMode:UIViewContentModeCenter];
 }
@@ -278,10 +259,6 @@
     }
     [super leSetData:data];
 }
--(void) leDidRotateFrom:(UIInterfaceOrientation)from{
-    [super leDidRotateFrom:from];
-    [label.leMaxWidth((LESCREEN_WIDTH-LESideSpace*3-LEAvatarSize*2)) leUpdateLayout];
-}
 @end
 @interface LEItem_L_Title_R_Icon_Arrow : LEConfigurableCell
 @end
@@ -291,16 +268,11 @@
 }
 -(void) leExtraInits{
     [super leExtraInits];
-    label=[UILabel new].leAddTo(self.curContainer).leAnchor(LEI_LC).leLeft(LESideSpace);
+    label=[UILabel new].leAddTo(self.curContainer).leAnchor(LEI_LC).leLeft(LESideSpace).leFont(LEFontML).leLine(1).leMarginForMaxWidth(LESideSpace+LEAvatarSize*2);
     UIImageView *arrow= [UIImageView new].leAddTo(self.contentView).leAnchor(LEI_RC).leRight(LESideSpace).leSize(LESquareSize(LEAvatarSize));
     arrow.leImage([LEUICommon sharedInstance].leListRightArrow);
     [arrow setContentMode:UIViewContentModeCenter];
     icon=[UIImageView new].leAddTo(self.curContainer).leAnchor(LEI_RC).leRight(LEAvatarSize).leSize(LESquareSize(LEAvatarSize)).leCorner(LEAvatarSize/2);
-    [label.leFont(LEFontML).leLine(1).leMaxWidth(LESCREEN_WIDTH-LESideSpace-LEAvatarSize*2) leUpdateLayout];
-}
--(void) leDidRotateFrom:(UIInterfaceOrientation)from{
-    [super leDidRotateFrom:from];
-    [label.leMaxWidth((LESCREEN_WIDTH-LESideSpace*3-LEAvatarSize*2)) leUpdateLayout];
 }
 -(void) leSetData:(id) data{
     id value=[data objectForKey:LEConfigurableCellKey_Color];
@@ -369,7 +341,6 @@
     if(value&&[value isKindOfClass:[NSNumber class]]){
         btn.leCorner([value intValue]);
     }
-//    [btn.leBtnFixedWidth(LESCREEN_WIDTH-LESideSpace*2) leUpdateLayout];
     [super leSetData:data];
     self.leTouchEnabled(NO);
 }
@@ -393,9 +364,6 @@
     [super leSetData:data];
 }
 @end
-//============
-
-
 
 @interface LEConfigurableList ()<LETableViewDelegate>
 @end

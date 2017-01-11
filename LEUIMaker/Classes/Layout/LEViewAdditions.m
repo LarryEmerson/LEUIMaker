@@ -58,6 +58,10 @@ typedef NS_ENUM(NSInteger, LEViewType) {
 @property (nonatomic) CGFloat maxWidth;
 /** 当前View的最大高 */
 @property (nonatomic) CGFloat maxHeight;
+
+/** 当前View的最大宽相对于屏幕宽的差值 */
+@property (nonatomic) CGFloat marginForMaxWidth;
+
 /** 宽度等于superView宽度比 */
 @property (nonatomic) CGFloat equalSuperViewWidth;
 /** 高度等于superView高度比 */
@@ -712,6 +716,12 @@ typedef NS_ENUM(NSInteger, LEViewType) {
         return self;
     };
 }
+-(__kindof UIView *(^)(CGFloat)) leMarginForMaxWidth{
+    return ^id(CGFloat value){
+        self.leViewAdditions.marginForMaxWidth=value;
+        return self;
+    };
+}
 -(__kindof UIView *(^)(UIColor *)) leColor{
     return ^id(UIColor *value){
         if([self isKindOfClass:[UILabel class]]){
@@ -785,9 +795,7 @@ typedef NS_ENUM(NSInteger, LEViewType) {
             UIImageView *view=(UIImageView *)self;
             float w=value.size.width;
             float h=value.size.height;
-            if(self.leViewAdditions.maxWidth>0){
-                w=MIN(self.leViewAdditions.maxWidth, w);
-            }
+            w=MIN([self getMaxWidth]?:w, w);
             if(self.leViewAdditions.maxHeight>0){
                 h=MIN(self.leViewAdditions.maxHeight, h);
             }
@@ -797,8 +805,18 @@ typedef NS_ENUM(NSInteger, LEViewType) {
         return self;
     };
 }
+-(float) getMaxWidth{
+    float max=0;
+    if(self.leViewAdditions.maxWidth>0){
+        max=self.leViewAdditions.maxWidth;
+    }else if(self.leViewAdditions.marginForMaxWidth>0){
+        max=LESCREEN_WIDTH-self.leViewAdditions.marginForMaxWidth;
+    } 
+    return max;
+}
 -(__kindof UIView *(^)(NSString *)) leText{
     return ^id(NSString *value){
+        float labelMaxWidth=[self getMaxWidth]?:INT_MAX;
         if([self isKindOfClass:[UILabel class]]){
             UILabel *label=(UILabel *)self;
             label.leViewAdditions.uiText=value;
@@ -807,7 +825,7 @@ typedef NS_ENUM(NSInteger, LEViewType) {
             BOOL sizeSet=NO;
             if(value.length>0){
                 
-                size=[label leSizeWithMaxSize:CGSizeMake(label.leViewAdditions.maxWidth==0?INT_MAX:label.leViewAdditions.maxWidth, label.leViewAdditions.maxHeight==0?INT_MAX:label.leViewAdditions.maxHeight)];
+                size=[label leSizeWithMaxSize:CGSizeMake(labelMaxWidth, label.leViewAdditions.maxHeight==0?INT_MAX:label.leViewAdditions.maxHeight)];
                 if(self.leViewAdditions.lineSpace>0){
                     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:label.text];
                     NSMutableParagraphStyle *paragraphStyle=nil;
@@ -823,11 +841,7 @@ typedef NS_ENUM(NSInteger, LEViewType) {
                     [attributedString addAttributes:dic range:NSMakeRange(0, label.text.length)];
                     [label setAttributedText:attributedString];
                     //
-                    int maxWidth=self.leViewAdditions.maxWidth;
-                    if(maxWidth==0){
-                        maxWidth=INT_MAX;
-                    }
-                    CGRect rect = [attributedString leRectWithMaxSize:CGSizeMake(maxWidth, INT_MAX)];
+                    CGRect rect = [attributedString leRectWithMaxSize:CGSizeMake(labelMaxWidth, INT_MAX)];
                     //中文单行 size计算不准确的处理
                     if(rect.size.height<=label.font.lineHeight+self.leViewAdditions.lineSpace){
                         NSMutableAttributedString *attr=[[NSMutableAttributedString alloc] initWithAttributedString:attributedString];
@@ -876,19 +890,16 @@ typedef NS_ENUM(NSInteger, LEViewType) {
                 textSize=[label leSizeWithMaxSize:CGSizeMake(w-insetW*2, INT_MAX)];
                 if(self.leViewAdditions.isButtonVerticalLayout){//垂直排版
                     h=insetH+(view.imageView.hidden?0:view.imageView.image.size.height+insetH)+textSize.height+insetH;
-                    if(self.leViewAdditions.maxHeight>0){
-                        h=MIN(self.leViewAdditions.maxHeight, h);
-                    }
+                    h=MIN(self.leViewAdditions.maxHeight>0?:h, h);
                 }else{
                     h=MAX(textSize.height, view.imageView.hidden?0:view.imageView.image.size.height)+insetH*2;
                 }
             }else if(w==0&&h>0){//定高
-                if(self.leViewAdditions.maxWidth>0){
-                    textSize=[label leSizeWithMaxSize:CGSizeMake(INT_MAX, INT_MAX)];
-                    w=insetW+(view.imageView.hidden?0:view.imageView.image.size.width+insetW)+textSize.width+insetW;
-                }
+                textSize=[label leSizeWithMaxSize:CGSizeMake(INT_MAX, INT_MAX)];
+                w=insetW+(view.imageView.hidden?0:view.imageView.image.size.width+insetW)+textSize.width+insetW;
+                w=MIN([self getMaxWidth]?:w, w);
             }else if(w==0&&h==0){//未定宽高
-                textSize=[label leSizeWithMaxSize:CGSizeMake(self.leViewAdditions.maxWidth?:INT_MAX, self.leViewAdditions.maxHeight?:INT_MAX)];
+                textSize=[label leSizeWithMaxSize:CGSizeMake([self getMaxWidth]?:INT_MAX, self.leViewAdditions.maxHeight?:INT_MAX)];
                 if(self.leViewAdditions.isButtonVerticalLayout){//垂直排版
                     w=MAX(textSize.width, view.imageView.hidden?0:view.imageView.image.size.width)+insetW*2;
                     h=insetH+(view.imageView.hidden?0:view.imageView.image.size.height+insetH)+textSize.height+insetH;
@@ -896,12 +907,8 @@ typedef NS_ENUM(NSInteger, LEViewType) {
                     w=insetW+(view.imageView.hidden?0:view.imageView.image.size.width+insetW)+textSize.width+insetW;
                     h=MAX(textSize.height, view.imageView.hidden?0:view.imageView.image.size.height)+insetH*2;
                 }
-                if(self.leViewAdditions.maxWidth>0){
-                    w=MIN(self.leViewAdditions.maxWidth, w);
-                }
-                if(self.leViewAdditions.maxHeight>0){
-                    h=MIN(self.leViewAdditions.maxHeight, h);
-                }
+                w=MIN([self getMaxWidth]?:w, w);
+                h=MIN(self.leViewAdditions.maxHeight>0?:h, h);
             }
             view=view.leWidth(w).leHeight(h);
         }else if([self isKindOfClass:[UITextField class]]){
