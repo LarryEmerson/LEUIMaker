@@ -83,6 +83,9 @@
     demoClassnames=@[
 //                     @{@"classname":@"TestWKWebview", @"text":@"测试TestWKWebview"},
                      
+                     
+                     @{@"classname":@"TestImagePreview", @"text":@"测试TestImagePreview"},
+                     @{@"classname":@"TestBanner", @"text":@"测试TestBanner"},
                      @{@"classname":@"LEImageCropper", @"text":@"测试LEImageCropper"},
                      @{@"classname":@"TestConfigurableList", @"text":@"测试ConfigurableList"},
                      @{@"classname":@"TestImageFramework", @"text":@"测试ImageFramework"},
@@ -167,6 +170,7 @@
 }
 - (void)leOnDoneCroppedWithImage:(UIImage *)image{
     LELogObject(image)
+    [LEHUD leShowHud:@"切割后的图片已保存至相册"];
     UIImageWriteToSavedPhotosAlbum(image, self, nil, NULL);
 }
 - (void)leOnCancelImageCropper{

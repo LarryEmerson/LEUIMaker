@@ -1,6 +1,6 @@
 PODS:
   - LEFoundation (0.1.5)
-  - LEUIMaker (0.1.4):
+  - LEUIMaker (0.1.5):
     - LEFoundation
   - SDWebImage (3.8.2):
     - SDWebImage/Core (= 3.8.2)
@@ -16,7 +16,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   LEFoundation: 346976259fa7449b4254cf96329ed9d4757011b1
-  LEUIMaker: 2e0306b038b0fe25813c01f0dc810e0bcebde4c8
+  LEUIMaker: a83db5fff01ed460c487fc5b7278d29188dcce4e
   SDWebImage: '098e97e6176540799c27e804c96653ee0833d13c'
 
 PODFILE CHECKSUM: 3ab38e717be664eb22119304920dbb5bf518a943

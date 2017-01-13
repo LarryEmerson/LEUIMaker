@@ -27,7 +27,7 @@
     self.leSubViewContainer=nil;
     [self removeFromSuperview];
 }
--(__kindof LEView *(^)(LEViewController *)) leInit{
+-(__kindof LEView *(^)(LEViewController *)) leSuperViewcontroller{
     return ^id(LEViewController *value){
         self.leViewController=value;
         [self setFrame:self.leViewController.view.bounds];
@@ -124,7 +124,7 @@
     className=[className stringByAppendingString:@"Page"];
     LEView *view=(LEView *)[className leGetInstanceFromClassName];
     if(view&&([view isKindOfClass:[LEView class]]||[view isMemberOfClass:[LEView class]])){
-        self.view=((LEView *)[view init]).leInit(self);
+        self.view=((LEView *)[view init]).leSuperViewcontroller(self);
     }else{
         view=nil;
     }

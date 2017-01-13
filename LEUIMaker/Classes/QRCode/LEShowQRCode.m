@@ -11,7 +11,7 @@
 @implementation LEShowQRCode
 -(__kindof LEShowQRCode *(^)(NSString *title, NSString *qrcode)) leinit{
     return ^id(NSString *title, NSString *qrcode){
-        LEView *view=[LEView new].leInit(self);
+        LEView *view=[LEView new].leSuperViewcontroller(self);
         [LENavigation new].leSuperView(view).leTitle(title);
         [UIImageView new].leAddTo(view.leSubViewContainer).leAnchor(LEI_C).leImage([qrcode leCreateQRWithSize:LESCREEN_WIDTH*3/4]);
         return self;

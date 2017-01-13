@@ -39,7 +39,7 @@
     layout.scrollDirection=UICollectionViewScrollDirectionVertical;
     layout.sectionInset=UIEdgeInsetsMake(LESideSpace16, LESideSpace16, LESideSpace16, LESideSpace16);
     
-    collection=[LECollectionViewWithRefresh alloc].leInit(self.leSubViewContainer,layout,@"TestItem").leDelegate(self).leDataSource(self);
+    collection=[LECollectionViewWithRefresh alloc].leSuperview(self.leSubViewContainer,layout,@"TestItem").leDelegate(self).leDataSource(self);
     [collection leOnRefreshedWithData:[@[@"点击我"] mutableCopy]];
 }
 -(void) leOnRefreshDataForCollection{

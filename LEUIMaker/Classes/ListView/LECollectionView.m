@@ -95,7 +95,7 @@
 -(void) leDeselectCellAtIndex:(NSIndexPath *) index{
     [self deselectItemAtIndexPath:index animated:YES];
 }
--(__kindof LECollectionView *(^)(UIView *superView, UICollectionViewLayout *layout, NSString *cellClassname)) leInit{
+-(__kindof LECollectionView *(^)(UIView *superView, UICollectionViewLayout *layout, NSString *cellClassname)) leSuperview{
     return ^id(UIView *superView, UICollectionViewLayout *layout, NSString *cellClassname){
         LECollectionView *sollectionView=[self initWithFrame:superView.bounds collectionViewLayout:layout];
         sollectionView.leAddTo(superView).leMargins(UIEdgeInsetsZero);

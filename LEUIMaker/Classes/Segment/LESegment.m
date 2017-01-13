@@ -33,7 +33,7 @@
 -(NSArray *) leTitleCache{
     return curTitlesCache;
 }
--(__kindof LESegment *(^)(UIView *superView, NSArray *titles, NSArray *pages)) leInit{
+-(__kindof LESegment *(^)(UIView *superView, NSArray *titles, NSArray *pages)) leSuperview{
     return ^id(UIView *superView, NSArray *t, NSArray *p){
         self.leAddTo(superView).leMargins(UIEdgeInsetsZero).leBgColor(LEColorWhite) ;
         lastTitles=t;

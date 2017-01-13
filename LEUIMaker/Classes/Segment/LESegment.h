@@ -17,7 +17,7 @@
 
 @interface LESegment : UIView<UIScrollViewDelegate>
 /** 初始化：superView、titles、pages(类名字符串)*/
--(__kindof LESegment *(^)(UIView *superView, NSArray *titles, NSArray *pages)) leInit;
+-(__kindof LESegment *(^)(UIView *superView, NSArray *titles, NSArray *pages)) leSuperview;
 /** 设定回调 */
 -(__kindof LESegment *(^)(id<LESegmentDelegate>)) leDelegate;
 /** 设定是否等宽 */

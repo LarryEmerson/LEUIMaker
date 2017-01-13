@@ -51,11 +51,11 @@
     layout.minimumInteritemSpacing=LESideSpace;
     layout.minimumLineSpacing=LESideSpace;
     layout.sectionInset=UIEdgeInsetsMake(LESideSpace, LESideSpace, LESideSpace, LESideSpace);
-    collectionView=[LECollectionView alloc].leInit(self.leSubViewContainer, layout, @"TestImagePickerItem");
+    collectionView=[LECollectionView alloc].leSuperview(self.leSubViewContainer, layout, @"TestImagePickerItem");
     [collectionView leOnRefreshedWithData:curSelected.mutableCopy];
 }
 -(void) leNavigationRightButtonTapped{
-//    LEImagePicker *picker=[LEImagePicker new].leInit(self.leViewController,self);
+//    LEImagePicker *picker=[LEImagePicker new].leSuperViewcontroller(self.leViewController,self);
 //    picker.leMaxCount(MAX(curSelected.count, rand()%10)).leSelectedAssets(curSelected);
     NSInteger ran=rand()%10;
     NSInteger max=MAX(curDataSource.count+1, ran);

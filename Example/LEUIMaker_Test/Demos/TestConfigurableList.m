@@ -50,7 +50,7 @@
 }
 -(void) leExtraInits{
     [[LEUICommon sharedInstance] leSetViewBGColor:LEColorBG9];
-    LEView *view=[LEView new].leInit(self);
+    LEView *view=[LEView new].leSuperViewcontroller(self);
     [LENavigation new].leSuperView(view).leTitle(@"测试ConfigurableList");
     view.leSubViewContainer.leBgColor(LEColorText9);
     [[LEConfigurableCellManager sharedInstance] leRegisterItemWithClassName:@"LEConfigurableCell_Customized" Type:100];

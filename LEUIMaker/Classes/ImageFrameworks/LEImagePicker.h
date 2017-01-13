@@ -23,15 +23,11 @@
 -(void) leOnShowMessage:(NSString *) message;
 @end
 
-@protocol LEImageCropperDelegate <NSObject>
-- (void)leOnDoneCroppedWithImage:(UIImage *)image;
-@optional
-- (void)leOnCancelImageCropper;
-@end
+
 
 @interface LEImagePicker : LEViewController
 /** 初始化：viewController、delegate */
--(__kindof LEImagePicker *(^)(UIViewController *vc, id<LEImagePickerDelegate> delegate)) leInit;
+-(__kindof LEImagePicker *(^)(UIViewController *vc, id<LEImagePickerDelegate> delegate)) leSuperViewcontroller;
 /** 设置剩余选择数量 */
 -(__kindof LEImagePicker *(^)(NSInteger count)) leRemainCount;
 /** 设置最大数量 */
@@ -62,7 +58,3 @@ LESingleton_interface(LEImagePickerManager)
 -(PHFetchResult *) leFetchAssetsInAssetCollection:(PHAssetCollection *)assetCollection ascending:(BOOL)ascending;
 @end
 
-@interface LEImageCropper : LEViewController
-/** 参数：切割图片对象、切割高宽比、圆角、回调 */
--(id) initWithImage:(UIImage *) image Aspect:(float) aspect Radius:(float) radius Delegate:(id<LEImageCropperDelegate>) delegate;
-@end

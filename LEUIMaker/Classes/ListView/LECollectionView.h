@@ -49,7 +49,7 @@
 @property (nonatomic, readonly) NSMutableArray *leItemsArray;
 @property (nonatomic, readwrite) NSMutableArray *leSectionHeaderArray;
 /** alloc 初始化后调用：superView、layout、itemClassname(继承LECollectionItem) */
--(__kindof LECollectionView *(^)(UIView *superView, UICollectionViewLayout *layout, NSString *cellClassname)) leInit;
+-(__kindof LECollectionView *(^)(UIView *superView, UICollectionViewLayout *layout, NSString *cellClassname)) leSuperview;
 /** 设定delegate */
 -(__kindof LECollectionView *(^)(id<LECollectionDelegate>)) leDelegate;
 /** 设定数据源 */

@@ -47,7 +47,7 @@
                      @"SegmentPage",
                      @"SegmentPage",
                      ];
-    [LESegment new].leInit(self.leSubViewContainer,titles,pages).leDelegate(self).leEqualWidth(NO).leMargin(20).leIndicator([LEColorRed leImageWithSize:CGSizeMake(10, 4)]).leOffset(2);
+    [LESegment new].leSuperview(self.leSubViewContainer,titles,pages).leDelegate(self).leEqualWidth(NO).leMargin(20).leIndicator([LEColorRed leImageWithSize:CGSizeMake(10, 4)]).leOffset(2);
 }
 -(void) leOnSegmentSelectedWithIndex:(NSInteger) index{
     LELogInteger(index)

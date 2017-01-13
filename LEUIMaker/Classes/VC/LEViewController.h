@@ -42,7 +42,7 @@
 /** 当前附属的vc的引用 */
 @property (nonatomic, weak, readonly) LEViewController *leViewController;
 /** 初始化：vc */
--(__kindof LEView *(^)(LEViewController *vc)) leInit;
+-(__kindof LEView *(^)(LEViewController *vc)) leSuperViewcontroller;
 -(id) initWithViewController:(LEViewController *) vc;
 /** 可重写右划后逻辑（默认pop当前vc） */
 -(void) leSwipGestureLogic;

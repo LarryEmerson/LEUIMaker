@@ -182,7 +182,7 @@
 -(__kindof LEScanQRCode *(^)(id<LEScanQRCodeDelegate> delegate)) leDelegate{
     return ^id(id<LEScanQRCodeDelegate> delegate){
         curDelegate=delegate;
-        curView=[LEView new].leInit(self);
+        curView=[LEView new].leSuperViewcontroller(self);
 //        curView.leViewContainer.leBgColor(LEColorClear);
 //        curView.leSubViewContainer.leBgColor(LEColorClear);
         curNavi=[LENavigation new].leSuperView(curView).leTitle(@"扫一扫");

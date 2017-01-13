@@ -30,12 +30,15 @@
 }
 -(void) leExtraInits{
     [[LEImageFrameworks sharedInstance] leSetDelegate:self];
-    LEView *view=[LEView new].leInit(self);
+    LEView *view=[LEView new].leSuperViewcontroller(self);
     [LENavigation new].leSuperView(view).leTitle(@"测试TestImageFramework");
     view.leSubViewContainer.leBgColor(LEColorBG5);
     UIImageView *img= [UIImageView new].leAddTo(view.leSubViewContainer).leAnchor(LEI_TC).leBgColor(LEColorTest);
     img.leDownloadWithURL(@"https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png");
     UIImageView *imgHolder= [UIImageView new].leAddTo(view.leSubViewContainer).leAnchor(LEI_BC).leSize(LESquareSize(100)).leBgColor(LEColorWhite);
     imgHolder.lePlaceholder([LEColorTest leImageWithSize:LESquareSize(80)]).leDownloadWithURL(@"https://xxx.png");
+    
+    
 }
+
 @end
