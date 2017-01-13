@@ -33,7 +33,7 @@
             self.curImage.leSize(CGSizeMake(self.curImage.bounds.size.width/value, self.curImage.bounds.size.height/value));
         }
         [self setMinimumZoomScale:1];
-        [self setMaximumZoomScale:MAX(value*2, 2)];
+        [self setMaximumZoomScale:MAX(value<1?1/value:value*2, 2)];
         [self setZoomScale:self.minimumZoomScale];
     }
 }

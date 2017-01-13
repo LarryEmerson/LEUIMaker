@@ -20,7 +20,14 @@
     [LENavigation new].leSuperView(self).leTitle(@"TestImagePreview").leDelegate(self).leRightItemText(@"删除");
     preview=[LEImagePreview new].leSuperview(self.leSubViewContainer,nil,nil).leDelegate(self);
     
-    preview.leData(@[[UIImage imageNamed:@"1"],[UIImage imageNamed:@"2"],[UIImage imageNamed:@"3"],[UIImage imageNamed:@"4"]]);
+    preview.leData(@[
+                     [LEColorBlue               leImageWithSize:CGSizeMake(LESCREEN_WIDTH/2, LESCREEN_HEIGHT/2)],
+                     [LEColorRed                leImageWithSize:CGSizeMake(LESCREEN_WIDTH/3, LESCREEN_HEIGHT/3)],
+                     [[UIColor yellowColor]     leImageWithSize:CGSizeMake(LESCREEN_WIDTH*2, LESCREEN_HEIGHT*2)],
+                     [[UIColor greenColor]      leImageWithSize:CGSizeMake(LESCREEN_WIDTH*3, LESCREEN_HEIGHT*3)],
+                     [[UIColor magentaColor]    leImageWithSize:CGSizeMake(LESCREEN_WIDTH*2, LESCREEN_HEIGHT/2)],
+                     [[UIColor purpleColor]     leImageWithSize:CGSizeMake(LESCREEN_WIDTH/2, LESCREEN_HEIGHT*3)]
+                     ]);
 }
 -(void) leNavigationRightButtonTapped{
     [preview leOnDeleteCurrent];
