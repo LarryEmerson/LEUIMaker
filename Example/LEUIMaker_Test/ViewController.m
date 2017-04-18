@@ -84,6 +84,7 @@
 //                     @{@"classname":@"TestWKWebview", @"text":@"测试TestWKWebview"},
                      
                      
+                     @{@"classname":@"TestSqlite3", @"text":@"测试TestSqlite3"},
                      @{@"classname":@"TestImagePreview", @"text":@"测试TestImagePreview"},
                      @{@"classname":@"TestBanner", @"text":@"测试TestBanner"},
                      @{@"classname":@"LEImageCropper", @"text":@"测试LEImageCropper"},

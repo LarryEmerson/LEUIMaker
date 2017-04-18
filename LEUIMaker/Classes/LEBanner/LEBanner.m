@@ -50,7 +50,7 @@
             leCurrentPage=1;
             curViewsCache=[NSMutableArray new];
             for (NSInteger i=0; i<3; i++) {
-                LEBannerView *view=[[curClassname leGetInstanceFromClassName] init];
+                LEBannerView *view=(LEBannerView *)[[curClassname leGetInstanceFromClassName] init];
                 view.leAddTo(leScrollView).leAnchor(LEI_LC).leEqualSuperViewWidth(1).leEqualSuperViewHeight(1);
                 view.userInteractionEnabled=YES;
                 [curViewsCache addObject:view];

@@ -33,6 +33,7 @@
 		80291C5E1DFA5CF4001A6861 /* emoji_icon_symbols@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 80291C451DFA5CF4001A6861 /* emoji_icon_symbols@3x.png */; };
 		80291C5F1DFA5CF4001A6861 /* emoji_icon_travel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 80291C461DFA5CF4001A6861 /* emoji_icon_travel@2x.png */; };
 		80291C601DFA5CF4001A6861 /* emoji_icon_travel@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 80291C471DFA5CF4001A6861 /* emoji_icon_travel@3x.png */; };
+		803AB2B81E484A0F00D24130 /* TestSqlite3.m in Sources */ = {isa = PBXBuildFile; fileRef = 803AB2B71E484A0F00D24130 /* TestSqlite3.m */; };
 		808DE63C1E20E2E6004CE630 /* TestImageFramework.m in Sources */ = {isa = PBXBuildFile; fileRef = 808DE63B1E20E2E6004CE630 /* TestImageFramework.m */; };
 		808DE6461E2321A4004CE630 /* TestConfigurableList.m in Sources */ = {isa = PBXBuildFile; fileRef = 808DE6451E2321A4004CE630 /* TestConfigurableList.m */; };
 		808FABE51DF2B39A00B7A640 /* TestLayoutFramework.m in Sources */ = {isa = PBXBuildFile; fileRef = 808FABE41DF2B39A00B7A640 /* TestLayoutFramework.m */; };
@@ -86,6 +87,8 @@
 		80291C451DFA5CF4001A6861 /* emoji_icon_symbols@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emoji_icon_symbols@3x.png"; sourceTree = "<group>"; };
 		80291C461DFA5CF4001A6861 /* emoji_icon_travel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emoji_icon_travel@2x.png"; sourceTree = "<group>"; };
 		80291C471DFA5CF4001A6861 /* emoji_icon_travel@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emoji_icon_travel@3x.png"; sourceTree = "<group>"; };
+		803AB2B61E484A0F00D24130 /* TestSqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestSqlite3.h; sourceTree = "<group>"; };
+		803AB2B71E484A0F00D24130 /* TestSqlite3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestSqlite3.m; sourceTree = "<group>"; };
 		808DE63A1E20E2E6004CE630 /* TestImageFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestImageFramework.h; sourceTree = "<group>"; };
 		808DE63B1E20E2E6004CE630 /* TestImageFramework.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestImageFramework.m; sourceTree = "<group>"; };
 		808DE6441E2321A4004CE630 /* TestConfigurableList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestConfigurableList.h; sourceTree = "<group>"; };
@@ -224,6 +227,8 @@
 		808FABE21DF2B36E00B7A640 /* Demos */ = {
 			isa = PBXGroup;
 			children = (
+				803AB2B61E484A0F00D24130 /* TestSqlite3.h */,
+				803AB2B71E484A0F00D24130 /* TestSqlite3.m */,
 				80959F1B1E2636DE00D11990 /* TestBanner.h */,
 				80959F1C1E2636DE00D11990 /* TestBanner.m */,
 				808FABE31DF2B39A00B7A640 /* TestLayoutFramework.h */,
@@ -454,6 +459,7 @@
 				80EC74C01DEBCF1E000DF15F /* main.m in Sources */,
 				80923B8B1E0A596B00C26AE5 /* TestImagePicker.m in Sources */,
 				80959F2F1E27521800D11990 /* TestImagePreview.m in Sources */,
+				803AB2B81E484A0F00D24130 /* TestSqlite3.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -105,7 +105,7 @@
                     item=[curItemCahce objectAtIndex:i];
                     item.hidden=NO;
                 }else{
-                    item=[[curItemClassname leGetInstanceFromClassName] init];
+                    item=(LEImagePreviewItem *)[[curItemClassname leGetInstanceFromClassName] init];
                     item.leAddTo(self).leAnchor(LEI_LC).leLeft(i*LESCREEN_WIDTH).leEqualSuperViewWidth(1).leEqualSuperViewHeight(1).leTouchEvent(@selector(onTap),self);
                     [curItemCahce addObject:item];
                 }

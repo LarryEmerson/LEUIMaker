@@ -60,7 +60,7 @@ return _instace; \
 
 #pragma mark ? To String
 #define LEIntToString(__int) [NSString stringWithFormat:@"%d",(int)__int]
-#define LEIntegerToString(__integer) [NSString stringWithFormat:@"%zd",(NSInteger *)__integer]
+#define LEIntegerToString(__integer) [NSString stringWithFormat:@"%zd",(NSInteger)__integer]
 #define LENumberToString(__number) [NSString stringWithFormat:@"%@",(NSNumber *)__number]
 #define LEIntegerToInt(__integer) ((int)__integer)
 #define LEFloatToString(__float) [NSString stringWithFormat:@"%f",(float)__float]

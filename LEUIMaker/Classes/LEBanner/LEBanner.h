@@ -47,7 +47,7 @@ typedef NS_ENUM(NSInteger, LEBannerIndicatorStyle){
  
 -(__kindof LEBanner *(^)(id<LEBannerDelegate> delegate)) leDelegate;
 -(__kindof LEBanner *(^)(LEBannerIndicatorStyle style)) leIndicatorStyle;
--(__kindof LEBanner *(^)(UIEdgeInsets insets)) leIndicatorOffset;
+-(__kindof LEBanner *(^)(UIEdgeInsets insets)) leIndicatorMargins;
 -(__kindof LEBanner *(^)(NSTimeInterval time)) leDelay;
 
 -(void) leReloadBannerWithData:(NSArray *) data;
