@@ -18,7 +18,7 @@
 
 #pragma Cell
 @implementation LEConfigurableCell
--(void) leExtraInits{
+-(void) leAdditionalInits{
     self.curContainer=[UIView new].leAddTo(self).leAnchor(LEI_TL).leWidth(LESCREEN_WIDTH).leHeight(LECellH);
     self.leBottomView(self.curContainer);
 }
@@ -48,8 +48,8 @@
     UILabel *label;
     UIImageView *arrow;
 }
--(void)leExtraInits{
-    [super leExtraInits];
+-(void)leAdditionalInits{
+    [super leAdditionalInits];
     label=[UILabel new].leAddTo(self.curContainer).leAnchor(LEI_LC).leLeft(LESideSpace);
     arrow=[UIImageView new].leAddTo(self.curContainer).leAnchor(LEI_RC).leRight(LESideSpace).leSize(LESquareSize(LEAvatarSize));
     [arrow setContentMode:UIViewContentModeCenter];
@@ -78,8 +78,8 @@
     UISwitch *curSwitch;
     UILabel *label;
 }
--(void)leExtraInits{
-    [super leExtraInits];
+-(void)leAdditionalInits{
+    [super leAdditionalInits];
     curSwitch=[UISwitch new];
     curSwitch.leAddTo(self.curContainer).leAnchor(LEI_RC).leRight(LESideSpace).leSize(curSwitch.bounds.size).leTouchEvent(@selector(onTapped),self);
     label=[UILabel new].leAddTo(self.curContainer).leAnchor(LEI_LC).leLeft(LESideSpace).leFont(LEFontML).leLine(1).leMarginForMaxWidth(LESideSpace*3+curSwitch.bounds.size.width);
@@ -112,8 +112,8 @@
     UILabel *label;
     UILabel *labelSub;
 }
--(void)leExtraInits{
-    [super leExtraInits];
+-(void)leAdditionalInits{
+    [super leAdditionalInits];
     UIView *anchor=[UIView new].leAddTo(self.curContainer).leSize(CGSizeMake(1, LECellH));
     label=[UILabel new].leAddTo(self.curContainer).leRelativeTo(anchor).leAnchor(LEO_RC).leLeft(LESideSpace-1).leFont(LEFontML).leLine(1).leColor(LEColorBlack).leMarginForMaxWidth(LESideSpace*2);
     labelSub=[UILabel new].leAddTo(self.curContainer).leAnchor(LEI_TR).leTop((LECellH-LEFontSizeSL)*0.5).leRight(LESideSpace).leFont(LEFontSL).leColor(LEColorText3).leAlignment(NSTextAlignmentRight).leLine(0);
@@ -170,8 +170,8 @@
     UILabel *label;
     UILabel *labelSub;
 }
--(void) leExtraInits{
-    [super leExtraInits];
+-(void) leAdditionalInits{
+    [super leAdditionalInits];
     label=[UILabel new].leAddTo(self.curContainer).leAnchor(LEI_LC).leLeft(LESideSpace).leFont(LEFontML).leLine(1);
     UIImageView *arrow= [UIImageView new].leAddTo(self.curContainer).leAnchor(LEI_RC).leRight(LESideSpace).leSize(LESquareSize(LEAvatarSize));
     [arrow setContentMode:UIViewContentModeCenter];
@@ -218,8 +218,8 @@
     UILabel *label;
     UIImageView *arrow;
 }
--(void) leExtraInits{
-    [super leExtraInits];
+-(void) leAdditionalInits{
+    [super leAdditionalInits];
     icon=[UIImageView new].leAddTo(self.curContainer).leAnchor(LEI_LC).leLeft(LESideSpace).leSize(LESquareSize(LEAvatarSize)).leCorner(LEAvatarSize/2);
     label=[UILabel new].leAddTo(self.curContainer).leRelativeTo(icon).leAnchor(LEO_RC).leLeft(LESideSpace).leFont(LEFontML).leLine(1).leMarginForMaxWidth(LESideSpace*3+LEAvatarSize*2);
     arrow= [UIImageView new].leAddTo(self.curContainer).leAnchor(LEI_RC).leRight(LESideSpace).leSize(LESquareSize(LEAvatarSize)).leImage([LEUICommon sharedInstance].leListRightArrow);
@@ -266,8 +266,8 @@
     UIImageView *icon;
     UILabel *label;
 }
--(void) leExtraInits{
-    [super leExtraInits];
+-(void) leAdditionalInits{
+    [super leAdditionalInits];
     label=[UILabel new].leAddTo(self.curContainer).leAnchor(LEI_LC).leLeft(LESideSpace).leFont(LEFontML).leLine(1).leMarginForMaxWidth(LESideSpace+LEAvatarSize*2);
     UIImageView *arrow= [UIImageView new].leAddTo(self.contentView).leAnchor(LEI_RC).leRight(LESideSpace).leSize(LESquareSize(LEAvatarSize));
     arrow.leImage([LEUICommon sharedInstance].leListRightArrow);
@@ -315,8 +315,8 @@
 @implementation LEItem_M_Submit{
     UIButton *btn;
 }
--(void) leExtraInits{
-    [super leExtraInits];
+-(void) leAdditionalInits{
+    [super leAdditionalInits];
     self.curContainer.backgroundColor=[LEUICommon sharedInstance].leViewBGColor;
     btn=[UIButton new].leAddTo(self.curContainer).leAnchor(LEI_C).leEqualSuperViewWidth(1-LESideSpace*1.0/LESCREEN_WIDTH).leBtnFixedHeight(LECellH-LESideSpace).leFont(LEFontSL).leTouchEvent(@selector(onTapped),self);
 }
@@ -348,8 +348,8 @@
 @interface LEItem_F_SectionSolid : LEConfigurableCell
 @end
 @implementation LEItem_F_SectionSolid
--(void) leExtraInits{
-    [super leExtraInits];
+-(void) leAdditionalInits{
+    [super leAdditionalInits];
     self.curContainer.leHeight(LESectionHM);
 }
 -(void) leSetData:(id) data{
@@ -376,8 +376,8 @@
         self.leDelegate(self);
     }
 }
--(void) leExtraInits{
-    [super leExtraInits];
+-(void) leAdditionalInits{
+    [super leAdditionalInits];
     [self leRegisterCellWith:
         [[LEConfigurableCellManager sharedInstance] getClassWithType:L_Title_R_Arrow],
         [[LEConfigurableCellManager sharedInstance] getClassWithType:L_Title_R_Switch],
@@ -425,8 +425,8 @@
         self.leDelegate(self);
     }
 }
--(void) leExtraInits{
-    [super leExtraInits];
+-(void) leAdditionalInits{
+    [super leAdditionalInits];
     [self leRegisterCellWith:
      [[LEConfigurableCellManager sharedInstance] getClassWithType:L_Title_R_Arrow],
      [[LEConfigurableCellManager sharedInstance] getClassWithType:L_Title_R_Switch],
@@ -465,7 +465,7 @@
 @end
 @implementation LEConfigurableCellManager
 LESingleton_implementation(LEConfigurableCellManager)
--(void) leExtraInits{
+-(void) leAdditionalInits{
     self.registedItems=[NSMutableDictionary new];
 }
 -(void) leRegisterItemWithClassName:(NSString *) className Type:(int) type{

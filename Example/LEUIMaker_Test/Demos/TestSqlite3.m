@@ -19,7 +19,7 @@ static int keyCounter=0;
     FMDatabase *curDataBase;
     LEConfigurableList *list;
 }
--(void) leExtraInits{
+-(void) leAdditionalInits{
     [[LEUICommon sharedInstance] leSetViewBGColor:LEColorBG9];
     LEView *view=[LEView new].leSuperViewcontroller(self);
     [LENavigation new].leSuperView(view).leTitle(@"测试TestSqlite3");

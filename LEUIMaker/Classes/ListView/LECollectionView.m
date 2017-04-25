@@ -13,7 +13,7 @@
 @implementation LECollectionItem
 -(id) initWithFrame:(CGRect)frame{
     self=[super initWithFrame:frame];
-    [self leExtraInits];
+    [self leAdditionalInits];
     return self;
 }
 -(void) leSetData:(id) data {}
@@ -108,7 +108,7 @@
         item=nil;
         [self registerClass:NSClassFromString(cellClassname) forCellWithReuseIdentifier:LECollectionIdentifierItem];
         self.backgroundColor=LEColorClear;
-        [self leExtraInits];
+        [self leAdditionalInits];
         [self setAlwaysBounceVertical:YES];
         autoDeselect=YES;
         return self;
@@ -227,7 +227,7 @@
     LECollectionSection *view=[self dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:LECollectionIdentifierSection forIndexPath:indexPath];
     if(!view.isInited){
         view.isInited=YES;
-        [view leExtraInits];
+        [view leAdditionalInits];
     }
     [view leSetData:self.leSectionHeaderArray&&indexPath.section<self.leSectionHeaderArray.count?[self.leSectionHeaderArray objectAtIndex:indexPath.section]:nil Kind:kind IndexPath:indexPath];
     return view;
@@ -315,7 +315,7 @@
     LERefreshFooter *refreshFooter;
 }
 
--(void) leExtraInits{
+-(void) leAdditionalInits{
     typeof(self) __weak weakSelf = self;
     refreshHeader=[[LERefreshHeader alloc] initWithTarget:self];
     refreshHeader.refreshBlock=^(){

@@ -126,13 +126,13 @@ LEConfigurableCellType;
  无下拉刷新版
  */
 @interface LEConfigurableList : LETableView
--(void) leExtraInits NS_REQUIRES_SUPER;
+-(void) leAdditionalInits NS_REQUIRES_SUPER;
 @end
 /**
  下拉刷新版
  */
 @interface LEConfigurableListWithRefresh : LETableViewWithRefresh
--(void) leExtraInits NS_REQUIRES_SUPER; 
+-(void) leAdditionalInits NS_REQUIRES_SUPER; 
 @end
 
 @interface LEConfigurableCell : LETableViewCell

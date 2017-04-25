@@ -11,10 +11,10 @@
 @implementation LEImagePreviewItem
 -(id) initWithFrame:(CGRect)frame{
     self=[super initWithFrame:frame];
-    [self leExtraInits];
+    [self leAdditionalInits];
     return self;
 }
--(void) leExtraInits{
+-(void) leAdditionalInits{
     [self setDelegate:self];
     [self setMinimumZoomScale:1];
     [self setMaximumZoomScale:2];
@@ -71,7 +71,7 @@
     self.showsHorizontalScrollIndicator=NO;
     self.delegate=self;
     curItemCahce=[NSMutableArray new];
-    [self leExtraInits];
+    [self leAdditionalInits];
     return self;
 }
 -(__kindof LEImagePreview *(^)(UIView *superview, NSString *itemClassname, NSArray *data)) leSuperview{

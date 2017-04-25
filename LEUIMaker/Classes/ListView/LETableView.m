@@ -21,7 +21,7 @@
     curSideSpace=[UIView new].leAddTo(self).leAnchor(LEInsideLeftCenter).leLeft(LESideSpace).leSize(CGSizeZero);
     curIcon=[UIImageView new].leAddTo(self).leRelativeTo(curSideSpace).leAnchor(LEOutsideRightCenter);
     curTitle=[UILabel new].leAddTo(self).leRelativeTo(curIcon).leAnchor(LEOutsideRightCenter).leMaxWidth(LESCREEN_WIDTH-LESideSpace*2).leLine(1);
-    [self leExtraInits];
+    [self leAdditionalInits];
     curSplitline=[UIView new].leAddTo(self).leAnchor(LEInsideBottomCenter).leEqualSuperViewWidth(1).leHeight(LESplitlineH).leBgColor(LEColorSplitline);
     return self;
 }
@@ -104,7 +104,7 @@
     curArrow=[UIImageView new].leImage([LEUICommon sharedInstance].leListRightArrow);
     [curArrow setHidden:YES];
     [self.leArrow lePushToStack:curArrow,nil];
-    [self leExtraInits];
+    [self leAdditionalInits];
     curTouch=[UIButton new].leAddTo(self).leMargins(UIEdgeInsetsZero).leTouchEvent(@selector(onTouchEvent),self).leBtnBGImgH([LEColorMask2 leImage]);
     curTouch.hidden=touchDisabled;
     curSplit=[UIView new].leAddTo(self).leAnchor(LEInsideBottomCenter).leEqualSuperViewWidth(1).leHeight(1/LESCREEN_SCALE).leBgColor(LEColorSplitline);
@@ -243,7 +243,7 @@
         self.allowsSelection=NO;
         curTouchEnabled=YES;
         tempCellsForHeightCalc=[NSMutableDictionary new];
-        [self leExtraInits];
+        [self leAdditionalInits];
         if(curAutoRefresh){
             [self leOnAutoRefresh];
         }
@@ -524,8 +524,8 @@
     LERefreshHeader *refreshHeader;
     LERefreshFooter *refreshFooter;
 }
--(void) leExtraInits{
-    [super leExtraInits];
+-(void) leAdditionalInits{
+    [super leAdditionalInits];
     
     refreshHeader=[[LERefreshHeader alloc] initWithTarget:self];
     typeof(self) __weak weakSelf = self;

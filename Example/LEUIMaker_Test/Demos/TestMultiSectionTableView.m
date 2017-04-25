@@ -13,7 +13,7 @@
 @implementation MultiSectionTableViewCell{
     UILabel *label;
 }
--(void) leExtraInits{
+-(void) leAdditionalInits{
     label=[UILabel new].leAddTo(self).leAnchor(LEInsideCenter).leMaxWidth(LESCREEN_WIDTH-LESideSpace*2).leTop(LESideSpace).leAlignment(NSTextAlignmentCenter).leLine(0).leBottom(LESideSpace).leLineSpace(8);
     self.leBottomView(label);
 }
@@ -43,7 +43,7 @@
 @implementation TestMultiSectionTableViewPage{
     LETableViewWithRefresh *tableView;
 }
--(void) leExtraInits{
+-(void) leAdditionalInits{
     [LENavigation new].leSuperView(self).leTitle(NSStringFromClass(self.class));
     tableView=[LETableViewWithRefresh new].leSuperView(self.leSubViewContainer).leDataSource(self).leDelegate(self).leTouchEnabled(YES);
     [tableView leRegisterCellWith:

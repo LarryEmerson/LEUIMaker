@@ -13,7 +13,7 @@
 -(id) initWithFrame:(CGRect)frame{
     self=[super initWithFrame:frame];
     [self setAlpha:0];
-    [self leExtraInits];
+    [self leAdditionalInits];
     return self;
 }
 -(void) leEaseInView{

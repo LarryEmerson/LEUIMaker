@@ -141,5 +141,5 @@
 @end
 
 @interface LETableViewWithRefresh : LETableView
--(void) leExtraInits NS_REQUIRES_SUPER;
+-(void) leAdditionalInits NS_REQUIRES_SUPER;
 @end

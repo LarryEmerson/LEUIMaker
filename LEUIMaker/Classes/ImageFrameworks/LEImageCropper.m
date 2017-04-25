@@ -57,7 +57,7 @@
     UIGraphicsEndImageContext();
     return img;
 }
--(void) leExtraInits{
+-(void) leAdditionalInits{
     curView=[LEView new].leSuperViewcontroller(self);
     curNavi=[LENavigation new].leSuperView(curView).leDelegate(self).leLeftItemText(@"取消").leRightItemText(@"完成");
     curView.leSubViewContainer.backgroundColor=[UIColor colorWithRed:0.412 green:0.396 blue:0.409 alpha:1.000];

@@ -14,7 +14,7 @@
     WKWebView *webview;
 }
 
--(void) leExtraInits{
+-(void) leAdditionalInits{
     [LENavigation new].leSuperView(self).leTitle(@"测试WKWebview");
     webview=[WKWebView new].leAddTo(self.leSubViewContainer).leMargins(UIEdgeInsetsZero);
     NSURL *url=[[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://192.168.58.101:82/null.html?cbswidth=%d&cbsratio=%d&cbszoom=1",(int)(LESCREEN_WIDTH*LESCREEN_SCALE),LESCREEN_SCALE_INT]];

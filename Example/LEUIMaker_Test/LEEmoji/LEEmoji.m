@@ -22,10 +22,10 @@
 }
 -(id) initWithFrame:(CGRect)frame{
     self=[super initWithFrame:frame];
-    [self leExtraInits];
+    [self leAdditionalInits];
     return self;
 }
--(void) leExtraInits{
+-(void) leAdditionalInits{
     self.emoji=[UILabel new].leAddTo(self).leAnchor(LEInsideCenter);
     self.leTouchEvent(@selector(onClick),self);
 }
@@ -157,7 +157,7 @@ LESingleton_implementation(LEEmoji)
         [curDelegate leOnDeleteEmoji];
     }
 }
--(void) leExtraInits{
+-(void) leAdditionalInits{
     NSString *emojis=[[NSUserDefaults standardUserDefaults] objectForKey:LEEmojis];
     NSString *emojisCount=[[NSUserDefaults standardUserDefaults] objectForKey:LEEmojisCount];
     historyEmojis=emojis?[[emojis leJSONValue] mutableCopy]:[NSMutableArray new];

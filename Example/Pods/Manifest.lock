@@ -1,9 +1,25 @@
 PODS:
+  - AFNetworking (3.1.0):
+    - AFNetworking/NSURLSession (= 3.1.0)
+    - AFNetworking/Reachability (= 3.1.0)
+    - AFNetworking/Security (= 3.1.0)
+    - AFNetworking/Serialization (= 3.1.0)
+    - AFNetworking/UIKit (= 3.1.0)
+  - AFNetworking/NSURLSession (3.1.0):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.1.0)
+  - AFNetworking/Security (3.1.0)
+  - AFNetworking/Serialization (3.1.0)
+  - AFNetworking/UIKit (3.1.0):
+    - AFNetworking/NSURLSession
   - FMDB (2.6.2):
     - FMDB/standard (= 2.6.2)
   - FMDB/standard (2.6.2)
-  - LEFoundation (0.1.6)
-  - LEUIMaker (0.1.5):
+  - LEFoundation (0.1.7)
+  - LEUIMaker (0.1.6):
+    - AFNetworking
     - FMDB
     - LEFoundation
   - SDWebImage (4.0.0):
@@ -19,11 +35,12 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
+  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
-  LEFoundation: b43e5862ffeb03a2f1e126ac000f3ee9d7a99898
-  LEUIMaker: '011292a5da035dbfccbc1ef9515fa426286e1624'
+  LEFoundation: a490ec109d741927dfadb238d984e1689e1581e3
+  LEUIMaker: 0b6b95ceb6c3c3a0b97d05937ddeb6664bd18112
   SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
 
 PODFILE CHECKSUM: 3ab38e717be664eb22119304920dbb5bf518a943
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.2.1

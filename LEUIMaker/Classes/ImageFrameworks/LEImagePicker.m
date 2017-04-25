@@ -16,7 +16,7 @@
     UIImageView *curIcon;
     UIView *checkStatus;
 }
--(void) leExtraInits{
+-(void) leAdditionalInits{
     curIcon=[UIImageView new].leAddTo(self).leMargins(UIEdgeInsetsZero);
     curIcon.contentMode=UIViewContentModeScaleAspectFill;
     curIcon.clipsToBounds=YES;
@@ -150,7 +150,7 @@
     UILabel *curSubtitle;
     int cellH;
 }
--(void) leExtraInits{
+-(void) leAdditionalInits{
     cellH=80;
     UIView *container=[UIView new].leAddTo(self).leAnchor(LEI_TL).leEqualSuperViewWidth(1).leHeight(cellH);
     curIcon=[UIImageView new].leAddTo(container).leAnchor(LEI_LC).leLeft(LESideSpace20)

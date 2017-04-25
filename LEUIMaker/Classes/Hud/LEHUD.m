@@ -17,7 +17,7 @@
 }
 -(id) init{
     self=[super init];
-    [self leExtraInits];
+    [self leAdditionalInits];
     return self;
 }
 
@@ -31,7 +31,7 @@
     LEHUD *noti=[LEHUD new].leAddTo([LEUICommon sharedInstance].leGetTopWindow).leAnchor(LEI_BC).leBottom(LEStatusBarHeight);
     [noti leShowHud:text WithEnterTime:time AndPauseTime:pauseTime ReleaseWhenFinished:isRealse];
 }
--(void) leExtraInits{
+-(void) leAdditionalInits{
     self.leEqualSuperViewWidth(1-(LENavigationBarHeight*1.0/LESCREEN_WIDTH)).leEnableTouch(NO).leCorner(6).leBgColor(LEColorText3).leAutoCalcHeight();
     labelNoti=[UILabel new].leAddTo(self).leAnchor(LEI_C).leTop(6).leBottom(6).leMaxWidth(LESCREEN_WIDTH-LENavigationBarHeight-LESideSpace*2).leFont(LEFontML).leColor(LEColorWhite).leLine(0).leLineSpace(4).leCenterAlign;
     // effect

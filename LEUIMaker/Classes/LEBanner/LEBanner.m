@@ -11,10 +11,10 @@
 @implementation LEBannerView
 -(id) init{
     self=[super init];
-    [self leExtraInits];
+    [self leAdditionalInits];
     return self;
 }
--(void) leExtraInits{}
+-(void) leAdditionalInits{}
 -(void) leSetData:(id) data{}
 @end
 

@@ -22,7 +22,7 @@
 
 @interface LETableViewOptimized : LETableView
 @property (nonatomic) NSMutableArray *leDisplayCellCache;
--(void) leExtraInits NS_REQUIRES_SUPER;
+-(void) leAdditionalInits NS_REQUIRES_SUPER;
 @end
 
 @interface LETableViewOptimizedWithRefresh : LETableViewOptimized

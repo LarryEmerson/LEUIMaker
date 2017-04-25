@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		14242AD7CF1C3E4EFD45D715 /* Pods_LEUIMaker_Test.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D7E9EA8F48293F237E9E06 /* Pods_LEUIMaker_Test.framework */; };
+		8021BF9C1EAA068900D1FE65 /* TestLERequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8021BF9B1EAA068900D1FE65 /* TestLERequest.m */; };
 		80291C481DFA5CF4001A6861 /* LEEmoji.m in Sources */ = {isa = PBXBuildFile; fileRef = 80291C2E1DFA5CF4001A6861 /* LEEmoji.m */; };
 		80291C491DFA5CF4001A6861 /* emoji_icon_activity@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 80291C301DFA5CF4001A6861 /* emoji_icon_activity@2x.png */; };
 		80291C4A1DFA5CF4001A6861 /* emoji_icon_activity@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 80291C311DFA5CF4001A6861 /* emoji_icon_activity@3x.png */; };
@@ -61,6 +62,8 @@
 		6003F58F195388D20070C39A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		6003F591195388D20070C39A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		73BF992F1F8C8A02657F0B5D /* LEUIMaker.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LEUIMaker.podspec; path = ../LEUIMaker.podspec; sourceTree = "<group>"; };
+		8021BF9A1EAA068900D1FE65 /* TestLERequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestLERequest.h; sourceTree = "<group>"; };
+		8021BF9B1EAA068900D1FE65 /* TestLERequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestLERequest.m; sourceTree = "<group>"; };
 		80291C2D1DFA5CF4001A6861 /* LEEmoji.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEEmoji.h; sourceTree = "<group>"; };
 		80291C2E1DFA5CF4001A6861 /* LEEmoji.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEEmoji.m; sourceTree = "<group>"; };
 		80291C301DFA5CF4001A6861 /* emoji_icon_activity@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emoji_icon_activity@2x.png"; sourceTree = "<group>"; };
@@ -227,6 +230,8 @@
 		808FABE21DF2B36E00B7A640 /* Demos */ = {
 			isa = PBXGroup;
 			children = (
+				8021BF9A1EAA068900D1FE65 /* TestLERequest.h */,
+				8021BF9B1EAA068900D1FE65 /* TestLERequest.m */,
 				803AB2B61E484A0F00D24130 /* TestSqlite3.h */,
 				803AB2B71E484A0F00D24130 /* TestSqlite3.m */,
 				80959F1B1E2636DE00D11990 /* TestBanner.h */,
@@ -402,7 +407,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		4F7B2AF3EBFEAD978E28A366 /* [CP] Embed Pods Frameworks */ = {
@@ -454,6 +459,7 @@
 				80EC74C31DEBCF1E000DF15F /* AppDelegate.m in Sources */,
 				80291C481DFA5CF4001A6861 /* LEEmoji.m in Sources */,
 				80DA030F1E00ECBB00183345 /* TestWKWebview.m in Sources */,
+				8021BF9C1EAA068900D1FE65 /* TestLERequest.m in Sources */,
 				80E707E21DFE80B9005CCB8D /* TestEmoji.m in Sources */,
 				80959F1D1E2636DE00D11990 /* TestBanner.m in Sources */,
 				80EC74C01DEBCF1E000DF15F /* main.m in Sources */,

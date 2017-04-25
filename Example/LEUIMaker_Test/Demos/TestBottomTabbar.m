@@ -14,7 +14,7 @@
 @implementation TabbarPage{
     UILabel *label;
 }
--(void) leExtraInits{
+-(void) leAdditionalInits{
     self.leBgColor(LERandomColor);
     label=[UILabel new].leAddTo(self).leAnchor(LEInsideCenter).leAlignment(NSTextAlignmentCenter).leColor(LEColorWhite).leText(NSStringFromClass(self.class));
 }
@@ -37,7 +37,7 @@
 @implementation TestBottomTabbarPage{
     LEBottomTabbar *tabbar;
 }
--(void) leExtraInits{
+-(void) leAdditionalInits{
     [LENavigation new].leSuperView(self).leTitle(NSStringFromClass(self.class));
     NSArray *normalIcons=@[
                           [LEColorBlue leImageWithSize:LESquareSize(20)],

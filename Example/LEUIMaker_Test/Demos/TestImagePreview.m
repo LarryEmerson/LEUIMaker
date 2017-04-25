@@ -16,7 +16,7 @@
     LEImagePreview *preview;
 }
 
--(void) leExtraInits{
+-(void) leAdditionalInits{
     [LENavigation new].leSuperView(self).leTitle(@"TestImagePreview").leDelegate(self).leRightItemText(@"删除");
     preview=[LEImagePreview new].leSuperview(self.leSubViewContainer,nil,nil).leDelegate(self);
     

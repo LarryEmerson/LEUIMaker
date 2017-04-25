@@ -14,7 +14,7 @@
     UIImageView *curIcon;
     UIView *checkStatus;
 }
--(void) leExtraInits{
+-(void) leAdditionalInits{
     curIcon=[UIImageView new].leAddTo(self).leMargins(UIEdgeInsetsZero).leMaxWidth(self.bounds.size.width).leMaxHeight(self.bounds.size.height);
     curIcon.contentMode=UIViewContentModeScaleAspectFill;
     curIcon.clipsToBounds=YES; 
@@ -41,7 +41,7 @@
     LECollectionView *collectionView;
     NSMutableArray *curDataSource;
 }
--(void) leExtraInits{
+-(void) leAdditionalInits{
     curDataSource=[NSMutableArray new];
     [LENavigation new].leSuperView(self).leTitle(@"随机最大照片数量").leRightItemText(@"有序添加").leDelegate(self);
     float cellSize=(LESCREEN_WIDTH-LESideSpace*5)*0.25;

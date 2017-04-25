@@ -53,7 +53,7 @@
     [self.recognizerRight setDirection:UISwipeGestureRecognizerDirectionRight];
     [self.leViewContainer addGestureRecognizer:self.recognizerRight];
     //
-    [self leExtraInits];
+    [self leAdditionalInits];
 }
 -(id) initWithViewController:(LEViewController *) vc{
     self=[super initWithFrame:vc.view.bounds];
@@ -117,9 +117,9 @@
     [self setEdgesForExtendedLayout:UIRectEdgeAll];
     [self setAutomaticallyAdjustsScrollViewInsets:NO];
     [super viewDidLoad];
-    [self leExtraInits];
+    [self leAdditionalInits];
 }
--(void) leExtraInits{
+-(void) leAdditionalInits{
     NSString *className=NSStringFromClass(self.class);
     className=[className stringByAppendingString:@"Page"];
     LEView *view=(LEView *)[className leGetInstanceFromClassName];

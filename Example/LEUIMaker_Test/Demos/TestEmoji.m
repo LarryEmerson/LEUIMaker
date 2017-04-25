@@ -14,7 +14,7 @@
     UIScrollView *scrollView;
     UITextView *textView;
 }
--(void) leExtraInits{
+-(void) leAdditionalInits{
     [LENavigation new].leSuperView(self).leDelegate(self).leRightItemText(@"发布");
     scrollView=[UIScrollView new].leAddTo(self.leSubViewContainer).leMargins(UIEdgeInsetsMake(0, 0, LEBottomTabbarHeight, 0));
     [scrollView setContentSize:CGSizeMake(LESCREEN_WIDTH, scrollView.bounds.size.height)];

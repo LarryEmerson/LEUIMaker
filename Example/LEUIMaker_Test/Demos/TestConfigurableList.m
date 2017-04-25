@@ -18,8 +18,8 @@
     UIImageView *icon;
     UIView *container;
 }
--(void) leExtraInits{
-    [super leExtraInits];
+-(void) leAdditionalInits{
+    [super leAdditionalInits];
     self.curContainer.leHorizontalStack();
     icon=[UIImageView new].leLeft(LESideSpace).leSize(LESquareSize(LEAvatarSize));
     float labelW=LESCREEN_WIDTH-LESideSpace*3-LEAvatarSize;
@@ -48,7 +48,7 @@
 @implementation TestConfigurableList{
     LEConfigurableListWithRefresh  *list;
 }
--(void) leExtraInits{
+-(void) leAdditionalInits{
     [[LEUICommon sharedInstance] leSetViewBGColor:LEColorBG9];
     LEView *view=[LEView new].leSuperViewcontroller(self);
     [LENavigation new].leSuperView(view).leTitle(@"测试ConfigurableList");

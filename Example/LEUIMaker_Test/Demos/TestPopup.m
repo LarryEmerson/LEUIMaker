@@ -14,8 +14,8 @@
 @implementation TestPopupCell{
     UILabel *label;
 }
--(void) leExtraInits{
-    [super leExtraInits];
+-(void) leAdditionalInits{
+    [super leAdditionalInits];
     self.leArrowEnabled(YES);
     label=[UILabel new].leAddTo(self).leAnchor(LEInsideTopLeft).leLeft(LESideSpace).leTop(LESideSpace).leMaxWidth(self.leArrow.frame.origin.x-LESideSpace ).leLine(0).leLineSpace(10).leColor(LERandomColor).leFont(LEFontML).leBottom(LESideSpace);
     self.leBottomView(label);
@@ -31,7 +31,7 @@
 @implementation TestPopupPage{
     LETableView *tableView;
 }
--(void) leExtraInits{
+-(void) leAdditionalInits{
     [LENavigation new].leSuperView(self).leTitle(@"测试LEPopup");
     tableView=[LETableView new].leSuperView(self.leSubViewContainer).leDelegate(self).leCellClassname(@"TestPopupCell").leTouchEnabled(YES);
     [tableView leOnRefreshedWithData:

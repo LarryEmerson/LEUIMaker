@@ -14,7 +14,7 @@
 @implementation TestImageFramework{
 }
 -(void) leOnCancleImageDownloading:(UIImageView *) view{
-    [view sd_cancelCurrentImageLoad];
+    [view sd_cancelCurrentAnimationImagesLoad];
 }
 -(UIImage *) leOnGetImageFromCacheWithURL:(NSString *) url{
     UIImage *img=[[SDImageCache sharedImageCache] imageFromDiskCacheForKey:url];
@@ -28,7 +28,7 @@
         block(image,error);
     }];
 }
--(void) leExtraInits{
+-(void) leAdditionalInits{
     [[LEImageFrameworks sharedInstance] leSetDelegate:self];
     LEView *view=[LEView new].leSuperViewcontroller(self);
     [LENavigation new].leSuperView(view).leTitle(@"测试TestImageFramework");

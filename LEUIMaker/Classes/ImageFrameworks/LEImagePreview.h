@@ -19,7 +19,7 @@
 @property (nonatomic) UIImageView *curImage;
 @property (nonatomic) id curData;
 
--(void) leExtraInits NS_REQUIRES_SUPER;
+-(void) leAdditionalInits NS_REQUIRES_SUPER;
 -(void) leSetData:(id) data;
 -(void) resetZoomScale;
 @end

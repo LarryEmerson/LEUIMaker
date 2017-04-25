@@ -85,7 +85,7 @@
         
     }
 }
--(void) leExtraInits {
+-(void) leAdditionalInits {
     defaultScanSize=LESCREEN_MIN_LENGTH*2.0/3;
     scanSpaceH=LENavigationBarHeight*1.5;
     scanSpaceW=(LESCREEN_MIN_LENGTH-defaultScanSize)/2;
@@ -186,7 +186,7 @@
 //        curView.leViewContainer.leBgColor(LEColorClear);
 //        curView.leSubViewContainer.leBgColor(LEColorClear);
         curNavi=[LENavigation new].leSuperView(curView).leTitle(@"扫一扫");
-        [self leExtraInits];
+        [self leAdditionalInits];
         return self;
     };
 }

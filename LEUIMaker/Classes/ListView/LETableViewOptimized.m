@@ -24,7 +24,7 @@
 }
 -(id) initWithFrame:(CGRect)frame{
     self=[super initWithFrame:CGRectMake(0, 0, LESCREEN_WIDTH, LECellH)];
-    [self leExtraInits];
+    [self leAdditionalInits];
     curTouch=[UIButton new].leAddTo(self).leMargins(UIEdgeInsetsZero).leTouchEvent(@selector(onTouchEvent),self).leBtnBGImgH([LEColorMask2 leImage]);
     return self;
 }
@@ -76,8 +76,8 @@
 @end
 
 @implementation LETableViewOptimized
--(void) leExtraInits{
-    [super leExtraInits];
+-(void) leAdditionalInits{
+    [super leAdditionalInits];
     [self registerClass:[LETableViewOptimizedCellContainer class] forCellReuseIdentifier:NSStringFromClass(self.class)];
 }
 -(void) dealloc{
@@ -157,8 +157,8 @@
     LERefreshHeader *refreshHeader;
     LERefreshFooter *refreshFooter;
 }
--(void) leExtraInits{
-    [super leExtraInits];
+-(void) leAdditionalInits{
+    [super leAdditionalInits];
     refreshHeader=[[LERefreshHeader alloc] initWithTarget:self];
     typeof(self) __weak weakSelf = self;
     refreshHeader.refreshBlock=^(){

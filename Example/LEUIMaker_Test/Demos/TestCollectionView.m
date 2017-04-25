@@ -15,7 +15,7 @@
 @implementation TestItem{
     UILabel *label;
 }
--(void) leExtraInits{
+-(void) leAdditionalInits{
     self.backgroundView=[UIView new].leBgColor(LEColorMask2);
     self.selectedBackgroundView=[UIView new].leBgColor(LEColorMask5);
     label=[UILabel new].leAddTo(self.contentView).leAnchor(LEInsideCenter).leCenterAlign;
@@ -32,7 +32,7 @@
     LECollectionViewWithRefresh *collection;
     BOOL isDataLoaded;
 }
--(void) leExtraInits{
+-(void) leAdditionalInits{
     [LENavigation new].leSuperView(self).leTitle(NSStringFromClass(self.class));
     UICollectionViewFlowLayout *layout=[UICollectionViewFlowLayout new];
     layout.itemSize=CGSizeMake((LESCREEN_WIDTH-LESideSpace16*4)*1.0/3, LENavigationBarHeight);

@@ -15,8 +15,8 @@
     UILabel *label;
     UILabel *label2;
 }
--(void) leExtraInits{
-    [super leExtraInits];
+-(void) leAdditionalInits{
+    [super leAdditionalInits];
     label=[UILabel new].leAddTo(self).leAnchor(LEInsideTopLeft).leLeft(LESideSpace).leTop(LESideSpace).leMaxWidth(LESCREEN_WIDTH-LESideSpace*2).leBgColor(LEColorMask2).leLine(1);
     label2=[UILabel new].leAddTo(self).leAnchor(LEOutsideBottomLeft).leRelativeTo(label).leTop(LESideSpace).leMaxWidth(LESCREEN_WIDTH-LESideSpace*2).leLine(0).leColor(LEColorRed).leBgColor(LEColorMask5).leBottom(LESideSpace).leLineSpace(10);
 }
@@ -35,7 +35,7 @@
     UILabel *label;
     UILabel *subLabel;
 }
--(void) leExtraInits{  
+-(void) leAdditionalInits{  
     self.leArrowEnabled(YES);
     label=[UILabel new].leAddTo(self).leAnchor(LEInsideTopLeft).leLeft(LESideSpace).leTop(LESideSpace).leMaxWidth(self.leArrow.frame.origin.x-LESideSpace ).leLine(0).leLineSpace(10).leColor(LEColorRed).leFont(LEBoldFontML);
     subLabel=[UILabel new].leAddTo(self).leAnchor(LEOutsideBottomLeft).leRelativeTo(label).leTop(LESideSpace).leMaxWidth(self.leArrow.frame.origin.x-LESideSpace ).leLine(0).leBottom(LESideSpace).leColor(LEColorText9).leLineSpace(10).leFont(LEFontML);
@@ -54,8 +54,8 @@
     UILabel *label;
     UILabel *label2;
 }
--(void) leExtraInits{
-    [super leExtraInits];
+-(void) leAdditionalInits{
+    [super leAdditionalInits];
     UIView *view=[UIView new].leAddTo(self).leWidth(LESCREEN_WIDTH).leHeight(LESCREEN_HEIGHT-LEStatusBarHeight-LENavigationBarHeight).leEnableTouch(NO);
     label=[UILabel new].leAddTo(self).leAnchor(LEInsideTopCenter).leTop(LESideSpace).leFont(LEBoldFontLL).leMaxWidth(LESCREEN_WIDTH-LESideSpace*2).leColor(LEColorRed).leAlignment(NSTextAlignmentCenter).leText(@"空列表展示");
     label2=[UILabel new].leAddTo(self).leAnchor(LEOutsideBottomCenter).leRelativeTo(label).leTop(LESideSpace).leBottom(LESideSpace).leMaxWidth(LESCREEN_WIDTH-LESideSpace*2).leLine(0).leAlignment(NSTextAlignmentCenter).leLineSpace(10).leText(@"这段文字本身也是一个Cell，用于展示空列表的处理。\n点击或下拉后，继续");
@@ -78,12 +78,12 @@
 }
  
 /** 初始化内容位置 */
-- (void)leExtraInits { 
+- (void)leAdditionalInits { 
     navigationTitles=@[@"点我",@"点我-测试",@"点我-测试导航栏",@"点我-测试导航栏标题文字",@"点我-测试导航栏标题文字的宽度",@"点我-测试导航栏标题文字的宽度变动"];
     demoClassnames=@[
-//                     @{@"classname":@"TestWKWebview", @"text":@"测试TestWKWebview"},
+//                     @{@"classname":@"TestLERequest.h", @"text":@"测试TestWKWebview"},
                      
-                     
+                     @{@"classname":@"TestLERequest", @"text":@"测试LERequest 网络请求"},
                      @{@"classname":@"TestSqlite3", @"text":@"测试TestSqlite3"},
                      @{@"classname":@"TestImagePreview", @"text":@"测试TestImagePreview"},
                      @{@"classname":@"TestBanner", @"text":@"测试TestBanner"},

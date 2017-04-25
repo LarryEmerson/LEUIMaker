@@ -16,10 +16,10 @@
 }
 -(id) initWithFrame:(CGRect)frame{
     self=[super initWithFrame:frame];
-    [self leExtraInits];
+    [self leAdditionalInits];
     return self;
 }
--(void) leExtraInits{
+-(void) leAdditionalInits{
     self.leBgColor(LERandomColor);
     label=[UILabel new].leAddTo(self).leAnchor(LEInsideCenter).leAlignment(NSTextAlignmentCenter).leColor(LEColorWhite).leText(NSStringFromClass(self.class));
 }
@@ -29,7 +29,7 @@
 @implementation TestSegmentPage{
 
 }
--(void) leExtraInits{
+-(void) leAdditionalInits{
     [LENavigation new].leSuperView(self).leTitle(NSStringFromClass(self.class));
     NSArray *titles=@[
                       @"测",

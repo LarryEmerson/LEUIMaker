@@ -9,11 +9,17 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 #import "LEEmoji.h"
+#import "LEUIMaker.h"
+#import <FMDB/FMDB.h>
 @interface AppDelegate ()
 
 @end
 
-@implementation AppDelegate
+@implementation AppDelegate{
+    
+} 
+ //
+
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {

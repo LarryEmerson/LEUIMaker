@@ -23,7 +23,7 @@
     UILabel *multiLineLabel;
 
 }
--(void) leExtraInits{
+-(void) leAdditionalInits{
     [LENavigation new].leSuperView(self).leTitle(NSStringFromClass(self.class));
     [self.leSubViewContainer setBackgroundColor:[UIColor redColor]];
 #pragma mark 新建一个ScrollView，用于测试自动计算内部组件的排版，设置ContentSize，通过（leAutoResizeContentView）来完成，无需后期再关注Contentsize的计算
