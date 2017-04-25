@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <LEUIMaker/LEUIMaker.h>
-@interface TestSqlite3 : LEViewController<LEDataManagerDelegate,LETableViewDelegate,LETableViewDataSource>
+@interface TestSqlite3 : LEViewController<LETableViewDelegate,LETableViewDataSource>
 
 
 @end

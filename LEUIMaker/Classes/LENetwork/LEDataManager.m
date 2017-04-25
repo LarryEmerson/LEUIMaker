@@ -279,3 +279,62 @@ LESingleton_implementation(LEDataManager)
     return nil;
 }
 @end
+
+@implementation LEDataManager (FMDB)
+-(void) leAdditionalInits{
+    [self leSetDelegate:self];
+    [self leEnableDebug:YES];
+}
+-(id) leInitDataBase{
+    NSString *docsPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    NSString *dbPath   = [docsPath stringByAppendingPathComponent:@"LEAPPSqlite.db"];
+    self.leDataBase=[FMDatabase databaseWithPath:dbPath];
+    return self.leDataBase;
+}
+-(id) leReloadWithNewPath:(NSString *) path LastDataBase:(id) dataBase{
+    [(FMDatabase *)self.leDataBase close];
+    self.leDataBase=[FMDatabase databaseWithPath:path];
+    
+    return self.leDataBase;
+}
+-(void) leOpen:(id) dataBase{
+    [(FMDatabase *)dataBase open];
+}
+-(void) leClose:(id) dataBase{
+    [(FMDatabase *)dataBase close];
+}
+-(void) leRunSql:(NSString *) sql DataBase:(id) dataBase{
+    [(FMDatabase *)dataBase executeUpdate:sql];
+}
+-(void) leBatchSqls:(NSArray *) sqls DataBase:(id) dataBase{
+    [(FMDatabase *)dataBase beginTransaction];
+    for (int i=0; i<sqls.count; i++) {
+        [(FMDatabase *)dataBase executeUpdate:[sqls objectAtIndex:i]];
+        LELogObject([sqls objectAtIndex:i])
+    }
+    [(FMDatabase *)dataBase commit];
+}
+-(id) leSelect:(NSString *) sql OnlyFirstRecord:(BOOL) first DataBase:(id) dataBase{
+    if(first){
+        FMResultSet *rs = [(FMDatabase *)dataBase executeQuery:sql];
+        NSDictionary *result = nil;
+        if ([rs next]) {
+            result = [rs resultDictionary];
+        }
+        [rs close];
+        return [result objectForKey:@"value"];
+    }else{
+        NSMutableArray *result = [NSMutableArray new];
+        FMResultSet *rs = [(FMDatabase *)dataBase executeQuery:sql];
+        while([rs next]) {
+            [result addObject:[rs resultDictionary]];
+        }
+        [rs close];
+        return result;
+    }
+}
+-(void) leClearDataBase:(id) dataBase{
+    [(FMDatabase *)dataBase executeUpdate:@"drop select name from sqlite_master"];
+    [(FMDatabase *)dataBase executeUpdate:@"DELETE FROM sqlite_sequence"];
+}
+@end

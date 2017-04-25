@@ -7,12 +7,10 @@
 //
 
 #import "TestLERequest.h"
-#import <FMDB/FMDB.h>
 
-@interface TestLERequest ()<LEAppMessageDelegate,LEDataManagerDelegate,LENavigationDelegate>
+@interface TestLERequest ()<LEAppMessageDelegate,LENavigationDelegate>
 @end
 @implementation TestLERequest{
-    FMDatabase *curDataBase;
     LERequest *requestTest;
 }
 -(void) leNavigationRightButtonTapped{
@@ -28,8 +26,7 @@
     LEView *view=[LEView new].leSuperViewcontroller(self);
     [LENavigation new].leSuperView(view).leDelegate(self).leTitle(@"测试LERequest 网络请求").leRightItemText(@"Disk记录");
     view.leSubViewContainer.leBgColor(LEColorText9);
-//    [[LEDataManager sharedInstance] leEnableDebug:YES];
-    [[LEDataManager sharedInstance] leSetDelegate:self];
+//    [[LEDataManager sharedInstance] leEnableDebug:YES]; 
     
     LERequestManager.sharedInstance
 //    .leEnableDebug(YES)
@@ -98,55 +95,5 @@
 //        LELog(@"statusCode=%d message=%@ %d",statusCode,message,request.tag)
     }];
     [NSTimer scheduledTimerWithTimeInterval: rand()%5 target:self selector:@selector(debugRequest) userInfo:nil repeats:NO];
-}
-#pragma mark 数据处理
--(id) leInitDataBase{
-    curDataBase=[FMDatabase databaseWithPath:[[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"LEAPPSqlite.db"]];
-    return curDataBase;
-}
--(id) leReloadWithNewPath:(NSString *) path LastDataBase:(id) dataBase{
-    [curDataBase close];
-    curDataBase=[FMDatabase databaseWithPath:path];
-    return curDataBase;
-}
--(void) leRunSql:(NSString *) sql DataBase:(id) dataBase{
-    [dataBase executeUpdate:sql];
-}
--(id) leSelect:(NSString *) sql OnlyFirstRecord:(BOOL) first DataBase:(id) dataBase{
-    if(first){
-        FMResultSet *rs = [dataBase executeQuery:sql];
-        NSDictionary *result = nil;
-        if ([rs next]) {
-            result = [rs resultDictionary];
-        }
-        [rs close];
-        return [result objectForKey:@"value"];
-    }else{
-        NSMutableArray *result = [NSMutableArray new];
-        FMResultSet *rs = [dataBase executeQuery:sql];
-        while([rs next]) {
-            [result addObject:[rs resultDictionary]];
-        }
-        [rs close];
-        return result;
-    }
-}
--(void) leClearDataBase:(id) dataBase{
-    [dataBase executeUpdate:@"drop select name from sqlite_master"];
-    [dataBase executeUpdate:@"DELETE FROM sqlite_sequence"];
-}
--(void) leOpen:(id) dataBase{
-    [(FMDatabase *)dataBase open];
-}
--(void) leClose:(id) dataBase{
-    [(FMDatabase *)dataBase close];
-}
--(void) leBatchSqls:(NSArray *) sqls DataBase:(id) dataBase{
-    [dataBase beginTransaction];
-    for (int i=0; i<sqls.count; i++) {
-        [dataBase executeUpdate:[sqls objectAtIndex:i]];
-//        LELogObject([sqls objectAtIndex:i])
-    }
-    [dataBase commit];
 }
 @end

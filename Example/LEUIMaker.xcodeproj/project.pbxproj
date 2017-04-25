@@ -334,7 +334,7 @@
 				TargetAttributes = {
 					80EC74BB1DEBCF1E000DF15F = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = V96P5GMK4T;
+						DevelopmentTeam = 9V979UYF87;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -585,14 +585,14 @@
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = V96P5GMK4T;
+				DEVELOPMENT_TEAM = 9V979UYF87;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = LEUIMaker_Test/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.360cbs.ticketlite;
+				PRODUCT_BUNDLE_IDENTIFIER = larryemerson;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -609,14 +609,14 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = V96P5GMK4T;
+				DEVELOPMENT_TEAM = 9V979UYF87;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = LEUIMaker_Test/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.360cbs.ticketlite;
+				PRODUCT_BUNDLE_IDENTIFIER = larryemerson;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

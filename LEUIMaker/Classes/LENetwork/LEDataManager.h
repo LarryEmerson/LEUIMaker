@@ -11,6 +11,10 @@
 #import <objc/runtime.h>
 #import <AFNetworking/AFNetworking.h>
 
+#import <FMDB/FMDB.h>
+
+
+
 // 数据模型
 // id key value
 @protocol LEDataManagerDelegate <NSObject>
@@ -25,7 +29,7 @@
 
 @interface LEDataManager : NSObject
 LESingleton_interface(LEDataManager)
-@property (nonatomic, weak) id leDataBase;
+@property (nonatomic) id leDataBase;
 -(void) leEnableDebug:(BOOL) enable;
 -(void) leSetDelegate:(id<LEDataManagerDelegate>) delegate;
 -(void) leReloadWithNewPath:(NSString *) path;
@@ -52,3 +56,5 @@ LESingleton_interface(LEDataManager)
 @end
 
 
+@interface LEDataManager (FMDB)<LEDataManagerDelegate>
+@end

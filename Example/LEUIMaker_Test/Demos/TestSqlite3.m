@@ -9,14 +9,12 @@
 //  Copyright © 2017年 LarryEmerson. All rights reserved.
 //
 
-#import "TestSqlite3.h"
-#import <FMDB/FMDB.h>
+#import "TestSqlite3.h" 
 
 #define TableName @"tablename"
 static int keyCounter=0;
 
 @implementation TestSqlite3{
-    FMDatabase *curDataBase;
     LEConfigurableList *list;
 }
 -(void) leAdditionalInits{
@@ -52,17 +50,15 @@ static int keyCounter=0;
     
     
     [list leOnRefreshedWithData:curData];
-    
-    [[LEDataManager sharedInstance] leEnableDebug:YES];
-    [[LEDataManager sharedInstance] leSetDelegate:self];
+//    [LEDataManager sharedInstance];
 }
 //
 -(void) leReloadWithNewPath{
-    NSString *path=[[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:LEIntegerToString(rand()%100)];
-    path=[path stringByAppendingPathExtension:@"db"];
-    [LEHUD leShowHud:path];
-    LELogObject(path)
-    [[LEDataManager sharedInstance] leReloadWithNewPath:path];
+    NSString *docsPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    NSString *dbPath   = [docsPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%zd.db",LEIntToString(rand()%100)]];
+    [LEHUD leShowHud:dbPath];
+    LELogObject(dbPath)
+    [[LEDataManager sharedInstance] leReloadWithNewPath:dbPath];
 }
 -(void) leCreateTable{
     [[LEDataManager sharedInstance] leCreateTable:TableName];
@@ -96,54 +92,4 @@ static int keyCounter=0;
 -(void) leOnCellEventWithInfo:(NSDictionary *)info{ 
 }
 //
--(id) leInitDataBase{
-    curDataBase=[FMDatabase databaseWithPath:[[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"LEAPPSqlite.db"]];
-    return curDataBase;
-}
--(id) leReloadWithNewPath:(NSString *) path LastDataBase:(id) dataBase{
-    [curDataBase close];
-    curDataBase=[FMDatabase databaseWithPath:path];
-    return curDataBase;
-}
--(void) leRunSql:(NSString *) sql DataBase:(id) dataBase{
-    [dataBase executeUpdate:sql];
-}
--(id) leSelect:(NSString *) sql OnlyFirstRecord:(BOOL) first DataBase:(id) dataBase{
-    if(first){
-        FMResultSet *rs = [dataBase executeQuery:sql];
-        NSDictionary *result = nil;
-        if ([rs next]) {
-            result = [rs resultDictionary];
-        }
-        [rs close];
-        return result;
-    }else{
-        NSMutableArray *result = [NSMutableArray new];
-        FMResultSet *rs = [dataBase executeQuery:sql];
-        while([rs next]) {
-            [result addObject:[rs resultDictionary]];
-        }
-        [rs close];
-        return result;
-    }
-}
--(void) leClearDataBase:(id) dataBase{
-    [dataBase executeUpdate:@"drop select name from sqlite_master"];
-    
-    [dataBase executeUpdate:@"DELETE FROM sqlite_sequence"];
-}
--(void) leOpen:(id) dataBase{
-    [(FMDatabase *)dataBase open];
-}
--(void) leClose:(id) dataBase{
-    [(FMDatabase *)dataBase close];
-}
--(void) leBatchSqls:(NSArray *) sqls DataBase:(id) dataBase{
-    [dataBase beginTransaction];
-    for (int i=0; i<sqls.count; i++) {
-        [dataBase executeUpdate:[sqls objectAtIndex:i]];
-        LELogObject([sqls objectAtIndex:i])
-    }
-    [dataBase commit];
-}
 @end

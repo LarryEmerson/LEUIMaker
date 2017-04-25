@@ -18,7 +18,7 @@ PODS:
     - FMDB/standard (= 2.6.2)
   - FMDB/standard (2.6.2)
   - LEFoundation (0.1.7)
-  - LEUIMaker (0.1.6):
+  - LEUIMaker (0.1.7):
     - AFNetworking
     - FMDB
     - LEFoundation
@@ -38,7 +38,7 @@ SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   FMDB: 854a0341b4726e53276f2a8996f06f1b80f9259a
   LEFoundation: a490ec109d741927dfadb238d984e1689e1581e3
-  LEUIMaker: 0b6b95ceb6c3c3a0b97d05937ddeb6664bd18112
+  LEUIMaker: 5ff39303b4aea07106a912ad78c4d825ebb866fd
   SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
 
 PODFILE CHECKSUM: 3ab38e717be664eb22119304920dbb5bf518a943
