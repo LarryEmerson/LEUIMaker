@@ -14,13 +14,13 @@
     UILabel *label;
 }
 -(void) leAdditionalInits{
-    label=[UILabel new].leAddTo(self).leAnchor(LEInsideCenter).leMaxWidth(LESCREEN_WIDTH-LESideSpace*2).leTop(LESideSpace).leAlignment(NSTextAlignmentCenter).leLine(0).leBottom(LESideSpace).leLineSpace(8);
+    label=[UILabel new].leAddTo(self).leAnchor(LEInsideTopCenter).leTop(LESideSpace).leBottom(LESideSpace).leMaxWidth(LESCREEN_WIDTH-LESideSpace*2).leLine(0).leLineSpace(10).leAlignment(NSTextAlignmentCenter).leColor(LEColorRed).leFont(LEBoldFontML);
     self.leBottomView(label);
 }
--(void) leSetData:(id)data{
+-(void) leSetData:(id)data  {
     NSString *str=@"这是附加的内容，每个Cell会不定长的截取该内容追加到末尾展示出来";
-    label.leMaxWidth(LESCREEN_WIDTH-LESideSpace*2).leText([NSString stringWithFormat:@"类名：%@，当前indexpath为：{ %zd, %zd }  %@",NSStringFromClass(self.class), self.leIndexPath.section,self.leIndexPath.row, [str substringToIndex:str.length-1>self.leIndexPath.row*5?self.leIndexPath.row*5:str.length-1]]);
-} 
+    label.leText([NSString stringWithFormat:@"类名：%@，当前indexpath为：{ %zd, %zd }  %@",NSStringFromClass(self.class), self.leIndexPath.section,self.leIndexPath.row, [str substringToIndex:str.length-1>self.leIndexPath.row*5?self.leIndexPath.row*5:str.length-1]]);
+}
 @end
 
 @interface CellSection0Row0 : MultiSectionTableViewCell @end
