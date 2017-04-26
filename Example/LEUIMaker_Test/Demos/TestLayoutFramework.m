@@ -64,58 +64,58 @@
     [UIView new].leAddTo(view).leAnchor(LEI_LC).leEqualSuperViewHeight(1).leLeftEqualWidth(4.0/5.0).leWidth(1/LESCREEN_SCALE).leBgColor(red);
 #pragma mark 蓝色字体部分、内部排版：九宫格划分的第一行（顶部）
     UILabel *label_I_TL=[UILabel new].leAddTo(centerView).leAnchor(LEI_TL).leLeftAlign.leColor(blue).leFont(fB14).leText(@"上左");
-    [UILabel new].leAddTo(centerView).leRelativeTo(label_I_TL).leAnchor(LEO_BL).leLeftAlign.leColor(blue).leFont(f12).leText(@"Inside\nTop\nLeft").leLine(0);
+    [UILabel new].leAddTo(centerView).leRelativeTo(label_I_TL).leAnchor(LEO_BL).leLeftAlign.leColor(blue).leFont(f12).leLine(0).leText(@"Inside\nTop\nLeft");
     UILabel *label_I_TC=[UILabel new].leAddTo(centerView).leAnchor(LEI_TC).leCenterAlign.leColor(blue).leFont(fB14).leText(@"上中");
-    [UILabel new].leAddTo(centerView).leRelativeTo(label_I_TC).leAnchor(LEO_BC).leCenterAlign.leColor(blue).leFont(f12).leText(@"Inside\nTop\nCenter").leLine(0);
+    [UILabel new].leAddTo(centerView).leRelativeTo(label_I_TC).leAnchor(LEO_BC).leCenterAlign.leColor(blue).leFont(f12).leLine(0).leText(@"Inside\nTop\nCenter");
     UILabel *label_I_TR=[UILabel new].leAddTo(centerView).leAnchor(LEI_TR).leRightAlign.leColor(blue).leFont(fB14).leText(@"上右");
-    [UILabel new].leAddTo(centerView).leRelativeTo(label_I_TR).leAnchor(LEO_BR).leRightAlign.leColor(blue).leFont(f12).leText(@"Inside\nTop\nRight").leLine(0);
+    [UILabel new].leAddTo(centerView).leRelativeTo(label_I_TR).leAnchor(LEO_BR).leRightAlign.leColor(blue).leFont(f12).leLine(0).leText(@"Inside\nTop\nRight");
 #pragma mark 蓝色字体部分、内部排版：九宫格划分的第二行（中间）
     UILabel *label_I_LC=[UILabel new].leAddTo(centerView).leAnchor(LEI_LC).leLeftAlign.leColor(blue).leFont(fB14).leText(@"左中");
-    [UILabel new].leAddTo(centerView).leRelativeTo(label_I_LC).leAnchor(LEO_BL).leCenterAlign.leColor(blue).leFont(f12).leText(@"Inside\nLeftCenter").leLine(0);
+    [UILabel new].leAddTo(centerView).leRelativeTo(label_I_LC).leAnchor(LEO_BL).leCenterAlign.leColor(blue).leFont(f12).leLine(0).leText(@"Inside\nLeftCenter");
     UILabel *label_I_C=[UILabel new].leAddTo(centerView).leAnchor(LEI_C).leCenterAlign.leColor(blue).leFont(fB14).leText(@"中");
-    [UILabel new].leAddTo(centerView).leRelativeTo(label_I_C).leAnchor(LEO_BC).leCenterAlign.leColor(blue).leFont(f12).leText(@"Inside\nCenter").leLine(0);
+    [UILabel new].leAddTo(centerView).leRelativeTo(label_I_C).leAnchor(LEO_BC).leCenterAlign.leColor(blue).leFont(f12).leLine(0).leText(@"Inside\nCenter");
     UILabel *label_I_RC=[UILabel new].leAddTo(centerView).leAnchor(LEI_RC).leRightAlign.leColor(blue).leFont(fB14).leText(@"右中");
-    [UILabel new].leAddTo(centerView).leRelativeTo(label_I_RC).leAnchor(LEO_BR).leRightAlign.leColor(blue).leFont(f12).leText(@"Inside\nRightCenter").leLine(0);
+    [UILabel new].leAddTo(centerView).leRelativeTo(label_I_RC).leAnchor(LEO_BR).leRightAlign.leColor(blue).leFont(f12).leLine(0).leText(@"Inside\nRightCenter");
 #pragma mark 蓝色字体部分、内部排版：九宫格划分的第三行（底部）
     UILabel *label_I_BL=[UILabel new].leAddTo(centerView).leAnchor(LEI_BL).leLeftAlign.leColor(blue).leFont(fB14).leText(@"下左");
-    [UILabel new].leAddTo(centerView).leRelativeTo(label_I_BL).leAnchor(LEO_TL).leCenterAlign.leColor(blue).leFont(f12).leText(@"Inside\nBottom\nLeft").leLine(0);
+    [UILabel new].leAddTo(centerView).leRelativeTo(label_I_BL).leAnchor(LEO_TL).leCenterAlign.leColor(blue).leFont(f12).leLine(0).leText(@"Inside\nBottom\nLeft");
     UILabel *label_I_BC=[UILabel new].leAddTo(centerView).leAnchor(LEI_BC).leCenterAlign.leColor(blue).leFont(fB14).leText(@"下中");
-    [UILabel new].leAddTo(centerView).leRelativeTo(label_I_BC).leAnchor(LEO_TC).leCenterAlign.leColor(blue).leFont(f12).leText(@"Inside\nBottom\nCenter").leLine(0);
+    [UILabel new].leAddTo(centerView).leRelativeTo(label_I_BC).leAnchor(LEO_TC).leCenterAlign.leColor(blue).leFont(f12).leLine(0).leText(@"Inside\nBottom\nCenter");
     UILabel *label_I_BR=[UILabel new].leAddTo(centerView).leAnchor(LEI_BR).leRightAlign.leColor(blue).leFont(fB14).leText(@"下右");
-    [UILabel new].leAddTo(centerView).leRelativeTo(label_I_BR).leAnchor(LEO_TR).leRightAlign.leColor(blue).leFont(f12).leText(@"Inside\nBottom\nRight").leLine(0);
+    [UILabel new].leAddTo(centerView).leRelativeTo(label_I_BR).leAnchor(LEO_TR).leRightAlign.leColor(blue).leFont(f12).leLine(0).leText(@"Inside\nBottom\nRight");
 #pragma mark 黑色字体部分、外部排版、参考view与自身拥有相同的superView的情况：顶部一行
     UILabel *label_O_TL=[UILabel new].leAddTo(view).leRelativeTo(centerView).leAnchor(LEO_TL).leLeftAlign.leColor(black).leFont(fB14).leText(@"上左");
-    [UILabel new].leAddTo(view).leRelativeTo(label_O_TL).leAnchor(LEO_TL).leLeftAlign.leColor(black).leFont(f12).leText(@"Outside\nTop\nLeft").leLine(0);
+    [UILabel new].leAddTo(view).leRelativeTo(label_O_TL).leAnchor(LEO_TL).leLeftAlign.leColor(black).leFont(f12).leLine(0).leText(@"Outside\nTop\nLeft");
     UILabel *label_O_TC=[UILabel new].leAddTo(view).leRelativeTo(centerView).leAnchor(LEO_TC).leCenterAlign.leColor(black).leFont(fB14).leText(@"上中");
-    [UILabel new].leAddTo(view).leRelativeTo(label_O_TC).leAnchor(LEO_TC).leCenterAlign.leColor(black).leFont(f12).leText(@"Outside\nTop\nCenter").leLine(0);
+    [UILabel new].leAddTo(view).leRelativeTo(label_O_TC).leAnchor(LEO_TC).leCenterAlign.leColor(black).leFont(f12).leLine(0).leText(@"Outside\nTop\nCenter");
     UILabel *label_O_TR=[UILabel new].leAddTo(view).leRelativeTo(centerView).leAnchor(LEO_TR).leRightAlign.leColor(black).leFont(fB14).leText(@"上右");
-    [UILabel new].leAddTo(view).leRelativeTo(label_O_TR).leAnchor(LEO_TR).leRightAlign.leColor(black).leFont(f12).leText(@"Outside\nTop\nRight").leLine(0);
+    [UILabel new].leAddTo(view).leRelativeTo(label_O_TR).leAnchor(LEO_TR).leRightAlign.leColor(black).leFont(f12).leLine(0).leText(@"Outside\nTop\nRight");
 #pragma mark 黑色字体部分、外部排版、参考view与自身拥有相同的superView的情况：左侧一行
     UILabel *label_O_LT=[UILabel new].leAddTo(view).leRelativeTo(centerView).leAnchor(LEO_LT).leLeftAlign.leColor(black).leFont(fB14).leText(@"左上");
-    [UILabel new].leAddTo(view).leRelativeTo(label_O_LT).leAnchor(LEO_BR).leRightAlign.leColor(black).leFont(f12).leText(@"Outside\nLeft\nTop").leLine(0);
+    [UILabel new].leAddTo(view).leRelativeTo(label_O_LT).leAnchor(LEO_BR).leRightAlign.leColor(black).leFont(f12).leLine(0).leText(@"Outside\nLeft\nTop");
     UILabel *label_O_LC=[UILabel new].leAddTo(view).leRelativeTo(centerView).leAnchor(LEO_LC).leCenterAlign.leColor(black).leFont(fB14).leText(@"左中");
-    [UILabel new].leAddTo(view).leRelativeTo(label_O_LC).leAnchor(LEO_BR).leRightAlign.leColor(black).leFont(f12).leText(@"Outside\nLeftCenter").leLine(0);
+    [UILabel new].leAddTo(view).leRelativeTo(label_O_LC).leAnchor(LEO_BR).leRightAlign.leColor(black).leFont(f12).leLine(0).leText(@"Outside\nLeftCenter");
     UILabel *label_O_LB=[UILabel new].leAddTo(view).leRelativeTo(centerView).leAnchor(LEO_LB).leRightAlign.leColor(black).leFont(fB14).leText(@"左下");
-    [UILabel new].leAddTo(view).leRelativeTo(label_O_LB).leAnchor(LEO_TR).leRightAlign.leColor(black).leFont(f12).leText(@"Outside\nLeft\nBottom").leLine(0);
+    [UILabel new].leAddTo(view).leRelativeTo(label_O_LB).leAnchor(LEO_TR).leRightAlign.leColor(black).leFont(f12).leLine(0).leText(@"Outside\nLeft\nBottom");
 #pragma mark 黑色字体部分、外部排版、参考view与自身拥有相同的superView的情况：右侧一行
     UILabel *label_O_RT=[UILabel new].leAddTo(view).leRelativeTo(centerView).leAnchor(LEO_RT).leLeftAlign.leColor(black).leFont(fB14).leText(@"右上");
-    [UILabel new].leAddTo(view).leRelativeTo(label_O_RT).leAnchor(LEO_BL).leLeftAlign.leColor(black).leFont(f12).leText(@"Outside\nRight\nTop").leLine(0);
+    [UILabel new].leAddTo(view).leRelativeTo(label_O_RT).leAnchor(LEO_BL).leLeftAlign.leColor(black).leFont(f12).leLine(0).leText(@"Outside\nRight\nTop");
     UILabel *label_O_RC=[UILabel new].leAddTo(view).leRelativeTo(centerView).leAnchor(LEO_RC).leCenterAlign.leColor(black).leFont(fB14).leText(@"右中");
-    [UILabel new].leAddTo(view).leRelativeTo(label_O_RC).leAnchor(LEO_BL).leLeftAlign.leColor(black).leFont(f12).leText(@"Outside\nRightCenter").leLine(0);
+    [UILabel new].leAddTo(view).leRelativeTo(label_O_RC).leAnchor(LEO_BL).leLeftAlign.leColor(black).leFont(f12).leLine(0).leText(@"Outside\nRightCenter");
     UILabel *label_O_RB=[UILabel new].leAddTo(view).leRelativeTo(centerView).leAnchor(LEO_RB).leRightAlign.leColor(black).leFont(fB14).leText(@"右下");
-    [UILabel new].leAddTo(view).leRelativeTo(label_O_RB).leAnchor(LEO_TL).leLeftAlign.leColor(black).leFont(f12).leText(@"Outside\nRight\nBottom").leLine(0);
+    [UILabel new].leAddTo(view).leRelativeTo(label_O_RB).leAnchor(LEO_TL).leLeftAlign.leColor(black).leFont(f12).leLine(0).leText(@"Outside\nRight\nBottom");
 #pragma mark 黑色字体部分、外部排版、参考view与自身拥有相同的superView的情况：底部一行
     UILabel *label_O_BL=[UILabel new].leAddTo(view).leRelativeTo(centerView).leAnchor(LEO_BL).leLeftAlign.leColor(black).leFont(fB14).leText(@"下左");
-    [UILabel new].leAddTo(view).leRelativeTo(label_O_BL).leAnchor(LEO_BL).leLeftAlign.leColor(black).leFont(f12).leText(@"Outside\nBottom\nLeft").leLine(0);
+    [UILabel new].leAddTo(view).leRelativeTo(label_O_BL).leAnchor(LEO_BL).leLeftAlign.leColor(black).leFont(f12).leLine(0).leText(@"Outside\nBottom\nLeft");
     UILabel *label_O_BC=[UILabel new].leAddTo(view).leRelativeTo(centerView).leAnchor(LEO_BC).leCenterAlign.leColor(black).leFont(fB14).leText(@"下中");
-    [UILabel new].leAddTo(view).leRelativeTo(label_O_BC).leAnchor(LEO_BC).leCenterAlign.leColor(black).leFont(f12).leText(@"Outside\nBottom\nCenter").leLine(0);
+    [UILabel new].leAddTo(view).leRelativeTo(label_O_BC).leAnchor(LEO_BC).leCenterAlign.leColor(black).leFont(f12).leLine(0).leText(@"Outside\nBottom\nCenter");
     UILabel *label_O_BR=[UILabel new].leAddTo(view).leRelativeTo(centerView).leAnchor(LEO_BR).leRightAlign.leColor(black).leFont(fB14).leText(@"下右");
-    [UILabel new].leAddTo(view).leRelativeTo(label_O_BR).leAnchor(LEO_BR).leRightAlign.leColor(black).leFont(f12).leText(@"Outside\nBottom\nRight").leLine(0);
+    [UILabel new].leAddTo(view).leRelativeTo(label_O_BR).leAnchor(LEO_BR).leRightAlign.leColor(black).leFont(f12).leLine(0).leText(@"Outside\nBottom\nRight");
 #pragma mark 黑色字体部分、外部排版、参考view与自身拥有相同的superView的情况：4个外角
-    [UILabel new].leAddTo(view).leRelativeTo(centerView).leAnchor(LEO_1).leCenterAlign.leColor(black).leFont(fB14).leText(@"Out\nside1").leLine(0).leBgColor(LEColorMask2).leMargins(UIEdgeInsetsMake(4, 4, 4, 4));
-    [UILabel new].leAddTo(view).leRelativeTo(centerView).leAnchor(LEO_2).leCenterAlign.leColor(black).leFont(fB14).leText(@"Out\nside2").leLine(0).leBgColor(LEColorMask2).leMargins(UIEdgeInsetsMake(4, 4, 4, 4));
-    [UILabel new].leAddTo(view).leRelativeTo(centerView).leAnchor(LEO_3).leCenterAlign.leColor(black).leFont(fB14).leText(@"Out\nside3").leLine(0).leBgColor(LEColorMask2).leMargins(UIEdgeInsetsMake(4, 4, 4, 4));
-    [UILabel new].leAddTo(view).leRelativeTo(centerView).leAnchor(LEO_4).leCenterAlign.leColor(black).leFont(fB14).leText(@"Out\nside4").leLine(0).leBgColor(LEColorMask2).leMargins(UIEdgeInsetsMake(4, 4, 4, 4));
+    [UILabel new].leAddTo(view).leRelativeTo(centerView).leAnchor(LEO_1).leCenterAlign.leColor(black).leFont(fB14).leLine(0).leText(@"Out\nside1").leBgColor(LEColorMask2).leMargins(UIEdgeInsetsMake(4, 4, 4, 4));
+    [UILabel new].leAddTo(view).leRelativeTo(centerView).leAnchor(LEO_2).leCenterAlign.leColor(black).leFont(fB14).leLine(0).leText(@"Out\nside2").leBgColor(LEColorMask2).leMargins(UIEdgeInsetsMake(4, 4, 4, 4));
+    [UILabel new].leAddTo(view).leRelativeTo(centerView).leAnchor(LEO_3).leCenterAlign.leColor(black).leFont(fB14).leLine(0).leText(@"Out\nside3").leBgColor(LEColorMask2).leMargins(UIEdgeInsetsMake(4, 4, 4, 4));
+    [UILabel new].leAddTo(view).leRelativeTo(centerView).leAnchor(LEO_4).leCenterAlign.leColor(black).leFont(fB14).leLine(0).leText(@"Out\nside4").leBgColor(LEColorMask2).leMargins(UIEdgeInsetsMake(4, 4, 4, 4));
 #pragma mark 黄色字体部分、参考view为superView且在superView外部排版的情况：顶部一行
     [UILabel new].leAddTo(view).leAnchor(LEO_TL).leLeftAlign.leColor(yellow).leFont(fB14).leText(@"上左").leBgColor(LEColorMask2);
     [UILabel new].leAddTo(view).leAnchor(LEO_TC).leCenterAlign.leColor(yellow).leFont(fB14).leText(@"上中").leBgColor(LEColorMask2);
@@ -133,10 +133,10 @@
     [UILabel new].leAddTo(view).leAnchor(LEO_BC).leCenterAlign.leColor(yellow).leFont(fB14).leText(@"下中").leBgColor(LEColorMask2);
     [UILabel new].leAddTo(view).leAnchor(LEO_BR).leRightAlign.leColor(yellow).leFont(fB14).leText(@"下右").leBgColor(LEColorMask2);
 #pragma mark 黄色字体部分、参考view为superView且在superView外部排版的情况：4个外角
-    [UILabel new].leAddTo(view).leAnchor(LEO_1).leCenterAlign.leColor(yellow).leFont(fB14).leText(@"O1").leLine(0).leBgColor(LEColorMask2).leMargins(UIEdgeInsetsMake(4, 4, 4, 4));
-    [UILabel new].leAddTo(view).leAnchor(LEO_2).leCenterAlign.leColor(yellow).leFont(fB14).leText(@"O2").leLine(0).leBgColor(LEColorMask2).leMargins(UIEdgeInsetsMake(4, 4, 4, 4));
-    [UILabel new].leAddTo(view).leAnchor(LEO_3).leCenterAlign.leColor(yellow).leFont(fB14).leText(@"O3").leLine(0).leBgColor(LEColorMask2).leMargins(UIEdgeInsetsMake(4, 4, 4, 4));
-    [UILabel new].leAddTo(view).leAnchor(LEO_4).leCenterAlign.leColor(yellow).leFont(fB14).leText(@"O4").leLine(0).leBgColor(LEColorMask2).leMargins(UIEdgeInsetsMake(4, 4, 4, 4));
+    [UILabel new].leAddTo(view).leAnchor(LEO_1).leCenterAlign.leColor(yellow).leFont(fB14).leLine(0).leText(@"O1").leBgColor(LEColorMask2).leMargins(UIEdgeInsetsMake(4, 4, 4, 4));
+    [UILabel new].leAddTo(view).leAnchor(LEO_2).leCenterAlign.leColor(yellow).leFont(fB14).leLine(0).leText(@"O2").leBgColor(LEColorMask2).leMargins(UIEdgeInsetsMake(4, 4, 4, 4));
+    [UILabel new].leAddTo(view).leAnchor(LEO_3).leCenterAlign.leColor(yellow).leFont(fB14).leLine(0).leText(@"O3").leBgColor(LEColorMask2).leMargins(UIEdgeInsetsMake(4, 4, 4, 4));
+    [UILabel new].leAddTo(view).leAnchor(LEO_4).leCenterAlign.leColor(yellow).leFont(fB14).leLine(0).leText(@"O4").leBgColor(LEColorMask2).leMargins(UIEdgeInsetsMake(4, 4, 4, 4));
 #pragma mark 多行文本的背景框
     UIView *multiLineLabelBG=[UIView new].leAddTo(scrollView).leRelativeTo(view).leAnchor(LEOutsideBottomLeft).leTop(30).leBoard(2,LEColorRed).leBgColor(LEColorBlue).leWrapper();
     multiLineLabel=[UILabel new].leAddTo(multiLineLabelBG).leAnchor(LEInsideCenter).leMargins(UIEdgeInsetsMake(20, 20, 20, 20)).leMaxWidth(300).leLine(0).leCenterAlign.leBgColor(LEColorWhite).leFont(LEFont(12)).leLineSpace(10).leText(@"蓝色矩形自动根据label大小进行拉伸");

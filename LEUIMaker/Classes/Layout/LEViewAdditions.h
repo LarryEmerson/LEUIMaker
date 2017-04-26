@@ -203,7 +203,7 @@ typedef NS_ENUM(NSInteger, LEAnchors) {
 /** 设置label、textfield的文字对其方式为居中对齐 */
 -(__kindof UIView *) leCenterAlign;
 #pragma mark Label
-/** 设置Label及Button的titleLabel的行数，0表示多行，默认为1行 */
+/** 设置Label及Button的titleLabel的行数，0表示多行，默认为1行，leText前设置生效 */
 -(__kindof UIView *(^)(NSInteger)) leLine;
 /** 设置label的行间距 */
 -(__kindof UIView *(^)(CGFloat)) leLineSpace;
