@@ -68,11 +68,11 @@
     extraCheck=[NSTimer scheduledTimerWithTimeInterval:time+pauseTime+0.1 target:self selector:@selector(onCheck) userInfo:nil repeats:NO];
     [self setAlpha:0];
     labelNoti.leMaxWidth(LESCREEN_WIDTH-LENavigationBarHeight-LESideSpace*2).leText(text);
-    [UIView  animateWithDuration:time delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^(void){
+    [UIView animateWithDuration:time delay:0 usingSpringWithDamping:0.6 initialSpringVelocity:1 options:UIViewAnimationOptionCurveEaseIn animations:^{
         self.leBottom(offset);
         [self setAlpha:1];
-    } completion:^(BOOL isFinished){
-        if(isFinished){
+    } completion:^(BOOL finished) {
+        if(finished){
             [UIView animateWithDuration:time delay:pauseTime options:UIViewAnimationOptionCurveEaseOut animations:^(void){
                 [self setAlpha:0];
             } completion:^(BOOL done){

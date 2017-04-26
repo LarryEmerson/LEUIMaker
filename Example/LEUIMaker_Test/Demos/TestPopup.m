@@ -85,7 +85,7 @@
             [LEPopup leShowTipPopupWithDelegate:self Title:@"提示性弹窗" Subtitle:@"这是副标题，按钮使用的是默认的配置" Identifier:@"Identifier3"];
             break;
         case 4:
-            [LEPopup leShowTipPopupWithDelegate:self Title:@"提示性弹窗" Subtitle:@"这是副标题，自定义副标题左侧按钮、默认确认按钮" Aligment:NSTextAlignmentLeft Identifier:@"Identifier4"];
+            [LEPopup leShowTipPopupWithDelegate:self Title:@"提示性弹窗" Subtitle:@"这是副标题，自定义副标题左侧对齐、默认确认按钮" Aligment:NSTextAlignmentLeft Identifier:@"Identifier4"];
             break;
         case 5:
             [LEPopup leShowTipPopupWithDelegate:self Title:@"提示性弹窗" Subtitle:@"这是副标题，自定义副标题为居中显示。可以自定义按钮" Aligment:NSTextAlignmentCenter ButtonText:@"自定义确定按钮" Identifier:@"Identifier5"];

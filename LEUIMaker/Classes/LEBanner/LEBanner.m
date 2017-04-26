@@ -137,6 +137,7 @@
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(scrollLogic) object:nil];
 }
 - (void)scrollLogic{
+//    [UIView animateWithDuration:0.4 delay:0 usingSpringWithDamping:0.6 initialSpringVelocity:16 options:UIViewAnimationOptionCurveLinear animations:^{
     [UIView animateWithDuration:0.25 animations:^{
         if(curDirection == LEBannerLandscape){
             leScrollView.contentOffset = CGPointMake(1.99*leScrollView.frame.size.width, 0);

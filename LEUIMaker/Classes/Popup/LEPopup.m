@@ -121,20 +121,35 @@
     [self leEaseOut:@selector(onBackgroundLogic)];
 }
 -(void) leEaseIn{
-    [UIView animateWithDuration:0.4 animations:^(void){
+    self.leBackground.leTop(-LESCREEN_HEIGHT);
+    [UIView animateWithDuration:0.25 animations:^{
         [self setAlpha:1];
+    }];
+    [UIView animateWithDuration:0.7
+                          delay:0
+         usingSpringWithDamping:0.6
+          initialSpringVelocity:1
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+        self.leBackground.leTop(0);
+    } completion:^(BOOL finished) {
+        
     }];
 }
 -(void) leEaseOut:(SEL) sel{
-    [UIView animateWithDuration:0.4 animations:^(void){
-        [self setAlpha:0];
+    [UIView animateWithDuration:0.2 animations:^{
+        self.leBackground.leTop(LESCREEN_HEIGHT);
     } completion:^(BOOL done){
-        if(sel&&[self respondsToSelector:sel]){
-            LESuppressPerformSelectorLeakWarning(
-                                                 [self performSelector:sel];
-                                                 );
-        }
-        [self removeFromSuperview];
+        [UIView animateWithDuration:0.2 animations:^{
+            [self setAlpha:0];
+        } completion:^(BOOL finished) {
+            if(sel&&[self respondsToSelector:sel]){
+                LESuppressPerformSelectorLeakWarning(
+                                                     [self performSelector:sel];
+                                                     );
+            }
+            [self removeFromSuperview];
+        }];
     }];
 }
 @end

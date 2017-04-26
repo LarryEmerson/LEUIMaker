@@ -14,7 +14,7 @@
     UILabel *label;
 }
 -(void) leAdditionalInits{
-    label=[UILabel new].leAddTo(self).leAnchor(LEInsideTopCenter).leTop(LESideSpace).leBottom(LESideSpace).leMaxWidth(LESCREEN_WIDTH-LESideSpace*2).leLine(0).leLineSpace(10).leAlignment(NSTextAlignmentCenter).leColor(LEColorRed).leFont(LEBoldFontML);
+    label=[UILabel new].leAddTo(self).leAnchor(LEInsideTopCenter).leTop(LESideSpace).leBottom(LESideSpace).leMaxWidth(LESCREEN_WIDTH-LESideSpace*2).leLine(0).leLineSpace(10).leAlignment(NSTextAlignmentCenter).leColor(LERandomColor).leFont(LEBoldFontML);
     self.leBottomView(label);
 }
 -(void) leSetData:(id)data  {
