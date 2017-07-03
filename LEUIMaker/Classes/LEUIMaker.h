@@ -27,3 +27,4 @@
 #import "LEImagePreview.h"
 #import "LEDataManager.h"
 #import "LERequest.h"
+#import "LEResumeBrokenDownload.h"

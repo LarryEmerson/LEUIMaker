@@ -23,6 +23,7 @@
 #import "LEDate.h"
 #import "LEDataManager.h"
 #import "LERequest.h"
+#import "LEResumeBrokenDownload.h"
 #import "LEUICommon.h"
 #import "LEUIMaker.h"
 #import "LECollectionView.h"

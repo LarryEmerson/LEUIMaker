@@ -79,7 +79,7 @@
 /** 设定不同颜色 */
 -(__kindof LENavigation *(^)(UIColor *))    leTitleColor;
 /** 设定分割线：enable、color */
--(__kindof LENavigation *(^)(BOOL enable, UIColor *color))         leSplit;
+-(__kindof LENavigation *(^)(BOOL enable, UIColor *color)) leSplit;
 /** 设定左侧按钮图片 */
 -(__kindof LENavigation *(^)(UIImage *))    leLeftItemImg;
 /** 设定左侧按钮文字 */

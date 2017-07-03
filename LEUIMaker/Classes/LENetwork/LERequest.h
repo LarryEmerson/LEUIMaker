@@ -6,9 +6,6 @@
 //
 //
 
-#import <Foundation/Foundation.h>
-#import <LEFoundation/LEFoundation.h>
-#import <AFNetworking/AFNetworking.h>
 #import "LEDataManager.h"
 
 typedef NS_ENUM(NSInteger, LERequestType) {
