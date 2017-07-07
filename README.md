@@ -43,12 +43,9 @@ LEUIFramework与LEUIFrameworkExtra的融合与升级，使用更简单、功能�
   * LEDataManager 数据存储（可自定义支持的第三方如FMDB库，目前已对FMDB做了支持）
   * LEResumeBrokenDownload 支持断点续传
   * LERequest AFNetworking的扩展，支持RESTFUL框架
- 
-```
-1) 全局设定：是否打印请求、是否打印返回、是否打印返回的Json格式化内容、host、contentType、statusCode、服务器验证请求的key、服务端验证请求key对应值、MD5加密、从缓存拉取数据、服务器验证失败回调、全局提示信息
-2) 请求构成：host、api、uri、head（字典）、type（get、post、head、patch、delete）、parameter（字典）、duration（缓存时长）、storeToDisk（存储请求结果到本地）、addition（请求附加内容）
-3) 请求接口：leRequest、leRequestFromMemory、leRequestFromDiskIfExist、leCancleRequest
-```
+    * 全局设定：是否打印请求、是否打印返回、是否打印返回的Json格式化内容、host、contentType、statusCode、服务器验证请求的key、服务端验证请求key对应值、MD5加密、从缓存拉取数据、服务器验证失败回调、全局提示信息
+    * 请求构成：host、api、uri、head（字典）、type（get、post、head、patch、delete）、parameter（字典）、duration（缓存时长）、storeToDisk（存储请求结果到本地）、addition（请求附加内容）
+    * 请求接口：leRequest、leRequestFromMemory、leRequestFromDiskIfExist、leCancleRequest
  
 * ListView 列表 
   * LERefresh 上拉下拉组件，可扩展。initWithTarget（Scrollview）、initRefreshView（用户自定义刷新元素）、onBeginRefresh、onEndRefresh、onScrolling（滚动中，用户获取滚动进度） 
@@ -68,10 +65,8 @@ LEUIFramework与LEUIFrameworkExtra的融合与升级，使用更简单、功能�
   * VC 在viewDidLoad时会自己搜索是否存在VC+"Page"的类（继承LEView），若存在则自动创建该对象并赋值给View对象
   * LEView 顶层View：容器及其宽和高、附容器及其高度、右划手势及其引用和开关
   * LENavigation 导航栏： 
-```
- 1）初始化：superview、title、回调（左侧按钮点击、右侧按钮点击、中间区域宽度变动）
- 2）接口：导航栏标题设定、底部分割线、背景图、左侧按钮图片及颜色、右侧按钮图片及颜色、偏移量
-```
+    * 初始化：superview、title、回调（左侧按钮点击、右侧按钮点击、中间区域宽度变动）
+    * 接口：导航栏标题设定、底部分割线、背景图、左侧按钮图片及颜色、右侧按钮图片及颜色、偏移量
 
 ## Installation
 
