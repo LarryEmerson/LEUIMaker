@@ -178,4 +178,6 @@ LESingleton_interface(LEUICommon)
 
 /** 获得最顶端的window */
 -(UIWindow *) leGetTopWindow;
+/** 获得最顶端的VC */
+-(UIViewController *) leGetTopVC;
 @end

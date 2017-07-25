@@ -183,4 +183,16 @@ LESingleton_implementation(LEUICommon)
     }
     return [[[UIApplication sharedApplication] delegate] window];
 }
+-(UIViewController *) leGetTopVC{
+    UIViewController *vc=nil;
+    UIWindow * window = [[[UIApplication sharedApplication] delegate] window];
+    if ([window.rootViewController isKindOfClass:[UINavigationController class]]) {
+        vc = ((UINavigationController *)window.rootViewController).visibleViewController;
+    }else if ([window.rootViewController isKindOfClass:[UITabBarController class]]){
+        vc = ((UITabBarController *)window.rootViewController).selectedViewController;
+    }else{
+        vc = window.rootViewController;
+    }
+    return vc;
+}
 @end
