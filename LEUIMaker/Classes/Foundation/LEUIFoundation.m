@@ -78,9 +78,9 @@
     [qrFilter setValue:stringData forKey:@"inputMessage"];
     [qrFilter setValue:@"M" forKey:@"inputCorrectionLevel"];
     // 返回CIImage
-    return [LEUIFoundation createNonInterpolatedUIImageFormCIImage:qrFilter.outputImage withSize:size];
+    return [LEUIFoundation leCreateNonInterpolatedUIImageFormCIImage:qrFilter.outputImage withSize:size];
 }
-+ (UIImage *)createNonInterpolatedUIImageFormCIImage:(CIImage *)image withSize:(CGFloat) size {
++ (UIImage *)leCreateNonInterpolatedUIImageFormCIImage:(CIImage *)image withSize:(CGFloat) size {
     CGRect extent = CGRectIntegral(image.extent);
     CGFloat scale = MIN(size/CGRectGetWidth(extent), size/CGRectGetHeight(extent));
     // 创建bitmap;
@@ -99,7 +99,7 @@
     CGImageRelease(bitmapImage);
     return [UIImage imageWithCGImage:scaledImage];
 }
-void ProviderReleaseData (void *info, const void *data, size_t size){
+void LEProviderReleaseData (void *info, const void *data, size_t size){
     free((void*)data);
 }
 + (UIImage*)leImageBlackToTransparent:(UIImage*)image withRed:(CGFloat)red andGreen:(CGFloat)green andBlue:(CGFloat)blue{
@@ -127,7 +127,7 @@ void ProviderReleaseData (void *info, const void *data, size_t size){
         }
     }
     // 输出图片
-    CGDataProviderRef dataProvider = CGDataProviderCreateWithData(NULL, rgbImageBuf, bytesPerRow * imageHeight, ProviderReleaseData);
+    CGDataProviderRef dataProvider = CGDataProviderCreateWithData(NULL, rgbImageBuf, bytesPerRow * imageHeight, LEProviderReleaseData);
     CGImageRef imageRef = CGImageCreate(imageWidth, imageHeight, 8, 32, bytesPerRow, colorSpace,
                                         kCGImageAlphaLast | kCGBitmapByteOrder32Little, dataProvider,
                                         NULL, true, kCGRenderingIntentDefault);
