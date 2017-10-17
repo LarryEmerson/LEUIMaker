@@ -9,6 +9,9 @@
 #import "LEScanQRCode.h"
 #import <AVFoundation/AVFoundation.h>
 @interface LEScanQRCode() <AVCaptureMetadataOutputObjectsDelegate>
+@property (nonatomic) AVCaptureSession * session;
+/** 扫描支持的编码格式的数组 */
+@property (nonatomic, strong) NSMutableArray * metadataObjectTypes;
 @end
 
 @implementation LEScanQRCode{
@@ -23,7 +26,7 @@
     AVCaptureDevice * device;
     AVCaptureDeviceInput * input;
     AVCaptureMetadataOutput * output;
-    AVCaptureSession * session;
+    
     AVCaptureVideoPreviewLayer * preview;
     NSTimer *curTimer;
     
@@ -35,6 +38,18 @@
     UIView *curResultView;
     UILabel *curHelper;
 }
+- (NSMutableArray *)metadataObjectTypes{
+    if (!_metadataObjectTypes) {
+        _metadataObjectTypes = [NSMutableArray arrayWithObjects:AVMetadataObjectTypeAztecCode, AVMetadataObjectTypeCode128Code, AVMetadataObjectTypeCode39Code, AVMetadataObjectTypeCode39Mod43Code, AVMetadataObjectTypeCode93Code, AVMetadataObjectTypeEAN13Code, AVMetadataObjectTypeEAN8Code, AVMetadataObjectTypePDF417Code, AVMetadataObjectTypeQRCode, AVMetadataObjectTypeUPCECode, nil];
+        
+        // >= iOS 8
+        if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1) {
+            [_metadataObjectTypes addObjectsFromArray:@[AVMetadataObjectTypeInterleaved2of5Code, AVMetadataObjectTypeITF14Code, AVMetadataObjectTypeDataMatrixCode]];
+        }
+    }
+    
+    return _metadataObjectTypes;
+}
 -(void) leSetCustomizedResultView:(UIView *) view{
     if(curResultView){
         [curResultView removeFromSuperview];
@@ -44,12 +59,12 @@
     [curResultView setHidden:YES];
 }
 -(void) dealloc{
-    [session stopRunning];
+    [self.session stopRunning];
     device=nil;
     input=nil;
     output=nil;
     [preview removeFromSuperlayer];
-    session=nil;
+    self.session=nil;
 }
 -(void) leShowOrHideResultView:(BOOL) show{
     if(curResultView){
@@ -60,20 +75,24 @@
     NSString *stringValue;
     if (metadataObjects && [metadataObjects count] >0) {
         AVMetadataMachineReadableCodeObject * metadataObject = [metadataObjects objectAtIndex:0];
-        if([[metadataObject type] isEqualToString:AVMetadataObjectTypeQRCode]
-           ||[[metadataObject type] isEqualToString:AVMetadataObjectTypeEAN13Code]
-           ||[[metadataObject type] isEqualToString:AVMetadataObjectTypeEAN8Code]
-           ||[[metadataObject type] isEqualToString:AVMetadataObjectTypeCode128Code]
-           ){
+        BOOL found=NO;
+        for (NSInteger i=0; i<self.metadataObjectTypes.count; i++) {
+            AVMetadataObjectType type=[self.metadataObjectTypes objectAtIndex:i];
+            if([metadataObject type] == type){
+                found=YES;
+                break;
+            }
+        }
+        if(found){
             stringValue = metadataObject.stringValue;
         }
     }
     [self switchScanLine:NO];
-    [session stopRunning];
+    [self.session stopRunning];
     device=nil;
     input=nil;
     output=nil;
-    session=nil;
+    self.session=nil;
     if(stringValue){
         if(curDelegate&&[curDelegate respondsToSelector:@selector(leOnScannedQRCodeWithResult:)]){
             [curDelegate leOnScannedQRCodeWithResult:stringValue];
@@ -87,18 +106,18 @@
 }
 -(void) leAdditionalInits {
     defaultScanSize=LESCREEN_MIN_LENGTH*2.0/3;
-    scanSpaceH=LENavigationBarHeight*1.5;
+    scanSpaceH=LENavigationBarHeight+LEStatusBarHeight+LENavigationBarHeight+LEStatusBarHeight;
     scanSpaceW=(LESCREEN_MIN_LENGTH-defaultScanSize)/2;
     //
     UIColor *bgColor=[UIColor colorWithWhite:0.000 alpha:0.500];
     
-    UIView *viewTop     =[UIView new].leAddTo(curView.leSubViewContainer).leAnchor(LEI_TC).leEqualSuperViewWidth(1).leHeight(scanSpaceH).leBgColor(bgColor);
-    [UIView new].leAddTo(curView.leSubViewContainer).leAnchor(LEO_BL).leRelativeTo(viewTop).leWidth(scanSpaceW).leHeight(defaultScanSize).leBgColor(bgColor);
-    [UIView new].leAddTo(curView.leSubViewContainer).leAnchor(LEO_BR).leRelativeTo(viewTop).leWidth(scanSpaceW).leHeight(defaultScanSize).leBgColor(bgColor);
-    UIView *viewBottom  =[UIView new].leAddTo(curView.leSubViewContainer).leAnchor(LEI_BC).leEqualSuperViewWidth(1).leHeight(curView.leSubContainerH-defaultScanSize-scanSpaceH).leBgColor(bgColor);
+    UIView *viewTop     =[UIView new].leAddTo(curView).leAnchor(LEI_TC).leEqualSuperViewWidth(1).leTop(LEStatusBarHeight+LENavigationBarHeight).leHeight(scanSpaceH/2).leBgColor(bgColor);
+    [UIView new].leAddTo(curView).leAnchor(LEO_BL).leRelativeTo(viewTop).leWidth(scanSpaceW).leHeight(defaultScanSize).leBgColor(bgColor);
+    [UIView new].leAddTo(curView).leAnchor(LEO_BR).leRelativeTo(viewTop).leWidth(scanSpaceW).leHeight(defaultScanSize).leBgColor(bgColor);
+    UIView *viewBottom  =[UIView new].leAddTo(curView).leAnchor(LEI_BC).leEqualSuperViewWidth(1).leHeight(LESCREEN_HEIGHT-defaultScanSize-scanSpaceH).leBgColor(bgColor);
     
-    [UIImageView new].leAddTo(curView.leSubViewContainer).leAnchor(LEI_TC).leTop(scanSpaceH-1).leBgColor(LEColorClear).leImage([[LEUICommon sharedInstance].leQRCodeScanRect leStreched]).leWidth(defaultScanSize+3).leHeight(defaultScanSize+3);
-    scanLine=[UIImageView new].leAddTo(curView.leSubViewContainer).leAnchor(LEI_TC).leTop(scanSpaceH).leImage([LEUICommon sharedInstance].leQRCodeScanLine).leWidth(defaultScanSize-8);
+    [UIImageView new].leAddTo(curView).leAnchor(LEI_TC).leTop(scanSpaceH-1).leBgColor(LEColorClear).leImage([[LEUICommon sharedInstance].leQRCodeScanRect leStreched]).leWidth(defaultScanSize+3).leHeight(defaultScanSize+3);
+    scanLine=[UIImageView new].leAddTo(curView).leAnchor(LEI_TC).leTop(scanSpaceH).leImage([LEUICommon sharedInstance].leQRCodeScanLine).leWidth(defaultScanSize-8);
     
     curHelper=[UILabel new].leAddTo(viewBottom).leAnchor(LEI_TC).leTop(LENavigationBarHeight).leMaxWidth(LESCREEN_WIDTH-LENavigationBarHeight).leFont(LEFontML).leColor(LEColorWhite).leLine(0).leAlignment(NSTextAlignmentCenter).leText(@"将扫码框对准二维码，即可自动完成扫描");
     device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
@@ -106,20 +125,22 @@
     if(input){
         output = [[AVCaptureMetadataOutput alloc]init];
         [output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
-        session = [[AVCaptureSession alloc]init];
-        [session setSessionPreset:AVCaptureSessionPresetHigh];
-        if ([session canAddInput:input]) {
-            [session addInput:input];
+        self.session = [[AVCaptureSession alloc]init];
+        [self.session setSessionPreset:AVCaptureSessionPresetHigh];
+        if ([self.session canAddInput:input]) {
+            [self.session addInput:input];
         }
-        if ([session canAddOutput:output]) {
-            [session addOutput:output];
+        if ([self.session canAddOutput:output]) {
+            [self.session addOutput:output];
         }
-        output.metadataObjectTypes =@[AVMetadataObjectTypeQRCode,AVMetadataObjectTypeEAN13Code, AVMetadataObjectTypeEAN8Code, AVMetadataObjectTypeCode128Code];
-        preview =[AVCaptureVideoPreviewLayer layerWithSession:session];
+        preview =[AVCaptureVideoPreviewLayer layerWithSession:self.session];
         preview.videoGravity = AVLayerVideoGravityResizeAspectFill;
-        [preview setFrame:curView.leSubViewContainer.bounds];
-        [curView.leSubViewContainer.layer insertSublayer: preview atIndex:0];
-        [session startRunning];
+        [preview setFrame:curView.bounds];
+        [curView.layer insertSublayer: preview atIndex:0];
+        output.metadataObjectTypes =self.metadataObjectTypes;
+        CGRect scanCrop= CGRectMake(scanSpaceH/curView.leSubContainerH, scanSpaceW/LESCREEN_WIDTH, defaultScanSize/curView.leSubContainerH, defaultScanSize/LESCREEN_WIDTH);
+        output.rectOfInterest = scanCrop;
+        [self.session startRunning];
     }
     [self switchScanLine:YES];
 }
@@ -133,10 +154,10 @@
             [curTimer invalidate];
         }
         curTimer=[NSTimer scheduledTimerWithTimeInterval:0.01 target:self selector:@selector(onScanLineLogic) userInfo:nil repeats:YES];
-        [session startRunning];
+        [self.session startRunning];
     }else{
         [curTimer invalidate];
-        [session stopRunning];
+        [self.session stopRunning];
     }
 }
 -(void) onScanLineLogic {
@@ -150,35 +171,40 @@
 }
 -(void) leShowScanView{
     [self switchScanLine:YES];
-    [session stopRunning];
+    [self.session stopRunning];
     device=nil;
     input=nil;
     output=nil;
     [preview removeFromSuperlayer];
     preview=nil;
-    session=nil;
+    self.session=nil;
     device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     input = [AVCaptureDeviceInput deviceInputWithDevice:device error:nil];
     if(input){
         output = [[AVCaptureMetadataOutput alloc]init];
         [output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
-        session = [[AVCaptureSession alloc]init];
-        [session setSessionPreset:AVCaptureSessionPresetHigh];
-        if ([session canAddInput:input]) {
-            [session addInput:input];
+        
+        self.session = [[AVCaptureSession alloc]init];
+        [self.session setSessionPreset:AVCaptureSessionPresetHigh];
+        if ([self.session canAddInput:input]) {
+            [self.session addInput:input];
         }
-        if ([session canAddOutput:output]) {
-            [session addOutput:output];
+        if ([self.session canAddOutput:output]) {
+            [self.session addOutput:output];
         }
-        output.metadataObjectTypes =@[AVMetadataObjectTypeQRCode];
-        preview =[AVCaptureVideoPreviewLayer layerWithSession:session];
+        preview =[AVCaptureVideoPreviewLayer layerWithSession:self.session];
         preview.videoGravity = AVLayerVideoGravityResizeAspectFill;
-        preview.frame =curView.leSubViewContainer.bounds;
-        [curView.leSubViewContainer.layer insertSublayer: preview atIndex:0];
-        [session startRunning];
+        preview.frame =curView.bounds;
+        [curView.layer insertSublayer: preview atIndex:0];
+         
+        output.metadataObjectTypes =self.metadataObjectTypes;
+        
+        CGRect scanCrop=CGRectMake(scanSpaceH/curView.leSubContainerH, scanSpaceW/LESCREEN_WIDTH, defaultScanSize/curView.leSubContainerH, defaultScanSize/LESCREEN_WIDTH);
+        
+        output.rectOfInterest = scanCrop;
+        [self.session startRunning];
     }
 }
-
 -(__kindof LEScanQRCode *(^)(id<LEScanQRCodeDelegate> delegate)) leDelegate{
     return ^id(id<LEScanQRCodeDelegate> delegate){
         curDelegate=delegate;
