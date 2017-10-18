@@ -51,7 +51,7 @@
                                  AVMetadataObjectTypePDF417Code,
                                  AVMetadataObjectTypeAztecCode,
                                  AVMetadataObjectTypeUPCECode,
-                                 ] ;
+                                 ].mutableCopy ;
         
         // >= iOS 8
         if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1) {
