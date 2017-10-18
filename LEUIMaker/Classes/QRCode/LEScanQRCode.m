@@ -40,11 +40,28 @@
 }
 - (NSMutableArray *)metadataObjectTypes{
     if (!_metadataObjectTypes) {
-        _metadataObjectTypes = [NSMutableArray arrayWithObjects:AVMetadataObjectTypeAztecCode, AVMetadataObjectTypeCode128Code, AVMetadataObjectTypeCode39Code, AVMetadataObjectTypeCode39Mod43Code, AVMetadataObjectTypeCode93Code, AVMetadataObjectTypeEAN13Code, AVMetadataObjectTypeEAN8Code, AVMetadataObjectTypePDF417Code, AVMetadataObjectTypeQRCode, AVMetadataObjectTypeUPCECode, nil];
+        _metadataObjectTypes = @[
+                                 AVMetadataObjectTypeQRCode,
+                                 AVMetadataObjectTypeEAN13Code,
+                                 AVMetadataObjectTypeEAN8Code,
+                                 AVMetadataObjectTypeCode128Code,
+                                 AVMetadataObjectTypeCode39Code,
+                                 AVMetadataObjectTypeCode93Code,
+                                 AVMetadataObjectTypeCode39Mod43Code,
+                                 AVMetadataObjectTypePDF417Code,
+                                 AVMetadataObjectTypeAztecCode,
+                                 AVMetadataObjectTypeUPCECode,
+                                 ] ;
         
         // >= iOS 8
         if (floor(NSFoundationVersionNumber) > NSFoundationVersionNumber_iOS_7_1) {
-            [_metadataObjectTypes addObjectsFromArray:@[AVMetadataObjectTypeInterleaved2of5Code, AVMetadataObjectTypeITF14Code, AVMetadataObjectTypeDataMatrixCode]];
+            [_metadataObjectTypes addObjectsFromArray:
+                 @[
+                   AVMetadataObjectTypeInterleaved2of5Code,
+                   AVMetadataObjectTypeITF14Code,
+                   AVMetadataObjectTypeDataMatrixCode
+                   ]
+             ];
         }
     }
     
@@ -105,13 +122,14 @@
     }
 }
 -(void) leAdditionalInits {
-    defaultScanSize=LESCREEN_MIN_LENGTH*2.0/3;
-    scanSpaceH=LENavigationBarHeight+LEStatusBarHeight+LENavigationBarHeight+LEStatusBarHeight;
+    defaultScanSize=LESCREEN_MIN_LENGTH*2/3;
+    scanSpaceH=LENavigationBarHeight+LEStatusBarHeight;
+    scanSpaceH*=2;
     scanSpaceW=(LESCREEN_MIN_LENGTH-defaultScanSize)/2;
     //
     UIColor *bgColor=[UIColor colorWithWhite:0.000 alpha:0.500];
     
-    UIView *viewTop     =[UIView new].leAddTo(curView).leAnchor(LEI_TC).leEqualSuperViewWidth(1).leTop(LEStatusBarHeight+LENavigationBarHeight).leHeight(scanSpaceH/2).leBgColor(bgColor);
+    UIView *viewTop     =[UIView new].leAddTo(curView).leAnchor(LEI_TC).leEqualSuperViewWidth(1).leTop(scanSpaceH/2).leHeight(scanSpaceH/2).leBgColor(bgColor);
     [UIView new].leAddTo(curView).leAnchor(LEO_BL).leRelativeTo(viewTop).leWidth(scanSpaceW).leHeight(defaultScanSize).leBgColor(bgColor);
     [UIView new].leAddTo(curView).leAnchor(LEO_BR).leRelativeTo(viewTop).leWidth(scanSpaceW).leHeight(defaultScanSize).leBgColor(bgColor);
     UIView *viewBottom  =[UIView new].leAddTo(curView).leAnchor(LEI_BC).leEqualSuperViewWidth(1).leHeight(LESCREEN_HEIGHT-defaultScanSize-scanSpaceH).leBgColor(bgColor);
@@ -120,6 +138,9 @@
     scanLine=[UIImageView new].leAddTo(curView).leAnchor(LEI_TC).leTop(scanSpaceH).leImage([LEUICommon sharedInstance].leQRCodeScanLine).leWidth(defaultScanSize-8);
     
     curHelper=[UILabel new].leAddTo(viewBottom).leAnchor(LEI_TC).leTop(LENavigationBarHeight).leMaxWidth(LESCREEN_WIDTH-LENavigationBarHeight).leFont(LEFontML).leColor(LEColorWhite).leLine(0).leAlignment(NSTextAlignmentCenter).leText(@"将扫码框对准二维码，即可自动完成扫描");
+    if (TARGET_IPHONE_SIMULATOR) {
+        return;
+    }
     device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
     input = [AVCaptureDeviceInput deviceInputWithDevice:device error:nil];
     if(input){
@@ -133,14 +154,28 @@
         if ([self.session canAddOutput:output]) {
             [self.session addOutput:output];
         }
+        CGRect scanCrop= CGRectMake(scanSpaceH/LESCREEN_HEIGHT, scanSpaceW/LESCREEN_WIDTH, defaultScanSize/LESCREEN_HEIGHT, defaultScanSize/LESCREEN_WIDTH);
+        output.rectOfInterest = scanCrop;
+        output.metadataObjectTypes =self.metadataObjectTypes;
+//        output.rectOfInterest = LESCREEN_BOUNDS;
         preview =[AVCaptureVideoPreviewLayer layerWithSession:self.session];
         preview.videoGravity = AVLayerVideoGravityResizeAspectFill;
         [preview setFrame:curView.bounds];
         [curView.layer insertSublayer: preview atIndex:0];
-        output.metadataObjectTypes =self.metadataObjectTypes;
-        CGRect scanCrop= CGRectMake(scanSpaceH/curView.leSubContainerH, scanSpaceW/LESCREEN_WIDTH, defaultScanSize/curView.leSubContainerH, defaultScanSize/LESCREEN_WIDTH);
-        output.rectOfInterest = scanCrop;
-        [self.session startRunning];
+        AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+        if(authStatus ==AVAuthorizationStatusRestricted|| authStatus ==AVAuthorizationStatusDenied){
+            [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+                if (granted) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.session startRunning];
+                    });
+                } else {
+                    NSLog(@"无权限访问相机");
+                }
+            }];
+        }else{
+            [self.session startRunning];
+        }
     }
     [self switchScanLine:YES];
 }
@@ -199,9 +234,9 @@
          
         output.metadataObjectTypes =self.metadataObjectTypes;
         
-        CGRect scanCrop=CGRectMake(scanSpaceH/curView.leSubContainerH, scanSpaceW/LESCREEN_WIDTH, defaultScanSize/curView.leSubContainerH, defaultScanSize/LESCREEN_WIDTH);
-        
+        CGRect scanCrop=CGRectMake(scanSpaceH/LESCREEN_HEIGHT, scanSpaceW/LESCREEN_WIDTH, defaultScanSize/LESCREEN_HEIGHT, defaultScanSize/LESCREEN_WIDTH);
         output.rectOfInterest = scanCrop;
+//        output.rectOfInterest = LESCREEN_BOUNDS;
         [self.session startRunning];
     }
 }

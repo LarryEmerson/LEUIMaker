@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'LEUIMaker'
-  s.version          = '0.1.10'
+  s.version          = '0.1.11'
   s.summary          = 'LEUIMakerUI开发神器的宗旨是简洁、轻便、智能，虽不能实现约束的所有功能，但是98%的UI开发模块，LEUIMaker已完全能够满足。'
   s.homepage         = 'https://github.com/LarryEmerson/LEUIMaker'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
