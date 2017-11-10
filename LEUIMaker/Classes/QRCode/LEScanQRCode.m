@@ -37,6 +37,7 @@
     //
     UIView *curResultView;
     UILabel *curHelper;
+    UILabel *loadingCamera;;
 }
 - (NSMutableArray *)metadataObjectTypes{
     if (!_metadataObjectTypes) {
@@ -81,6 +82,7 @@
     input=nil;
     output=nil;
     [preview removeFromSuperlayer];
+    preview=nil;
     self.session=nil;
 }
 -(void) leShowOrHideResultView:(BOOL) show{
@@ -122,27 +124,21 @@
     }
 }
 -(void) leAdditionalInits {
+    [curView setBackgroundColor:[UIColor darkGrayColor]];
     defaultScanSize=LESCREEN_MIN_LENGTH*2/3;
     scanSpaceH=LENavigationBarHeight+LEStatusBarHeight;
     scanSpaceH*=2;
     scanSpaceW=(LESCREEN_MIN_LENGTH-defaultScanSize)/2;
     //
-    UIColor *bgColor=[UIColor colorWithWhite:0.000 alpha:0.500];
     
-    UIView *viewTop     =[UIView new].leAddTo(curView).leAnchor(LEI_TC).leEqualSuperViewWidth(1).leTop(scanSpaceH/2).leHeight(scanSpaceH/2).leBgColor(bgColor);
-    [UIView new].leAddTo(curView).leAnchor(LEO_BL).leRelativeTo(viewTop).leWidth(scanSpaceW).leHeight(defaultScanSize).leBgColor(bgColor);
-    [UIView new].leAddTo(curView).leAnchor(LEO_BR).leRelativeTo(viewTop).leWidth(scanSpaceW).leHeight(defaultScanSize).leBgColor(bgColor);
-    UIView *viewBottom  =[UIView new].leAddTo(curView).leAnchor(LEI_BC).leEqualSuperViewWidth(1).leHeight(LESCREEN_HEIGHT-defaultScanSize-scanSpaceH).leBgColor(bgColor);
-    
-    [UIImageView new].leAddTo(curView).leAnchor(LEI_TC).leTop(scanSpaceH-1).leBgColor(LEColorClear).leImage([[LEUICommon sharedInstance].leQRCodeScanRect leStreched]).leWidth(defaultScanSize+3).leHeight(defaultScanSize+3);
-    scanLine=[UIImageView new].leAddTo(curView).leAnchor(LEI_TC).leTop(scanSpaceH).leImage([LEUICommon sharedInstance].leQRCodeScanLine).leWidth(defaultScanSize-8);
-    
-    curHelper=[UILabel new].leAddTo(viewBottom).leAnchor(LEI_TC).leTop(LENavigationBarHeight).leMaxWidth(LESCREEN_WIDTH-LENavigationBarHeight).leFont(LEFontML).leColor(LEColorWhite).leLine(0).leAlignment(NSTextAlignmentCenter).leText(@"将扫码框对准二维码，即可自动完成扫描");
     if (TARGET_IPHONE_SIMULATOR) {
         return;
     }
+    dispatch_async(dispatch_get_main_queue(), ^{
+    NSError *error = nil;
     device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    input = [AVCaptureDeviceInput deviceInputWithDevice:device error:nil];
+    input = [AVCaptureDeviceInput deviceInputWithDevice:device error:&error];
+    NSLog(@"Error: %@", error);
     if(input){
         output = [[AVCaptureMetadataOutput alloc]init];
         [output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
@@ -161,13 +157,15 @@
         preview =[AVCaptureVideoPreviewLayer layerWithSession:self.session];
         preview.videoGravity = AVLayerVideoGravityResizeAspectFill;
         [preview setFrame:curView.bounds];
-        [curView.layer insertSublayer: preview atIndex:0];
+//        [curView.layer insertSublayer: preview atIndex:0];
+        [curView.leViewContainer.layer addSublayer:preview];
         AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
         if(authStatus ==AVAuthorizationStatusRestricted|| authStatus ==AVAuthorizationStatusDenied){
             [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
                 if (granted) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.session startRunning];
+                        [loadingCamera setHidden:YES];
                     });
                 } else {
                     NSLog(@"无权限访问相机");
@@ -175,8 +173,21 @@
             }];
         }else{
             [self.session startRunning];
+            [loadingCamera setHidden:YES];
         }
     }
+    });
+    UIColor *bgColor=[UIColor colorWithWhite:0.000 alpha:0.500];
+    
+    UIView *viewTop     =[UIView new].leAddTo(curView).leAnchor(LEI_TC).leEqualSuperViewWidth(1).leTop(scanSpaceH/2).leHeight(scanSpaceH/2).leBgColor(bgColor);
+    [UIView new].leAddTo(curView).leAnchor(LEO_BL).leRelativeTo(viewTop).leWidth(scanSpaceW).leHeight(defaultScanSize).leBgColor(bgColor);
+    [UIView new].leAddTo(curView).leAnchor(LEO_BR).leRelativeTo(viewTop).leWidth(scanSpaceW).leHeight(defaultScanSize).leBgColor(bgColor);
+    UIView *viewBottom  =[UIView new].leAddTo(curView).leAnchor(LEI_BC).leEqualSuperViewWidth(1).leHeight(LESCREEN_HEIGHT-defaultScanSize-scanSpaceH).leBgColor(bgColor);
+    loadingCamera=[UILabel new].leAddTo(curView).leAnchor(LEI_TC).leTop(scanSpaceH+defaultScanSize/2-10).leFont(LEFontML).leColor(LEColorWhite).leLine(0).leAlignment(NSTextAlignmentCenter).leText(@"相机加载中...");
+    [UIImageView new].leAddTo(curView).leAnchor(LEI_TC).leTop(scanSpaceH-1).leBgColor(LEColorClear).leImage([[LEUICommon sharedInstance].leQRCodeScanRect leStreched]).leWidth(defaultScanSize+3).leHeight(defaultScanSize+3);
+    scanLine=[UIImageView new].leAddTo(curView).leAnchor(LEI_TC).leTop(scanSpaceH).leImage([LEUICommon sharedInstance].leQRCodeScanLine).leWidth(defaultScanSize-8);
+    
+    curHelper=[UILabel new].leAddTo(viewBottom).leAnchor(LEI_TC).leTop(LENavigationBarHeight).leMaxWidth(LESCREEN_WIDTH-LENavigationBarHeight).leFont(LEFontML).leColor(LEColorWhite).leLine(0).leAlignment(NSTextAlignmentCenter).leText(@"将扫码框对准二维码，即可自动完成扫描");
     [self switchScanLine:YES];
 }
 
