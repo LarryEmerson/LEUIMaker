@@ -10,6 +10,10 @@ LEUIFramework与LEUIFrameworkExtra的融合与升级，使用更简单、功能�
 * AFNetworking
 
 #### 项目结构
+* LineChart 线形图 
+  * ![](https://raw.githubusercontent.com/LarryEmerson/LEAllFrameworksGif/master/LELineChart_LEUIMaker.gif)
+  * 可自定义Tooltip： 背景色、文字颜色、文字字号、偏移量、size（如果为CGSizeZero 则Tooltip的大小会自动计算，否则为设定的大小）、文字四周的边间距、圆角
+  * 可自定义Chart 四边距设置（left为左侧Y轴的宽度，top为顶部间距，right为右侧间距，bottom为底部X轴高度）、曲线宽度、颜色 、曲线节点外描边宽度 、曲线节点外描边颜色、曲线节点半径 、曲线节点颜色 、曲线平滑度0~1 、行数：0-自动根据数据源计算行数，N-手动设定行数 、曲线背景格子宽度 、曲线格子背景颜色 、曲线格子线条颜色 、曲线格子线条宽度 、无数据的提示文字 、X轴线条颜色 、X轴线条文字颜色 、X轴文字偏移量 、X轴文字字号 、X轴线条宽度 、Y轴线条颜色 、Y轴文字颜色 、Y轴文字偏移量 、Y轴文字字号、Y轴线条宽度 、Y轴文字浮点数小数位 、X轴自定义类名 、Y轴自定义类名 
 * LEUICommon UI常量及基本设定（下方Foundation的补充）
   * 定义颜色常量：常用颜色、文字颜色组、背景颜色组、分割线颜色组、遮盖颜色组
   * 定义大小及间距：系列组件间距、系列行间距、系列头像大小
