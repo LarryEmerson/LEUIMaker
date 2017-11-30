@@ -82,7 +82,7 @@
     navigationTitles=@[@"点我",@"点我-测试",@"点我-测试导航栏",@"点我-测试导航栏标题文字",@"点我-测试导航栏标题文字的宽度",@"点我-测试导航栏标题文字的宽度变动"];
     demoClassnames=@[
 //                     @{@"classname":@"TestLERequest.h", @"text":@"测试TestWKWebview"},
-                     
+                     @{@"classname":@"TestLineChart", @"text":@"测试TestLineChart"},
                      @{@"classname":@"TestLERequest", @"text":@"测试LERequest 网络请求"},
                      @{@"classname":@"TestSqlite3", @"text":@"测试TestSqlite3"},
                      @{@"classname":@"TestImagePreview", @"text":@"测试TestImagePreview"},
@@ -108,6 +108,9 @@
     [curList leOnRefreshedWithData:[@[] mutableCopy]];
 //    [curList setFd_debugLogEnabled:YES];
     [self leOnRefreshData];
+    //TODO
+    [self leOnCellEventWithInfo:@{LEKeyIndex:[NSIndexPath indexPathForRow:0 inSection:0]}];
+//    [self leOnCellEventWithInfo:@{LEKeyIndex:[NSIndexPath indexPathForRow:1 inSection:0]}];
 }
 -(void) onTestNavigation{
     naviClick%=navigationTitles.count;

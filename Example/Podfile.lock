@@ -18,13 +18,13 @@ PODS:
     - FMDB/standard (= 2.7.2)
   - FMDB/standard (2.7.2)
   - LEFoundation (0.1.9)
-  - LEUIMaker (0.1.7):
+  - LEUIMaker (0.1.14):
     - AFNetworking
     - FMDB
     - LEFoundation
-  - SDWebImage (4.0.0):
-    - SDWebImage/Core (= 4.0.0)
-  - SDWebImage/Core (4.0.0)
+  - SDWebImage (4.1.2):
+    - SDWebImage/Core (= 4.1.2)
+  - SDWebImage/Core (4.1.2)
 
 DEPENDENCIES:
   - LEUIMaker (from `../`)
@@ -32,15 +32,15 @@ DEPENDENCIES:
 
 EXTERNAL SOURCES:
   LEUIMaker:
-    :path: "../"
+    :path: ../
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
   FMDB: 6198a90e7b6900cfc046e6bc0ef6ebb7be9236aa
   LEFoundation: 854f466d03ab18f3b40251bb629105ff2f8843ce
-  LEUIMaker: 5ff39303b4aea07106a912ad78c4d825ebb866fd
-  SDWebImage: 76a6348bdc74eb5a55dd08a091ef298e56b55e41
+  LEUIMaker: b77495be3dbfeebcf87295b0aeac214a7599e519
+  SDWebImage: cb6f9f266a9977741efcbc21e618e8be3734c774
 
 PODFILE CHECKSUM: 3ab38e717be664eb22119304920dbb5bf518a943
 
-COCOAPODS: 1.2.1
+COCOAPODS: 1.4.0.beta.1

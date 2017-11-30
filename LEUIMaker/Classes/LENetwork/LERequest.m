@@ -108,15 +108,12 @@
     return [NSString stringWithFormat:@"%@%@/%@",self.host, self.api, self.uri];
 }
 -(NSString *) leGetKey{
-    NSString *key = nil;
-    if(self.type == LERequestTypeGet || self.type == LERequestTypeHead){
-        key = @"";
-        if(self.parameter&&![self.parameter isKindOfClass:[NSString class]]){
-            key=[self.parameter leObjToJSONString];
-        }
-        key = [NSString stringWithFormat:@"%@%@",self.leGetURL,key];
-        key = LERequestManager.leGetMd5(key);
+    NSString *key = @"";
+    if(self.parameter&&![self.parameter isKindOfClass:[NSString class]]){
+    key=[self.parameter leObjToJSONString];
     }
+    key = [NSString stringWithFormat:@"%@%@",self.leGetURL,key];
+    key = LERequestManager.leGetMd5(key);
     return key;
 }
 @end

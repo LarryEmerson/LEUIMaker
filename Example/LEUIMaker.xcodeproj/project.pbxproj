@@ -35,6 +35,7 @@
 		80291C5F1DFA5CF4001A6861 /* emoji_icon_travel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 80291C461DFA5CF4001A6861 /* emoji_icon_travel@2x.png */; };
 		80291C601DFA5CF4001A6861 /* emoji_icon_travel@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 80291C471DFA5CF4001A6861 /* emoji_icon_travel@3x.png */; };
 		803AB2B81E484A0F00D24130 /* TestSqlite3.m in Sources */ = {isa = PBXBuildFile; fileRef = 803AB2B71E484A0F00D24130 /* TestSqlite3.m */; };
+		805CB5F61FCBFD610013DC4C /* TestLineChart.m in Sources */ = {isa = PBXBuildFile; fileRef = 805CB5F51FCBFD610013DC4C /* TestLineChart.m */; };
 		808DE63C1E20E2E6004CE630 /* TestImageFramework.m in Sources */ = {isa = PBXBuildFile; fileRef = 808DE63B1E20E2E6004CE630 /* TestImageFramework.m */; };
 		808DE6461E2321A4004CE630 /* TestConfigurableList.m in Sources */ = {isa = PBXBuildFile; fileRef = 808DE6451E2321A4004CE630 /* TestConfigurableList.m */; };
 		808FABE51DF2B39A00B7A640 /* TestLayoutFramework.m in Sources */ = {isa = PBXBuildFile; fileRef = 808FABE41DF2B39A00B7A640 /* TestLayoutFramework.m */; };
@@ -92,6 +93,8 @@
 		80291C471DFA5CF4001A6861 /* emoji_icon_travel@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "emoji_icon_travel@3x.png"; sourceTree = "<group>"; };
 		803AB2B61E484A0F00D24130 /* TestSqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestSqlite3.h; sourceTree = "<group>"; };
 		803AB2B71E484A0F00D24130 /* TestSqlite3.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestSqlite3.m; sourceTree = "<group>"; };
+		805CB5F41FCBFD610013DC4C /* TestLineChart.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TestLineChart.h; sourceTree = "<group>"; };
+		805CB5F51FCBFD610013DC4C /* TestLineChart.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TestLineChart.m; sourceTree = "<group>"; };
 		808DE63A1E20E2E6004CE630 /* TestImageFramework.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestImageFramework.h; sourceTree = "<group>"; };
 		808DE63B1E20E2E6004CE630 /* TestImageFramework.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestImageFramework.m; sourceTree = "<group>"; };
 		808DE6441E2321A4004CE630 /* TestConfigurableList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestConfigurableList.h; sourceTree = "<group>"; };
@@ -227,9 +230,19 @@
 			path = Res;
 			sourceTree = "<group>";
 		};
+		805CB5F01FCBE6C10013DC4C /* Suspending */ = {
+			isa = PBXGroup;
+			children = (
+				805CB5F41FCBFD610013DC4C /* TestLineChart.h */,
+				805CB5F51FCBFD610013DC4C /* TestLineChart.m */,
+			);
+			path = Suspending;
+			sourceTree = "<group>";
+		};
 		808FABE21DF2B36E00B7A640 /* Demos */ = {
 			isa = PBXGroup;
 			children = (
+				805CB5F01FCBE6C10013DC4C /* Suspending */,
 				8021BF9A1EAA068900D1FE65 /* TestLERequest.h */,
 				8021BF9B1EAA068900D1FE65 /* TestLERequest.m */,
 				803AB2B61E484A0F00D24130 /* TestSqlite3.h */,
@@ -401,13 +414,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LEUIMaker_Test-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4F7B2AF3EBFEAD978E28A366 /* [CP] Embed Pods Frameworks */ = {
@@ -416,9 +432,20 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-LEUIMaker_Test/Pods-LEUIMaker_Test-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
+				"${BUILT_PRODUCTS_DIR}/FMDB/FMDB.framework",
+				"${BUILT_PRODUCTS_DIR}/LEFoundation/LEFoundation.framework",
+				"${BUILT_PRODUCTS_DIR}/LEUIMaker/LEUIMaker.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FMDB.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LEFoundation.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LEUIMaker.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -462,6 +489,7 @@
 				8021BF9C1EAA068900D1FE65 /* TestLERequest.m in Sources */,
 				80E707E21DFE80B9005CCB8D /* TestEmoji.m in Sources */,
 				80959F1D1E2636DE00D11990 /* TestBanner.m in Sources */,
+				805CB5F61FCBFD610013DC4C /* TestLineChart.m in Sources */,
 				80EC74C01DEBCF1E000DF15F /* main.m in Sources */,
 				80923B8B1E0A596B00C26AE5 /* TestImagePicker.m in Sources */,
 				80959F2F1E27521800D11990 /* TestImagePreview.m in Sources */,

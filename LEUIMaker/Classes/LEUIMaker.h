@@ -28,3 +28,4 @@
 #import "LEDataManager.h"
 #import "LERequest.h"
 #import "LEResumeBrokenDownload.h"
+#import "LELineChart.h"

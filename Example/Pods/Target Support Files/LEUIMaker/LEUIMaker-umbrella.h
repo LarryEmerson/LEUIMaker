@@ -11,6 +11,7 @@
 #endif
 
 #import "LEBottomTabbar.h"
+#import "LELineChart.h"
 #import "LEUIFoundation.h"
 #import "LEHUD.h"
 #import "LEImageCropper.h"
