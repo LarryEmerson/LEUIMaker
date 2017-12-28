@@ -67,6 +67,12 @@ typedef void(^LineChartBlock)(id data);
 /** Chart 曲线格子线条宽度 */
 @property (nonatomic) float gridLineWidth;
 /** Chart 无数据的提示文字 */
+@property (nonatomic) float noDataTextFontsize;
+/** Chart 无数据的提示文字 */
+@property (nonatomic) UIColor *noDataTextColor;
+/** Chart 无数据的提示文字 */
+@property (nonatomic) float noDataTextWidth;
+/** Chart 无数据的提示文字 */
 @property (nonatomic) NSString *noDataText;
 /** Chart X轴线条颜色 */
 @property (nonatomic) UIColor *tickLineColorX;

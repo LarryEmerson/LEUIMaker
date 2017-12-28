@@ -33,8 +33,8 @@
 -(void) leSetData:(id) data {
     curData=data;
     self.label=self.label.leText([curData objectForKey:KeyLabel]);
-    [self.label leUpdateLayout];
-} 
+//    [self.label leUpdateLayout];
+}
 @end
 @implementation ChartYaxisView{
 }
@@ -53,7 +53,7 @@
     float value=(rows==0?max:(max-min)*index/rows);
     NSString *format=[NSString stringWithFormat:@"%%.%df",precision]; 
     self.label=self.label.leText(min==max?(index==rows?[NSString stringWithFormat:@"%.0f",max]:@""):[NSString stringWithFormat:format,value]);
-    [self.label leUpdateLayout];
+//    [self.label leUpdateLayout];
 }
 @end
 @interface TooltipSettings()
@@ -102,15 +102,14 @@
         label=label.leMaxWidth(settings.size.width-settings.margins.left-settings.margins.right).leLine(1);
     }
 }
--(void) setText:(NSString *) text Point:(CGPoint) point Start:(BOOL) start End:(BOOL) end Data:(id) data Block:(LineChartBlock) block{
+-(void) setText:(NSString *) text Point:(CGPoint) point Start:(BOOL) start Data:(id) data Block:(LineChartBlock) block{
     self.block = block;
     curData=data;
     [anchor setFrame:CGRectMake(point.x, point.y, 0, 0)];
-    self.leAnchor(point.y*2>curSettings.chartHeight?(start?LEO_2:(end?LEO_1:LEO_TC)):(start?LEO_4:(end?LEO_3:LEO_BC)))
+    self.leAnchor(point.y*2>curSettings.chartHeight?(start?LEO_2:LEO_TC):(start?LEO_4:LEO_BC))
     .leTop(point.y*2>curSettings.chartHeight?0:curSettings.offset)
     .leBottom(point.y*2>curSettings.chartHeight?curSettings.offset:0)
-    .leLeft(start?curSettings.offset:0)
-    .leRight(end?curSettings.offset:0);
+    .leLeft(start?curSettings.offset:0);
     label=label.leText(text);
 }
 @end
@@ -144,7 +143,6 @@
     minValue=min;
     maxValue=max;
     chartHeight=height;
-    self.leWidth(self.chartSettings.gridWidth*dataSource.count+self.chartSettings.dotRadius*2);
     needsDisplay=YES;
     [self setNeedsDisplay];
     [self drawTooltip];
@@ -169,7 +167,7 @@
                 [tooltips addObject:view];
             }
             [view setSettings:self.chartSettings.tooltipSettings];
-            [view setText:[dic objectForKey:KeyValue] Point:[[points objectAtIndex:i] CGPointValue] Start:i==0 End:i==points.count-1 Data:[dataSource objectAtIndex:i] Block:^(id data) {
+            [view setText:[dic objectForKey:KeyValue] Point:[[points objectAtIndex:i] CGPointValue] Start:i==0 Data:[dataSource objectAtIndex:i] Block:^(id data) {
                 weakself.block(data);
             }];
         }else if(i<max){
@@ -212,6 +210,11 @@
         CGPoint point=[[pointsArray objectAtIndex:i+1] CGPointValue];
         if (i == 0) {
             CGContextMoveToPoint(context, point.x, point.y);
+            CGContextSetStrokeColorWithColor(context, self.chartSettings.dotOutlineColor.CGColor);
+            CGContextSetFillColorWithColor(context, self.chartSettings.dotColor.CGColor);//填充颜色
+            CGContextSetLineWidth(context, self.chartSettings.dotOutlineWidth);//线的宽度
+            CGContextAddArc(context, point.x, point.y, self.chartSettings.dotRadius, 0, M_PI_2, 0);
+            CGContextDrawPath(context, kCGPathFillStroke); //绘制路径加填充
         }
         CGContextSetStrokeColorWithColor(context, self.chartSettings.dotOutlineColor.CGColor);
         CGContextSetFillColorWithColor(context, self.chartSettings.dotColor.CGColor);//填充颜色
@@ -356,6 +359,9 @@
     self.chartSettings.gridLineWidth=0.5;
     
     self.chartSettings.noDataText=@"暂无数据";
+    self.chartSettings.noDataTextFontsize=14;
+    self.chartSettings.noDataTextColor=LEColorRed;
+    self.chartSettings.noDataTextWidth=0;
     
     self.chartSettings.tickLineColorX=LEColorBlack;
     self.chartSettings.tickLineTextColorX=LEColorText;
@@ -387,9 +393,11 @@
         gridView=gridView.leLeft(self.chartSettings.scrollviewMargins.left);
         chartView=chartView.leLeft(self.chartSettings.scrollviewMargins.left);
         [chartView setSettings:self.chartSettings];
-        y_axis=y_axis.leWidth(self.chartSettings.scrollviewMargins.left).leBgColor(self.chartSettings.gridBGColor).leTop(scrollviewMargins.top); 
+        y_axis=y_axis.leWidth(self.chartSettings.scrollviewMargins.left)
+        .leHeight(0)
+        .leBgColor(self.chartSettings.gridBGColor).leTop(scrollviewMargins.top);
         y_axisSplitline=y_axisSplitline.leWidth(self.chartSettings.tickLineWidthY).leBgColor(self.chartSettings.tickLineColorY);
-        noDataLabel=noDataLabel.leText(self.chartSettings.noDataText);
+        noDataLabel=noDataLabel.leFont(LEFont(self.chartSettings.noDataTextFontsize)).leMaxWidth(self.chartSettings.noDataTextWidth).leText(self.chartSettings.noDataText).leColor(self.chartSettings.noDataTextColor);
     }else{
         chartScrollView=[UIScrollView new].leAddTo(self).leMargins(scrollviewMargins);
         [chartScrollView setShowsHorizontalScrollIndicator:NO];
@@ -399,8 +407,10 @@
         chartView=[LELineChartView new].leAddTo(chartScrollView).leAnchor(LEI_TL).leTop(0).leLeft(self.chartSettings.scrollviewMargins.left);
         [chartView setSettings:self.chartSettings];
         y_axis=[UIView new].leAddTo(self).leAnchor(LEI_TL).leWidth(self.chartSettings.scrollviewMargins.left).leTop(scrollviewMargins.top).leBgColor(self.chartSettings.gridBGColor);
-        y_axisSplitline=[UIView new].leAddTo(y_axis).leAnchor(LEI_RC).leEqualSuperViewHeight(1).leWidth(self.chartSettings.tickLineWidthY).leBgColor(self.chartSettings.tickLineColorY);
-        noDataLabel=[UILabel new].leAddTo(self).leAnchor(LEI_C).leFont(LEFont(14)).leColor(self.chartSettings.lineColor).leLine(1).leAlignment(NSTextAlignmentCenter).leText(self.chartSettings.noDataText);
+        y_axisSplitline=[UIView new].leAddTo(y_axis)
+        .leAnchor(LEI_TR)
+        .leEqualSuperViewHeight(1).leWidth(self.chartSettings.tickLineWidthY).leBgColor(self.chartSettings.tickLineColorY);
+        noDataLabel=[UILabel new].leAddTo(self).leAnchor(LEI_C).leFont(LEFont(self.chartSettings.noDataTextFontsize)).leMaxWidth(self.chartSettings.noDataTextWidth).leColor(self.chartSettings.noDataTextColor).leLine(0).leAlignment(NSTextAlignmentCenter).leText(self.chartSettings.noDataText);
     }
     [noDataLabel setHidden:YES];
     chartWidth=chartScrollView.bounds.size.width;
@@ -453,18 +463,18 @@
         [muta addObject:[NSValue valueWithCGPoint:CGPointMake(self.chartSettings.gridWidth*curDataSource.count, chartHeight/2)]];
     }
     [chartView setPoints:muta DataSource:curDataSource Min:minValue Max:maxValue Height:chartHeight];
-    chartView=chartView.leWidth(self.chartSettings.gridWidth*(curDataSource.count==0?0:curDataSource.count-1)+self.chartSettings.dotRadius*2+self.chartSettings.gridWidth/2)
-    .leHeight(chartHeight+self.chartSettings.dotRadius*2+self.chartSettings.tickLineWidthX*2);
-    y_axis=y_axis.leHeight(chartHeight+self.chartSettings.dotRadius*2+self.chartSettings.tickLineWidthX*2);
+    float totalChartViewWidth=self.chartSettings.gridWidth*(curDataSource.count==0?0:curDataSource.count-1)+self.chartSettings.dotRadius*2+self.chartSettings.gridWidth/2;
+    chartView=chartView.leWidth(MAX(totalChartViewWidth, chartScrollView.bounds.size.width)).leHeight(chartHeight+self.chartSettings.dotRadius*2+self.chartSettings.tickLineWidthX*2);
+    y_axis=y_axis.leHeight(chartView.bounds.size.height);
+    y_axisSplitline=y_axisSplitline.leWidth(self.chartSettings.tickLineWidthY).leBgColor(self.chartSettings.tickLineColorY);
+    float totalGridWidth=self.chartSettings.gridWidth*(curDataSource.count==0?0:curDataSource.count-1)+self.chartSettings.dotRadius*2+self.chartSettings.gridWidth/2;
+    totalGridWidth=MAX(totalGridWidth, chartScrollView.bounds.size.width);
+    gridView=gridView.leWidth(totalGridWidth).leHeight(chartHeight+self.chartSettings.dotRadius*2+self.chartSettings.tickLineWidthX*2);
     [gridView setSettings:self.chartSettings Size:curDataSource.count];
-    gridView=gridView.leWidth(self.chartSettings.gridWidth*(curDataSource.count==0?0:curDataSource.count-1)+self.chartSettings.dotRadius*2+self.chartSettings.gridWidth/2)
-    .leHeight(chartHeight+self.chartSettings.dotRadius*2+self.chartSettings.tickLineWidthX*2);
-    [chartScrollView setContentSize:CGSizeMake(self.chartSettings.scrollviewMargins.left+chartView.bounds.size.width, chartHeight)];
+    [chartScrollView setContentSize:CGSizeMake(MAX(self.chartSettings.scrollviewMargins.left+totalChartViewWidth, chartScrollView.bounds.size.width), chartHeight)];
     [self displayXaxis];
     [self displayYaxis];
     chartView.block = self.block;
-    if(maxValue!=0){
-    }
 }
 -(void) displayXaxis{
     NSInteger max=MAX(curDataSource.count, x_axisViews.count);
@@ -478,8 +488,7 @@
                 view=((ChartXaxisView *)[[self.chartSettings.xAxisClassname leGetInstanceFromClassName]init]).leAddTo(chartScrollView).leAnchor(LEI_BL);
                 [x_axisViews addObject:view];
             }
-            view.leWidth(self.chartSettings.gridWidth).leHeight(self.chartSettings.scrollviewMargins.bottom-self.chartSettings.dotRadius*4-self.chartSettings.tickLineWidthX)
-            .leLeft(self.chartSettings.scrollviewMargins.left+ (i-0.5)*self.chartSettings.gridWidth);
+            view=view.leWidth(self.chartSettings.gridWidth).leHeight(self.chartSettings.scrollviewMargins.bottom-self.chartSettings.dotRadius*2-self.chartSettings.tickLineWidthX*2).leLeft(self.chartSettings.scrollviewMargins.left+ (i-0.5)*self.chartSettings.gridWidth);
             [view setTextColor:self.chartSettings.tickLineTextColorX Offset:self.chartSettings.tickLineOffsetX FontSize:self.chartSettings.tickLineFontsizeX Block:self.block];
             [view leSetData:[curDataSource objectAtIndex:i]];
         }else if(i<max){
@@ -499,14 +508,15 @@
                 view=((ChartYaxisView *)[[self.chartSettings.yAxisClassname leGetInstanceFromClassName]init]).leAddTo(y_axis).leAnchor(LEI_TC);
                 [y_axisViews addObject:view];
             }
-            view=view.leWidth(self.chartSettings.scrollviewMargins.left).leHeight(self.chartSettings.gridHeight)
-            .leTop((i-0.5)*self.chartSettings.gridHeight+self.chartSettings.dotRadius);
+            view=view.leWidth(self.chartSettings.scrollviewMargins.left).leHeight(self.chartSettings.gridHeight).leTop((i-0.5)*self.chartSettings.gridHeight+self.chartSettings.dotRadius);
             [view setTextColor:self.chartSettings.tickLineTextColorY Offset:self.chartSettings.tickLineOffsetY FontSize:self.chartSettings.tickLineFontsizeY];
             [view leSetMin:minValue Max:maxValue Index:self.chartSettings.rows-i Rows:self.chartSettings.rows Precision:self.chartSettings.yAxisPrecision];
         }else if(i<max){
             [[y_axisViews objectAtIndex:i] setHidden:YES];
         }
     }
-    [y_axis leUpdateLayout];
+    y_axis=y_axis.leHeight(chartView.bounds.size.height);
+    y_axisSplitline=y_axisSplitline.leWidth(self.chartSettings.tickLineWidthY);
+//    [y_axis leUpdateLayout];
 }
 @end

@@ -10,7 +10,7 @@
 #import <LEFoundation/LEFoundation.h>
 #pragma mark Screen
 /** 状态栏高度 */
-#define LEStatusBarHeight       20
+#define LEStatusBarHeight       (((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) && LESCREEN_MAX_LENGTH == 812.0)?44:20)
 /** 导航栏高度 */
 #define LENavigationBarHeight   44
 /** 底部tabbar高度 */
