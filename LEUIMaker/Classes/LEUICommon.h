@@ -63,12 +63,12 @@
 #define LEAvatarSpace       20
 #pragma mark Font
 
-#define LEFontSizeLL    (9.5*[[UIScreen mainScreen] scale])
-#define LEFontSizeLS    (9  *[[UIScreen mainScreen] scale])
-#define LEFontSizeML    (8  *[[UIScreen mainScreen] scale])
-#define LEFontSizeMS    (7  *[[UIScreen mainScreen] scale])
-#define LEFontSizeSL    (6  *[[UIScreen mainScreen] scale])
-#define LEFontSizeSS    (5.5*[[UIScreen mainScreen] scale])
+#define LEFontSizeLL        20
+#define LEFontSizeLS        18
+#define LEFontSizeML        16
+#define LEFontSizeMS        14
+#define LEFontSizeSL        12
+#define LEFontSizeSS        11
 /** normal font 9.5 */
 #define LEFontLL        LEFont(LEFontSizeLL)
 /** normal font 9 */
@@ -94,16 +94,7 @@
 /** normal font 5.5 */
 #define LEBoldFontSS    LEBoldFont(LEFontSizeSS)
 
-#pragma mark DeviceInfo
-#pragma mark DeviceInfo
-#define LEIS_IPAD (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-#define LEIS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 
-#define LEIS_IPHONE_4_OR_LESS (IS_IPHONE && SCREEN_MAX_LENGTH < 568.0)
-#define LEIS_IPHONE_5 (LEIS_IPHONE && LESCREEN_MAX_LENGTH == 568.0)
-#define LEIS_IPHONE_6 (LEIS_IPHONE && LESCREEN_MAX_LENGTH == 667.0)
-#define LEIS_IPHONE_6P (LEIS_IPHONE && LESCREEN_MAX_LENGTH == 736.0)
-#define LEIS_IPHONE_X (LEIS_IPHONE && LESCREEN_MAX_LENGTH == 812.0)
 #pragma mark List
 /** 列表高度 64 */
 #define LECellHL 64.0

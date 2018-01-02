@@ -5,26 +5,31 @@
 //  Created by emerson larry on 2016/11/29.
 //
 //
-
-#import <Foundation/Foundation.h>
 #import <LEFoundation/LEFoundation.h>
-#pragma mark Screen
+#pragma mark DeviceInfo
+#define LESCREEN_BOUNDS         ([[UIScreen mainScreen] bounds])
+#define LESCREEN_SCALE          ([[UIScreen mainScreen] scale])
+#define LESCREEN_WIDTH          (LESCREEN_BOUNDS.size.width)
+#define LESCREEN_HEIGHT         (LESCREEN_BOUNDS.size.height)
+#define LESCREEN_SCALE_INT      ((int)LESCREEN_SCALE)
+#define LESCREEN_MAX_LENGTH     (MAX(LESCREEN_WIDTH, LESCREEN_HEIGHT))
+#define LESCREEN_MIN_LENGTH     (MIN(LESCREEN_WIDTH, LESCREEN_HEIGHT))
+
+#define LEIS_IPAD               (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#define LEIS_IPHONE             (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+
+#define LEIS_IPHONE_4_OR_LESS   (IS_IPHONE && SCREEN_MAX_LENGTH < 568.0)
+#define LEIS_IPHONE_5           (LEIS_IPHONE && LESCREEN_MAX_LENGTH == 568.0)
+#define LEIS_IPHONE_6           (LEIS_IPHONE && LESCREEN_MAX_LENGTH == 667.0)
+#define LEIS_IPHONE_6P          (LEIS_IPHONE && LESCREEN_MAX_LENGTH == 736.0)
+#define LEIS_IPHONE_X           (LEIS_IPHONE && LESCREEN_MAX_LENGTH == 812.0)
+
 /** 状态栏高度 */
-#define LEStatusBarHeight       (((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) && LESCREEN_MAX_LENGTH == 812.0)?44:20)
+#define LEStatusBarHeight       (LEIS_IPHONE_X?44:20)
 /** 导航栏高度 */
 #define LENavigationBarHeight   44
 /** 底部tabbar高度 */
-#define LEBottomTabbarHeight    49
-#define LESCREEN_BOUNDS     ([[UIScreen mainScreen] bounds])
-#define LESCREEN_SCALE      ([[UIScreen mainScreen] scale])
-#define LESCREEN_WIDTH      ([[UIScreen mainScreen] bounds].size.width)
-#define LESCREEN_HEIGHT     ([[UIScreen mainScreen] bounds].size.height)
-#define LESCREEN_SCALE_INT  ((int)[[UIScreen mainScreen] scale])
-#define LESCREEN_MAX_LENGTH (MAX(LESCREEN_WIDTH, LESCREEN_HEIGHT))
-#define LESCREEN_MIN_LENGTH (MIN(LESCREEN_WIDTH, LESCREEN_HEIGHT))
-
-/** 分割线高度 */
-#define LESplitlineH (1.0/LESCREEN_SCALE)
+#define LEBottomTabbarHeight    (LEIS_IPHONE_X?49+34:49)
 
 #pragma mark Font
 /** 根据字号获取正常字体 */
@@ -38,6 +43,8 @@
 #define LEEdgeInsets(__integer)         UIEdgeInsetsMake(__integer, __integer, __integer, __integer)
 #define LEDegreesToRadian(x) (M_PI * (x) / 180.0)
 #define LERadianToDegrees(radian) (radian*180.0)/(M_PI)
+/** 分割线高度 */
+#define LESplitlineH            1
 
 @interface NSString (QRCode)
 /** 根据字符串创建二维码图片 */
