@@ -109,7 +109,7 @@
 //    [curList setFd_debugLogEnabled:YES];
     [self leOnRefreshData];
     //TODO
-    [self leOnCellEventWithInfo:@{LEKeyIndex:[NSIndexPath indexPathForRow:0 inSection:0]}];
+//    [self leOnCellEventWithInfo:@{LEKeyIndex:[NSIndexPath indexPathForRow:0 inSection:0]}];
 //    [self leOnCellEventWithInfo:@{LEKeyIndex:[NSIndexPath indexPathForRow:1 inSection:0]}];
 }
 -(void) onTestNavigation{
@@ -126,7 +126,7 @@
     navigationView.leLeftItemText(isLeft?@"左按钮":nil).leLeftItemImg(isLeft?[LEColorRed leImageWithSize:CGSizeMake(30, 30)]:nil);
 }
 -(void) leNavigationNotifyTitleViewContainerWidth:(int)width{
-    LELogInt(width);
+//    LELogInt(width);
 }
 -(void) leOnRefreshData{
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.6 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{

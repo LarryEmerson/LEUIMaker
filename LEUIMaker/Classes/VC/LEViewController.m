@@ -7,6 +7,18 @@
 //
 
 #import "LEViewController.h"
+@implementation UIViewController (StatusBarChange)
+-(void) leRelayout{}
+-(void) leAddStatusBarChangeNotification{
+    //    LELogFunc
+    [[ NSNotificationCenter defaultCenter ] addObserver : self selector : @selector (leRelayout) name : UIApplicationDidChangeStatusBarFrameNotification object : nil ];
+}
+-(void) leRemoveStatusBarChangeNotification{
+    //    LELogFunc
+    [[ NSNotificationCenter defaultCenter ] removeObserver:self name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
+}
+@end
+
 @interface LEView()
 @property (nonatomic, readwrite) UISwipeGestureRecognizer *recognizerRight;
 @property (nonatomic, readwrite) int leContainerW;
@@ -45,10 +57,10 @@
     self.leSubContainerH=self.leContainerH;
     self.leViewContainer=[UIView new].leAddTo(self).leMargins(UIEdgeInsetsZero).leBgColor([LEUICommon sharedInstance].leViewBGColor);
     //
-    if(self.leContainerH==LESCREEN_HEIGHT){
+//    if(self.leContainerH==LESCREEN_HEIGHT){
         self.leSubViewContainer=[UIView new].leAddTo(self.leViewContainer) .leTop(LESCREEN_HEIGHT>LESCREEN_WIDTH?LEStatusBarHeight+LENavigationBarHeight:LENavigationBarHeight);
         self.leSubContainerH=self.leSubViewContainer.bounds.size.height;
-    }
+//    }
     self.recognizerRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipGesture:)];
     [self.recognizerRight setDirection:UISwipeGestureRecognizerDirectionRight];
     [self.leViewContainer addGestureRecognizer:self.recognizerRight];
@@ -73,17 +85,31 @@
     [self.leViewController.navigationController popViewControllerAnimated:YES];
 }
 - (void)leDidRotateFrom:(UIInterfaceOrientation)from{
-    [self setFrame:LESCREEN_BOUNDS];
     [self.leViewContainer leUpdateLayout];
-    [self.leSubViewContainer.leTop(LESCREEN_HEIGHT>LESCREEN_WIDTH?LEStatusBarHeight+LENavigationBarHeight:LENavigationBarHeight) leUpdateLayout];
-    self.leContainerW=self.bounds.size.width;
-    self.leContainerH=self.bounds.size.height-(self.leViewController.extendedLayoutIncludesOpaqueBars?0:(LESCREEN_HEIGHT>LESCREEN_WIDTH?LEStatusBarHeight+LENavigationBarHeight:LENavigationBarHeight));
-    self.leSubContainerH=self.leSubViewContainer.bounds.size.height;
+    [self leRelayout];
     for (UIView *view in self.leViewContainer.subviews) {
         [view leDidRotateFrom:from];
     }
     for (UIView *view in self.leSubViewContainer.subviews) {
         [view leDidRotateFrom:from];
+    }
+}
+-(void) leRelayout{
+    [super leRelayout];
+    self.leContainerW=self.bounds.size.width;
+    self.leContainerH=self.bounds.size.height-(self.leViewController.extendedLayoutIncludesOpaqueBars?0:(LESCREEN_HEIGHT>LESCREEN_WIDTH?LEStatusBarHeight+LENavigationBarHeight:LENavigationBarHeight));
+    [self.leViewContainer leUpdateLayout];
+    int top=LESCREEN_HEIGHT>LESCREEN_WIDTH?(LEIS_IPHONE_X||![LEUICommon sharedInstance].leIsStatusBarChanged?LEStatusBarHeight:20):0;
+    self.leSubViewContainer.leTop(top+LENavigationBarHeight);
+    self.leSubContainerH=self.leSubViewContainer.bounds.size.height;
+    NSMutableArray *searchClass=[[NSMutableArray alloc] initWithArray:self.subviews];
+    for (NSInteger i=0; i<searchClass.count; i++) {
+        UIView *v=[searchClass objectAtIndex:i];
+        if([v isKindOfClass:NSClassFromString(@"LENavigation")]){
+            LESuppressPerformSelectorLeakWarning(
+                                                 [v performSelector:NSSelectorFromString(@"leRelayout")];
+                                                 );
+        }
     }
 }
 @end
@@ -94,6 +120,12 @@
     UIDeviceOrientation deviceOrientation;
     BOOL isBarHidden;
 }
+-(void) leRelayout{
+    [super leRelayout];
+    if([self.view isKindOfClass:[LEView class]]){
+        [self.view leRelayout];
+    }
+}
 -(void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     if(deviceOrientation==UIDeviceOrientationUnknown){
@@ -102,9 +134,13 @@
         [self leDidRotateFrom:(UIInterfaceOrientation)deviceOrientation];
     }
     [self.navigationController setNavigationBarHidden:YES];
+    [self leAddStatusBarChangeNotification];
+    [self leRelayout];
+    
 }
 -(void) viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
+    [self leRemoveStatusBarChangeNotification];
     [self.navigationController setNavigationBarHidden:isBarHidden animated:YES];
 }
 -(id) initWithDelegate:(id<LEViewControllerPopDelegate>) delegate{
@@ -145,8 +181,9 @@
     UIView *bottomSplit;
 }
 -(void) leDidRotateFrom:(UIInterfaceOrientation)from{
-    [self.leTop(LESCREEN_HEIGHT>LESCREEN_WIDTH?LEStatusBarHeight:0) onCheckTitleView] ;
-
+    int top=LESCREEN_HEIGHT>LESCREEN_WIDTH?(LEIS_IPHONE_X||![LEUICommon sharedInstance].leIsStatusBarChanged?LEStatusBarHeight:20):0;
+//    LELog(@"did rotate %d",LESCREEN_HEIGHT>LESCREEN_WIDTH?top:0)
+    [self.leTop(LESCREEN_HEIGHT>LESCREEN_WIDTH?top:0) onCheckTitleView] ;
 }
 -(__kindof LENavigation *(^)(LEView *)) leSuperView{
     return ^id(LEView *value){
@@ -163,7 +200,12 @@
         self.leSplit(YES,LEColorSplitline);
         return self;
     };
-
+}
+-(void) leRelayout{
+    [super leRelayout];
+    int top=LEIS_IPHONE_X||![LEUICommon sharedInstance].leIsStatusBarChanged?LEStatusBarHeight:20;
+//    LELog(@"ipx= %d Status=%d barH=%d top=%d",LEIS_IPHONE_X,[LEUICommon sharedInstance].leIsStatusBarChanged,LEStatusBarHeight, top)
+    [self.leTop(LESCREEN_HEIGHT>LESCREEN_WIDTH?top:0) onCheckTitleView];
 }
 -(__kindof LENavigation *(^)(id<LENavigationDelegate>)) leDelegate{
     return ^id(id<LENavigationDelegate> value){

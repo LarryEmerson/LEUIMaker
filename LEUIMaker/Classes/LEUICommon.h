@@ -117,7 +117,9 @@
 #define LEKeyInfo   @"info"
 
 @interface LEUICommon : NSObject
-LESingleton_interface(LEUICommon) 
+LESingleton_interface(LEUICommon)
+/** 顶部状态栏是否变动（iphonex以下的设备有接入热点，有呼叫的情况） */
+@property (nonatomic,readonly) BOOL leIsStatusBarChanged;
 /** 导航栏标题字体 */
 @property (nonatomic, readonly) UIFont  *leNaviTitleFont;
 /** 导航栏按钮字体 */
@@ -142,6 +144,8 @@ LESingleton_interface(LEUICommon)
 /** 二维码扫描条 */
 @property (nonatomic, readonly) UIImage *leQRCodeScanLine;
 
+/** 顶部状态栏高度 */
+-(int) leStatusBarHeight;
 /** 设置导航栏标题字体 */
 -(void) leSetNaviTitleFont:(UIFont *) font;
 /** 设置导航栏按钮字体 */

@@ -67,6 +67,7 @@
 
 @implementation UIView (LERotate)
 -(void)leDidRotateFrom:(UIInterfaceOrientation)from{}
+-(void) leRelayout{}
 @end
 
 @implementation LEUIFoundation

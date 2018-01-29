@@ -10,6 +10,13 @@
 #import <LEFoundation/LEFoundations.h>
 #import "LEViewAdditions.h"
 #import "LEUICommon.h"
+@interface UIViewController (StatusBarChange)
+-(void) leRelayout NS_REQUIRES_SUPER;
+-(void) leAddStatusBarChangeNotification NS_REQUIRES_SUPER;
+-(void) leRemoveStatusBarChangeNotification NS_REQUIRES_SUPER;
+@end
+
+
 @protocol LEViewControllerPopDelegate <NSObject>
 /** ViewController回调 */
 -(void) leOnViewControllerPopedWithPageName:(NSString *) order AndData:(id) data;

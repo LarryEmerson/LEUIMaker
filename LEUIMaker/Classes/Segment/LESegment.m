@@ -137,7 +137,7 @@
     [curTitlesWidth removeAllObjects];
     [curTitlesWidthSum removeAllObjects];
     UIButton *last=nil;
-    float maxWidth;
+    float maxWidth = 0;
     for (int i=0; i<t.count; i++) {
         UIButton *btn=nil;
         if(i<curTitlesCache.count){
@@ -329,7 +329,7 @@
 
 -(void) leDidRotateFrom:(UIInterfaceOrientation)from{
     UIButton *last=nil;
-    float maxWidth;
+    float maxWidth = 0;
     int titlesCount=0;
     for (NSInteger i=0; i<curTitlesCache.count; i++) {
         if(![[curTitlesCache objectAtIndex:i] isHidden]){

@@ -25,7 +25,7 @@
 #define LEIS_IPHONE_X           (LEIS_IPHONE && LESCREEN_MAX_LENGTH == 812.0)
 
 /** 状态栏高度 */
-#define LEStatusBarHeight       (LEIS_IPHONE_X?44:20)
+#define LEStatusBarHeight ([LEUICommon sharedInstance].leStatusBarHeight)
 /** 导航栏高度 */
 #define LENavigationBarHeight   44
 /** 底部tabbar高度 */
@@ -76,6 +76,8 @@
 @interface UIView (LERotate)
 /** 用于旋转屏幕的处理 */
 -(void)leDidRotateFrom:(UIInterfaceOrientation)from;
+/** 用于处理必要的重新排版 */
+-(void) leRelayout NS_REQUIRES_SUPER;
 @end
 @interface LEUIFoundation : NSObject
 +(UIImage *) leCreateQRForString:(NSString *)qrString Size:(CGFloat) size;

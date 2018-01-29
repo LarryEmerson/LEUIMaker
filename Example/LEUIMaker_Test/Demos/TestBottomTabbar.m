@@ -16,7 +16,7 @@
 }
 -(void) leAdditionalInits{
     self.leBgColor(LERandomColor);
-    label=[UILabel new].leAddTo(self).leAnchor(LEInsideCenter).leAlignment(NSTextAlignmentCenter).leColor(LEColorWhite).leText(NSStringFromClass(self.class));
+    label=[UILabel new].leAddTo(self).leAnchor(LEInsideBottomCenter).leAlignment(NSTextAlignmentCenter).leColor(LEColorWhite).leText(NSStringFromClass(self.class));
 }
 @end
 

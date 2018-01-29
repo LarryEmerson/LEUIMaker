@@ -21,7 +21,7 @@
 }
 -(void) leAdditionalInits{
     self.leBgColor(LERandomColor);
-    label=[UILabel new].leAddTo(self).leAnchor(LEInsideCenter).leAlignment(NSTextAlignmentCenter).leColor(LEColorWhite).leText(NSStringFromClass(self.class));
+    label=[UILabel new].leAddTo(self).leAnchor(LEI_BC).leAlignment(NSTextAlignmentCenter).leColor(LEColorWhite).leText(NSStringFromClass(self.class));
 }
 @end
 @interface TestSegmentPage:LEView<LESegmentDelegate>

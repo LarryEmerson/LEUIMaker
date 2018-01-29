@@ -48,6 +48,7 @@
     left=20;
     bottom=20;
     right=20;
+    
 #pragma mark 红色外边框
     view=[UIView new].leAddTo(scrollView).leAnchor(LEI_TL).leTop(top).leLeft(left).leRight(right).leWidth(300).leHeightEqualWidth(1).leBoard(2,red) ;
 #pragma mark 黑色底板
@@ -140,6 +141,7 @@
 #pragma mark 多行文本的背景框
     UIView *multiLineLabelBG=[UIView new].leAddTo(scrollView).leRelativeTo(view).leAnchor(LEOutsideBottomLeft).leTop(30).leBoard(2,LEColorRed).leBgColor(LEColorBlue).leWrapper();
     multiLineLabel=[UILabel new].leAddTo(multiLineLabelBG).leAnchor(LEInsideCenter).leMargins(UIEdgeInsetsMake(20, 20, 20, 20)).leMaxWidth(300).leLine(0).leCenterAlign.leBgColor(LEColorWhite).leFont(LEFont(12)).leLineSpace(10).leText(@"蓝色矩形自动根据label大小进行拉伸");
+    
 #pragma mark 下面主要是测试位移，缩放及最重要的入栈出栈的功能。下面首先是一个横向的栈（leHorizontalStack），用于放置按钮模块及尚未显示的竖向栈2个view
     UIView *horizontalStack=[UIView new].leAddTo(scrollView).leRelativeTo(multiLineLabelBG).leAnchor(LEO_BL).leTop(40).leBoard(1,LEColorBlue).leStackAlignmnet(LEBottomAlign).leHorizontalStack();
 #pragma mark 这是按钮组（leWrapper）
@@ -150,6 +152,7 @@
     UIButton *btnT=[UIButton new].leAddTo(btnGroup).leRelativeTo(btnL).leAnchor(LEO_2).leMargins(UIEdgeInsetsMake(4, 4, 4, 4)).leCorner(6).leText(@"T").leTouchEvent(@selector(onTop),self).leBtnColor(red,UIControlStateNormal).leBtnBGImg([LEColorBlue leImage],UIControlStateNormal);
     UIButton *btnR=[UIButton new].leAddTo(btnGroup).leRelativeTo(btnT).leAnchor(LEO_4).leMargins(UIEdgeInsetsMake(4, 4, 4, 4)).leCorner(6).leText(@"R").leTouchEvent(@selector(onRight),self).leBtnColor(red,UIControlStateNormal).leBtnBGImg([LEColorBlue leImage],UIControlStateNormal);
     [UIButton new].leAddTo(btnGroup).leRelativeTo(btnR).leAnchor(LEO_3).leMargins(UIEdgeInsetsMake(4, 4, 4, 4)).leCorner(6).leText(@"B").leTouchEvent(@selector(onBottom),self).leBtnColor(red,UIControlStateNormal).leBtnBGImg([LEColorBlue leImage],UIControlStateNormal);
+    
 #pragma mark 放大缩小2个按钮
     UIButton *btnScaleUp=[UIButton new].leAddTo(btnGroup).leRelativeTo(btnR).leAnchor(LEO_RC).leMargins(UIEdgeInsetsMake(4, 10, 4, 4)).leCorner(6).leText(@"-").leTouchEvent(@selector(onScaleDown),self).leBtnColor(red,UIControlStateNormal).leBtnBGImg([LEColorBlue leImage],UIControlStateNormal);
     UIButton *btnScaleDown=[UIButton new].leAddTo(btnGroup).leRelativeTo(btnScaleUp).leAnchor(LEO_RC).leMargins(UIEdgeInsetsMake(4, 4, 4, 4)).leCorner(6).leText(@"+").leTouchEvent(@selector(onScaleUp),self).leBtnColor(red,UIControlStateNormal).leBtnBGImg([LEColorBlue leImage],UIControlStateNormal);

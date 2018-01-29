@@ -9,6 +9,8 @@
 #import "LEUICommon.h"
 
 @interface LEUICommon ()
+/** 顶部状态栏是否变动（iphonex以下的设备有接入热点，有呼叫的情况） */
+@property (nonatomic,readwrite) BOOL leIsStatusBarChanged;
 /** 导航栏标题字体 */
 @property (nonatomic, readwrite) UIFont  *leNaviTitleFont;
 /** 导航栏按钮字体 */
@@ -32,8 +34,96 @@
 /** 二维码扫描条 */
 @property (nonatomic, readwrite) UIImage *leQRCodeScanLine;
 @end
-@implementation LEUICommon
+@implementation LEUICommon{
+    BOOL lastStatusBarChangedValue;
+    NSNumber *lastStatusBarHeight;
+    NSNumber *curStatusBarHeight;
+    BOOL ignoreStatusBarCheckOnce;
+}
+-(int) leStatusBarHeight{
+    if(curStatusBarHeight){
+        LELog(@"=》1 %d",[curStatusBarHeight intValue])
+        return [curStatusBarHeight intValue];
+    }
+    LELog(@"=》2 %d",(int)[[UIApplication sharedApplication] statusBarFrame].size.height)
+    return (int)[[UIApplication sharedApplication] statusBarFrame].size.height;
+}
 LESingleton_implementation(LEUICommon)
+-(void) leAdditionalInits{
+    self.leIsStatusBarChanged = LEIS_IPHONE_X?NO:([self leStatusBarHeight]-20>0);
+//    self.leIsStatusBarChanged = LEIS_IPHONE_X?NO:(LEStatusBarHeight-20>0);
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onNotifyWillChangeStatusBarOrientation:) name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onNotifyWillChangeStatusBarFrame:) name:UIApplicationWillChangeStatusBarFrameNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onNotifyDidChangeStatusBarOrientation:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onNotifyDidChangeStatusBarFrame:) name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
+    
+}
+-(void) onNotifyWillChangeStatusBarOrientation:(NSNotification *) notification{
+//    CGRect newStatusBarFrame = [(NSValue*)[notification.userInfo objectForKey:UIApplicationStatusBarFrameUserInfoKey] CGRectValue];
+    UIDeviceOrientation orientation= [[notification.userInfo objectForKey:UIApplicationStatusBarOrientationUserInfoKey] integerValue];
+//    LELog(@"%zd %d %d",orientation,UIDeviceOrientationIsLandscape(orientation),UIDeviceOrientationIsPortrait(orientation))
+    if(UIDeviceOrientationIsLandscape(orientation)){
+        lastStatusBarChangedValue=self.leIsStatusBarChanged;
+        lastStatusBarHeight=[NSNumber numberWithInt:LEStatusBarHeight];
+        curStatusBarHeight=nil;
+        LELog(@"curStatusBarHeight=nil lastStatus=%d lastBarH=%@",lastStatusBarChangedValue,lastStatusBarHeight)
+    }else if(UIDeviceOrientationIsPortrait(orientation)){
+        self.leIsStatusBarChanged=lastStatusBarChangedValue;
+        ignoreStatusBarCheckOnce=YES;
+        curStatusBarHeight=lastStatusBarHeight;
+//        NSDictionary *userinfo=@{ UIApplicationStatusBarFrameUserInfoKey:[NSValue valueWithCGRect:CGRectMake(0, 0, LESCREEN_WIDTH, [lastStatusBarHeight intValue])] };
+//        LELog(@"22 %d %@",self.leIsStatusBarChanged,userinfo)
+        LELog(@"ignore status=%d barH=%@",self.leIsStatusBarChanged,curStatusBarHeight)
+//        [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidChangeStatusBarFrameNotification object:[UIApplication sharedApplication] userInfo:userinfo];
+    }
+//    LELog(@"%d %d %d %d %d %@ %@",
+//          [UIDevice currentDevice].orientation,
+//          UIDeviceOrientationIsPortrait([UIDevice currentDevice].orientation),
+//          UIDeviceOrientationIsPortrait((UIDeviceOrientation)[notification.userInfo objectForKey:UIApplicationStatusBarOrientationUserInfoKey]),
+//          UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation),
+//          UIDeviceOrientationIsLandscape((UIDeviceOrientation)[notification.userInfo objectForKey:UIApplicationStatusBarOrientationUserInfoKey]),
+//          [notification.userInfo objectForKey:UIApplicationStatusBarOrientationUserInfoKey],
+//          notification
+//          )
+//    self.leIsStatusBarChanged=LEIS_IPHONE_X?NO:(LEStatusBarHeight-20>0);
+//    LELog (@"%d %d %f %@ %@ %@",self.leIsStatusBarChanged,LEStatusBarHeight,[[UIApplication sharedApplication] statusBarFrame].size.height,NSStringFromCGRect(newStatusBarFrame),NSStringFromCGRect([[UIApplication sharedApplication] statusBarFrame]),
+//            notification.userInfo
+//           )
+}
+//-(void) onNotifyWillChangeStatusBarFrame:(NSNotification *) notification{
+//    CGRect newStatusBarFrame = [(NSValue*)[notification.userInfo objectForKey:UIApplicationStatusBarFrameUserInfoKey] CGRectValue];
+//    self.leIsStatusBarChanged=LEIS_IPHONE_X?NO:(LEStatusBarHeight-20>0);
+//    LELog (@"      %d %d %f %@ %@ %@",self.leIsStatusBarChanged,LEStatusBarHeight,[[UIApplication sharedApplication] statusBarFrame].size.height,NSStringFromCGRect(newStatusBarFrame),NSStringFromCGRect([[UIApplication sharedApplication] statusBarFrame]),
+//            notification.userInfo
+//           )
+//    LELogObject(notification)
+//}
+//-(void) onNotifyDidChangeStatusBarOrientation:(NSNotification *) notification{
+//    CGRect newStatusBarFrame = [(NSValue*)[notification.userInfo objectForKey:UIApplicationStatusBarFrameUserInfoKey] CGRectValue];
+//    self.leIsStatusBarChanged=LEIS_IPHONE_X?NO:(LEStatusBarHeight-20>0);
+//    LELog (@" %d %d %f %@ %@",self.leIsStatusBarChanged,LEStatusBarHeight,[[UIApplication sharedApplication] statusBarFrame].size.height,NSStringFromCGRect(newStatusBarFrame),NSStringFromCGRect([[UIApplication sharedApplication] statusBarFrame]))
+//}
+-(void) onNotifyDidChangeStatusBarFrame:(NSNotification *) notification{
+    CGRect newStatusBarFrame = [(NSValue*)[notification.userInfo objectForKey:UIApplicationStatusBarFrameUserInfoKey] CGRectValue];
+    if(ignoreStatusBarCheckOnce){
+        ignoreStatusBarCheckOnce=NO;
+//        LELog(@"did ignore status=%d barH=%d",self.leIsStatusBarChanged,LEStatusBarHeight)
+//        NSDictionary *userinfo=@{ UIApplicationStatusBarFrameUserInfoKey:NSStringFromCGRect(CGRectMake(0, 0, LESCREEN_WIDTH, [lastStatusBarHeight intValue])) };
+        //        LELog(@"22 %d %@",self.leIsStatusBarChanged,userinfo)
+//        [[NSNotificationCenter defaultCenter] postNotificationName:UIApplicationDidChangeStatusBarFrameNotification object:[UIApplication sharedApplication] userInfo:userinfo];
+    }else{
+        curStatusBarHeight=[NSNumber numberWithInt:(int)(newStatusBarFrame.size.height)];
+        self.leIsStatusBarChanged=LEIS_IPHONE_X?NO:(LEStatusBarHeight-20>0);
+        LELog(@"did status=%d barH=%d",self.leIsStatusBarChanged,LEStatusBarHeight)
+    }
+//    LELog (@"       %d %d %f %@ %@",self.leIsStatusBarChanged,LEStatusBarHeight,[[UIApplication sharedApplication] statusBarFrame].size.height,NSStringFromCGRect(newStatusBarFrame),NSStringFromCGRect([[UIApplication sharedApplication] statusBarFrame]))
+}
+-(void) dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillChangeStatusBarOrientationNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillChangeStatusBarFrameNotification object:nil];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationDidChangeStatusBarFrameNotification object:nil];
+}
 -(UIFont *) leNaviTitleFont{
     if(!_leNaviTitleFont){
         _leNaviTitleFont=LEBoldFontLS;
