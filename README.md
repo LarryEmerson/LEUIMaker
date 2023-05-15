@@ -3,8 +3,10 @@ LEUIFramework与LEUIFrameworkExtra的融合与升级，使用更简单、功能�
 
 [![Version](https://img.shields.io/cocoapods/v/LEUIMaker.svg?style=flat)](http://cocoapods.org/pods/LEUIMaker)[![License](https://img.shields.io/cocoapods/l/LEUIMaker.svg?style=flat)](http://cocoapods.org/pods/LEUIMaker) 
 
-##说明
+## 说明
 ###### 具体使用请打开Example运行测试，每个模块都写了对应的测试类，方便查看基本使用方法。
+![](https://github.com/LarryEmerson/LEAllFrameworksGif/blob/master/LEUIMaker.gif)
+
 #### 项目依赖
 * FMDB
 * AFNetworking
